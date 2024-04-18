@@ -24,10 +24,7 @@ export default function Home() {
 				]}
 			/>
 			<HeroSection />
-			<FeaturesSection
-				title="Features"
-				description="Use One ID for All Blockchains & All Apps Enjoy Data Interoperability & Ownership Try DApps of SocialFi, NFT, Web3..."
-			/>
+			<FeaturesSection title="Features" />
 			<Footer />
 		</LandingContainer>
 	);

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Center, Flex, Loader, NumberInput, Pagination, ScrollArea, Text } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
 

@@ -1,4 +1,3 @@
-import React from "react";
 import { Pagination, ScrollArea, Center } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
 import { metaidService } from "../../../utils/api";

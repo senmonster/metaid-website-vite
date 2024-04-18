@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { divide, isEmpty, isNil, repeat } from "ramda";
 import {
 	Avatar,
@@ -45,7 +45,7 @@ const MetaidContent = () => {
 			) : isLoading ? (
 				<ScrollArea className="h-[calc(100vh_-_210px)]" offsetScrollbars>
 					<div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 2xl:grid-cols-6 gap-4 p-2">
-						{repeat(1, Number(debouncedSize)).map((m, idx) => {
+						{repeat(1, Number(debouncedSize)).map((_, idx) => {
 							return (
 								<Skeleton visible={isLoading} key={idx}>
 									<div className="flex gap-2 border rounded-md p-4">

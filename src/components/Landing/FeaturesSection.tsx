@@ -1,3 +1,5 @@
+/* eslint-disable react-refresh/only-export-components */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
 	Container,
 	Paper,
@@ -67,7 +69,7 @@ interface FeaturesGridProps {
 	data?: FeatureProps[];
 }
 
-export function FeaturesSection({ title, description, data = featuresData }: FeaturesGridProps) {
+export function FeaturesSection({ title, data = featuresData }: FeaturesGridProps) {
 	const features = data.map((feature, index) => <Feature {...feature} key={index} />);
 	const { colorScheme } = useMantineColorScheme();
 	return (

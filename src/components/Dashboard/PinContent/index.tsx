@@ -33,7 +33,7 @@ const PinContent = () => {
 			) : isLoading ? (
 				<ScrollArea className="h-[calc(100vh_-_210px)]" offsetScrollbars>
 					<div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 2xl:grid-cols-6 gap-4 p-2">
-						{repeat(1, Number(debouncedSize)).map((p, index) => {
+						{repeat(1, Number(debouncedSize)).map((_, index) => {
 							return <PinCard key={index} />;
 						})}
 					</div>
