@@ -22,7 +22,13 @@ type Iprops = {
 
 const PinCard = ({ p }: Iprops) => {
 	const { colorScheme } = useMantineColorScheme();
+	const [pData, setPData] = useState<Pin | null>(null);
 
+	useEffect(() => {
+		if (!isNil(p)) {
+			setPData(p);
+		}
+	}, [p]);
 	const [netWork, setNetWork] = useState("testnest");
 	const getNetWork = async () => {
 		if (!isNil(window?.metaidwallet)) {
@@ -33,12 +39,6 @@ const PinCard = ({ p }: Iprops) => {
 	useEffect(() => {
 		getNetWork();
 	}, []);
-	// console.log("pppp", p);
-	const content = isNil(p)
-		? ""
-		: p.content.length <= 35
-		? p.content
-		: p.content.slice(0, 35) + "...";
 
 	const navigate = useNavigate();
 
@@ -118,18 +118,18 @@ const PinCard = ({ p }: Iprops) => {
 		</div>
 	);
 
-	if (isNil(p)) {
+	if (isNil(pData)) {
 		return <Skeleton className="h-[258px] w-auto"></Skeleton>;
 	}
-
+	// console.log("pppp", pData);
+	const content = pData.content.length <= 35 ? pData.content : pData.content.slice(0, 35) + "...";
 	const cropSize = netWork === "testnet" ? 18 : 26;
-	// const pop = "00000001";
-	const pop = p.pop.slice(cropSize).slice(0, 8);
+	const pop = pData.pop.slice(cropSize).slice(0, 8);
 	const popArr = pop.split("");
 	const reg = /^(?!0)\d+$/; // non zero regex
 	const firstNonZeroIndex = popArr.findIndex((v) => v !== "0");
 	const level =
-		p.pop
+		pData.pop
 			.slice(0, cropSize)
 			.split("")
 			.findIndex((v) => reg.test(v)) !== -1
@@ -147,20 +147,20 @@ const PinCard = ({ p }: Iprops) => {
 					"border-[var(--mantine-color-dark-4)]": colorScheme === "dark",
 				}
 			)}
-			onClick={() => navigate(`/dashboard/pin-detail/${p.id}`)}
+			onClick={() => navigate(`/dashboard/pin-detail/${pData.id}`)}
 		>
 			<div className="flex items-center justify-between">
 				<Text className="text-[26px] text-gray-500" fw={700}>
-					{"#" + p.number}
+					{"#" + pData.number}
 				</Text>
 
-				{isEmpty(p.rootId) ? (
+				{isEmpty(pData.rootId) ? (
 					<Text c="dimmed" size="xs">
 						Still In Mempool
 					</Text>
 				) : (
 					<Text c="dimmed" size="xs">
-						{p.rootId.slice(0, 4) + "..." + p.rootId.slice(-4)}
+						{pData.rootId.slice(0, 4) + "..." + pData.rootId.slice(-4)}
 					</Text>
 				)}
 			</div>
@@ -171,7 +171,7 @@ const PinCard = ({ p }: Iprops) => {
 						operation:
 					</Text>
 					<Text size="sm" c="dimmed">
-						{p.operation}
+						{pData.operation}
 					</Text>
 				</div>
 				<div className="flex gap-2">
@@ -179,7 +179,7 @@ const PinCard = ({ p }: Iprops) => {
 						path:
 					</Text>
 					<Text size="sm" c="dimmed" className="truncate">
-						{p.path.length > 40 ? `${p.path.slice(0, 40)}...` : p.path}
+						{pData.path.length > 40 ? `${pData.path.slice(0, 40)}...` : pData.path}
 					</Text>
 				</div>
 				<div className="flex gap-2 items-center">
@@ -207,7 +207,7 @@ const PinCard = ({ p }: Iprops) => {
 					</div>
 
 					<Tooltip
-						label={p.pop}
+						label={pData.pop}
 						classNames={{
 							tooltip: "bg-black text-white w-[300px] text-wrap break-all",
 						}}
@@ -235,10 +235,15 @@ const PinCard = ({ p }: Iprops) => {
 					"bg-gray-500": colorScheme === "dark",
 				})}
 			>
-				{p.type.includes("image") ? (
-					<img src={BASE_URL + p.content} alt="content image" width={50} height={50} />
+				{pData.type.includes("image") ? (
+					<img
+						src={BASE_URL + pData.content}
+						alt="content image"
+						width={50}
+						height={50}
+					/>
 				) : (
-					<Text className="break-words break-all">{content}</Text>
+					<Text className="break-words break-all text-wrap truncate">{content}</Text>
 				)}
 			</Container>
 		</div>
