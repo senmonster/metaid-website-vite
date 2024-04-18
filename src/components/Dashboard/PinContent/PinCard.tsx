@@ -38,7 +38,7 @@ const PinCard = ({ p }: Iprops) => {
 
 	useEffect(() => {
 		getNetWork();
-	}, []);
+	}, [netWork]);
 
 	const navigate = useNavigate();
 
@@ -124,6 +124,7 @@ const PinCard = ({ p }: Iprops) => {
 	// console.log("pppp", pData);
 	const content = pData.content.length <= 35 ? pData.content : pData.content.slice(0, 35) + "...";
 	const cropSize = netWork === "testnet" ? 18 : 26;
+	console.log("cropSize", cropSize);
 	const pop = pData.pop.slice(cropSize).slice(0, 8);
 	const popArr = pop.split("");
 	const reg = /^(?!0)\d+$/; // non zero regex
