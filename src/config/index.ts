@@ -6,5 +6,5 @@ export const navLinks: NavItem[] = [
 	{ label: "My Pin", link: "/dashboard/my-pin" },
 	{ label: "Block", link: "/dashboard/block" },
 	{ label: "Mempool", link: "/dashboard/mempool" },
-	{ label: "MetaProtocol", link: "/dashboard/metaprotocol" },
+	{ label: "MetaProtocol", link: "" },
 ];

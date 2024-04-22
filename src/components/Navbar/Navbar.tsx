@@ -26,7 +26,12 @@ export function Navbar({ data }: Props) {
 				href={item.link}
 				active={item.link === pathname}
 				label={item.label}
-				disabled={item.label === "MetaProtocol"}
+				onClick={() => {
+					if (item.label === "MetaProtocol") {
+						window.open(`https://metaprotocols.vercel.app/`, "_blank");
+					}
+				}}
+				// disabled={item.label === "MetaProtocol"}
 			/>
 		);
 	});
