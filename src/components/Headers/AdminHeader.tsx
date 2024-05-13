@@ -231,7 +231,7 @@ export default function AdminHeader({ burger }: Props) {
 
 		const _btcConnector = await btcConnect(_wallet);
 		if (hasMetaid) {
-			const res = await _btcConnector!.updatUserInfo({ ...userInfo }).catch((error) => {
+			const res = await _btcConnector!.updateUserInfo({ ...userInfo }).catch((error) => {
 				console.log("error", error);
 				const errorMessage = error as TypeError;
 				console.log(errorMessage.message);
