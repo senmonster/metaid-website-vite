@@ -145,27 +145,22 @@ const PinCard = ({ p }: Iprops) => {
     pData.content.length <= 35
       ? pData.content
       : pData.content.slice(0, 35) + '...';
-  // const cropSize = netWork === 'testnet' ? 18 : 26;
+  const cropSize = 18;
   // //   console.log('network', netWork);
   // //   console.log('cropSize', cropSize);
-  // const pop = pData.pop.slice(cropSize).slice(0, 8);
-  // const popArr = pop.split('');
-  // const firstNonZeroIndex = popArr.findIndex((v) => v !== '0');
-  // const reg = /^(?!0)\d+$/; // non zero regex
-  // const level =
-  //   pData.pop
-  //     .slice(0, cropSize)
-  //     .split('')
-  //     .findIndex((v) => reg.test(v)) !== -1
-  //     ? -1
-  //     : firstNonZeroIndex === -1
-  //     ? 8
-  //     : firstNonZeroIndex;
-  const cropSize = 18;
-  const popArr = pData.pop.slice(cropSize).split('');
-  const firstNonZeroIndex = popArr.findIndex((v) => v !== '0'); // number of zeroes
-
-  const level = firstNonZeroIndex; // < 22 ? 0 : firstNonZeroIndex - 21;
+  const pop = pData.pop.slice(cropSize).slice(0, 14);
+  const popArr = pop.split('');
+  const firstNonZeroIndex = popArr.findIndex((v) => v !== '0');
+  const reg = /^(?!0)\d+$/; // non zero regex
+  const level =
+    pData.pop
+      .slice(0, cropSize)
+      .split('')
+      .findIndex((v) => reg.test(v)) !== -1
+      ? 0
+      : firstNonZeroIndex === -1
+      ? 14
+      : firstNonZeroIndex;
 
   return (
     <div
