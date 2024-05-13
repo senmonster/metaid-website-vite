@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { equals } from 'ramda';
 
-// export const BASE_URL = 'http://man.somecode.link';
+// export const BASE_URL = 'https://man.somecode.link';
 export const BASE_URL = 'https://man-test.metaid.io';
 
 export const api = axios.create({
