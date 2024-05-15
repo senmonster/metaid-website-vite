@@ -1,11 +1,20 @@
 import axios from 'axios';
 import { equals } from 'ramda';
 
-// export const BASE_URL = 'https://man.somecode.link';
-export const BASE_URL = 'https://man-test.metaid.io';
+export type BtcNetwork = 'mainnet' | 'testnet' | 'regtest';
+
+const BASE_METAID_URL_TESTNET = `https://man-test.metaid.io`;
+const BASE_METAID_URL_REGEST = `https://man.somecode.link`;
+const BASE_METAID_URL_MAINNET = ``;
+
+export const MAN_BASE_URL_MAPPING = {
+  testnet: BASE_METAID_URL_TESTNET,
+  regtest: BASE_METAID_URL_REGEST,
+  mainnet: BASE_METAID_URL_MAINNET,
+};
 
 export const api = axios.create({
-  baseURL: BASE_URL,
+  //   baseURL: BASE_URL,
   // timeout: 15000,
   headers: {
     'Content-Type': 'application/json',

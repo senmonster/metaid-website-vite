@@ -1277,10 +1277,10 @@
   dependencies:
     inquirer "^9.2.11"
 
-"@metaid/metaid@^1.0.4":
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/@metaid/metaid/-/metaid-1.0.4.tgz#57498dc4b410df77735cb6071878679b1efac720"
-  integrity sha512-05+tYEoPU7nyxBXdEZgZALqmhe39+xU9sNT8qGKMcUvI0UgJFKVjVKHuwlqIWHkfvqxQNW9OLDqZjHl0ofjuBg==
+"@metaid/metaid@^1.1.4":
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/@metaid/metaid/-/metaid-1.1.4.tgz#f10b52e635f428f85f78414be330c4ef26d79978"
+  integrity sha512-l8u395PQt5dhkWtkHeCcTXqA6QvIEFSrZmO1E1ad4KlOjEOkFuJkdJc9xWtnlz5d4NvI30PhSRWKJxIxZ4/6Ow==
   dependencies:
     "@bitcoin-js/tiny-secp256k1-asmjs" "^2.2.3"
     "@metaid/metaid-cli" "0.0.2"

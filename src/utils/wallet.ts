@@ -20,9 +20,9 @@ export const checkMetaletInstalled = async () => {
 export const conirmMetaletTestnet = async () => {
   const metalet = window?.metaidwallet;
   const network = await metalet?.getNetwork();
-  if (network?.network !== 'testnet') {
+  if (network?.network === 'mainnet') {
     toast.error(errors.SWITCH_TESTNET_ALERT);
-    await window.metaidwallet.switchNetwork('testnet');
+    await window.metaidwallet.switchNetwork('mainnet');
 
     throw new Error(errors.SWITCH_TESTNET_ALERT);
   }

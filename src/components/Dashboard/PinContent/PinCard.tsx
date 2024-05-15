@@ -15,13 +15,17 @@ import { useNavigate } from 'react-router-dom';
 import { IconHelp } from '@tabler/icons-react';
 // import { IconDots, IconStar } from '@tabler/icons-react';
 import { Pin } from '../../../utils/api';
-import { BASE_URL } from '../../../utils/request';
+import { useRecoilValue } from 'recoil';
+import { networkAtom } from '../../../store/user';
+import { MAN_BASE_URL_MAPPING } from '../../../utils/request';
 
 type Iprops = {
   p?: Pin;
 };
 
 const PinCard = ({ p }: Iprops) => {
+  const network = useRecoilValue(networkAtom);
+
   const { colorScheme } = useMantineColorScheme();
   const [pData, setPData] = useState<Pin | null>(null);
 
@@ -282,7 +286,7 @@ const PinCard = ({ p }: Iprops) => {
       >
         {pData.type.includes('image') ? (
           <img
-            src={BASE_URL + pData.content}
+            src={MAN_BASE_URL_MAPPING[network] + pData.content}
             alt='content image'
             width={50}
             height={50}
