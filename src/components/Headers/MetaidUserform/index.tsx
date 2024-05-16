@@ -41,7 +41,6 @@ type IProps = {
 
 const MetaidUserform = ({ onSubmit, address, balance, hasMetaid, userInfo }: IProps) => {
 	const network = useRecoilValue(networkAtom);
-
 	const {
 		register,
 		handleSubmit,
@@ -122,7 +121,11 @@ const MetaidUserform = ({ onSubmit, address, balance, hasMetaid, userInfo }: IPr
 						<div>sats</div>
 					</div>
 				</div>
-				<div className="">This address has not created MetaID.Please create one first.</div>
+				{!hasMetaid && (
+					<div className="">
+						This address has not created MetaID.Please create one first.
+					</div>
+				)}
 			</div>
 			<div className="flex flex-col gap-8 mt-4">
 				<TextInput
