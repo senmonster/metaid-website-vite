@@ -52,7 +52,8 @@ import { IBtcConnector } from "@metaid/metaid";
 
 import { useNavigate } from "react-router-dom";
 import { metaidService } from "../../utils/api";
-import { checkMetaletInstalled, conirmMetaletTestnet } from "../../utils/wallet";
+import { checkMetaletInstalled } from "../../utils/wallet";
+// import { conirmMetaletTestnet } from "../../utils/wallet";
 import { errors } from "../../utils/errors";
 import { BtcNetwork, MAN_BASE_URL_MAPPING } from "../../utils/request";
 
@@ -183,7 +184,7 @@ export default function AdminHeader({ burger }: Props) {
 		setWalletParams({ address: _wallet.address, pub: _wallet.pub });
 		setBalance(((await _wallet?.getBalance())?.confirmed ?? 0).toString());
 		setNetwork(_network);
-		await conirmMetaletTestnet();
+		// await conirmMetaletTestnet();
 		if (isNil(_wallet?.address)) {
 			toast.error(errors.NO_METALET_LOGIN);
 			throw new Error(errors.NO_METALET_LOGIN);
