@@ -186,10 +186,10 @@ export default function AdminHeader({ burger }: Props) {
 		await checkMetaletInstalled();
 		const _wallet = await MetaletWalletForBtc.create();
 		const _network = (await window.metaidwallet.getNetwork()).network;
+		setNetwork(_network);
 		setWallet(_wallet);
 		setWalletParams({ address: _wallet.address, pub: _wallet.pub });
 		setBalance(((await _wallet?.getBalance())?.confirmed ?? 0).toString());
-		setNetwork(_network);
 		// await conirmMetaletTestnet();
 		if (isNil(_wallet?.address)) {
 			toast.error(errors.NO_METALET_LOGIN);
@@ -197,23 +197,6 @@ export default function AdminHeader({ burger }: Props) {
 		}
 		setConnected(true);
 
-		// add event listenr for accountsChanged networkChanged
-		// window.metaidwallet.on("accountsChanged", () => {
-		// 	onLogout();
-		// 	toast.error(
-		// 		"Wallet Account Changed ---- You have been automatically logged out of your current MetaID account. Please login again..."
-		// 	);
-		// });
-		// window.metaidwallet.on("networkChanged", async (network: BtcNetwork) => {
-		// 	console.log("network", network);
-
-		// 	onLogout();
-		// 	toast.error(
-		// 		"Wallet Network Changed ---- You have been automatically logged out of your current MetaID account. Please Switch to Testnet login again..."
-		// 	);
-
-		// 	setNetwork(network);
-		// });
 		// window.addEventListener("beforeunload", (e) => {
 		// 	const confirmMessage = "oos";
 		// 	e.returnValue = confirmMessage;
@@ -223,18 +206,11 @@ export default function AdminHeader({ burger }: Props) {
 
 		//////////////////////////
 		const _btcConnector = await btcConnect({ wallet: _wallet, network: _network });
-		// console.log("_btcConnector", _btcConnector, _btcConnector.hasMetaid());
-		// console.log("_wallet", _wallet, await _wallet.getBalance());
 		setBtcConnector(_btcConnector);
 
 		const _hasMetaid = _btcConnector?.hasMetaid() ?? false;
 		sethasMetaid(_hasMetaid);
 
-		// const doc_modal = document.getElementById(
-		//   'create_metaid_modal'
-		// ) as HTMLDialogElement;
-		// doc_modal.showModal();
-		// console.log("getUser", await _btcConnector.getUser());
 		if (_hasMetaid) {
 			setUserInfo(_btcConnector.user);
 			console.log("user now", _btcConnector.user);
