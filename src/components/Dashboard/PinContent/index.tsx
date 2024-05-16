@@ -6,14 +6,17 @@ import { useDebouncedValue, usePagination } from "@mantine/hooks";
 import PinCard from "./PinCard";
 import { divide, repeat } from "ramda";
 import { metaidService } from "../../../utils/api";
+import { useRecoilValue } from "recoil";
+import { networkAtom } from "../../../store/user";
 
 const PinContent = () => {
 	const [size, setSize] = useState<string | number>(18);
 	const [debouncedSize] = useDebouncedValue(size, 800);
+	const network = useRecoilValue(networkAtom);
 
 	const { data: CountData } = useQuery({
 		queryKey: ["pin", "list", 1],
-		queryFn: () => metaidService.getPinList({ page: 1, size: 1 }),
+		queryFn: () => metaidService.getPinList({ page: 1, size: 1 }, network),
 	});
 
 	const total = Math.ceil(
@@ -24,7 +27,10 @@ const PinContent = () => {
 	const { data, isError, isLoading } = useQuery({
 		queryKey: ["pin", "list", pagination.active, Number(debouncedSize)],
 		queryFn: () =>
-			metaidService.getPinList({ page: pagination.active, size: Number(debouncedSize) }),
+			metaidService.getPinList(
+				{ page: pagination.active, size: Number(debouncedSize) },
+				network
+			),
 	});
 	return (
 		<>

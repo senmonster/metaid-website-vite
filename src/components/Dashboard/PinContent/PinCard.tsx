@@ -21,9 +21,11 @@ import { MAN_BASE_URL_MAPPING } from '../../../utils/request';
 
 type Iprops = {
   p?: Pin;
+  hidePop?: boolean;
+
 };
 
-const PinCard = ({ p }: Iprops) => {
+const PinCard = ({ p , hidePop}: Iprops) => {
   const network = useRecoilValue(networkAtom);
 
   const { colorScheme } = useMantineColorScheme();
@@ -211,7 +213,7 @@ const PinCard = ({ p }: Iprops) => {
               : pData.path}
           </Text>
         </div>
-        <div className='flex gap-2 items-center'>
+       {!hidePop &&  <div className='flex gap-2 items-center'>
           <Text size='sm' c='dimmed'>
             PoP:
           </Text>
@@ -274,7 +276,7 @@ const PinCard = ({ p }: Iprops) => {
               <IconHelp style={{ width: '70%', height: '70%' }} stroke={1.2} />
             </ActionIcon>
           </Tooltip>
-        </div>
+        </div>}
       </div>
 
       <Container

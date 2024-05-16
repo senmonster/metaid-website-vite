@@ -5,11 +5,13 @@ import { useQuery } from "@tanstack/react-query";
 import { repeat } from "ramda";
 import PinCard from "../PinContent/PinCard";
 import { useRecoilValue } from "recoil";
-import { walletRestoreParamsAtom } from "../../../store/user";
+import { networkAtom, walletRestoreParamsAtom } from "../../../store/user";
 import { metaidService } from "../../../utils/api";
 
 const MyPinContent = () => {
 	const walletParams = useRecoilValue(walletRestoreParamsAtom);
+	const network = useRecoilValue(networkAtom);
+
 	// const [size, setSize] = useState<string | number>(18);
 	// const [debouncedSize] = useDebouncedValue(size, 800);
 
@@ -26,10 +28,13 @@ const MyPinContent = () => {
 	const { data, isError, isLoading } = useQuery({
 		queryKey: ["mypin", "list"],
 		queryFn: () =>
-			metaidService.getPinListByAddress({
-				addressType: "owner",
-				address: walletParams?.address ?? "",
-			}),
+			metaidService.getPinListByAddress(
+				{
+					addressType: "owner",
+					address: walletParams?.address ?? "",
+				},
+				network
+			),
 	});
 	return (
 		<>
