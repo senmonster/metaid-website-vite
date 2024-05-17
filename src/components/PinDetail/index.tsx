@@ -1,11 +1,12 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
 import { metaidService } from "../../utils/api";
-import { Center, Container, Loader, Text, Image, Button, Modal, Tooltip } from "@mantine/core";
+import { Center, Container, Loader, Text, Image, Button, Modal } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useQuery } from "@tanstack/react-query";
 import { networkAtom } from "../../store/user";
 import { useRecoilValue } from "recoil";
 import dayjs from "dayjs";
+import PopCard from "../PopCard";
 
 type Iprops = {
 	id: string;
@@ -85,12 +86,13 @@ const PinDetail = ({ id }: Iprops) => {
 					</div>
 					<div className="flex gap-2 items-center">
 						<Text className="text-slate-400 italic">PoP:</Text>
-						<Text>{data?.pop.slice(0, 8) + "..." + data?.pop.slice(-8, -1)}</Text>
+						<PopCard rawPop={data?.pop ?? ""} />
+						{/* <Text>{data?.pop.slice(0, 8) + "..." + data?.pop.slice(-8, -1)}</Text>
 						<Tooltip label={data?.pop}>
 							<Button variant="subtle" size="xs">
 								Show Full
 							</Button>
-						</Tooltip>
+						</Tooltip> */}
 					</div>
 					<div className="flex gap-2 items-center">
 						<Text className="text-slate-400 italic">Root-TxID:</Text>
