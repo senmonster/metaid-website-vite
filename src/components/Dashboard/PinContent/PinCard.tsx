@@ -53,7 +53,7 @@ const PinCard = ({ p, hidePop }: Iprops) => {
 					"border-[var(--mantine-color-dark-4)]": colorScheme === "dark",
 				}
 			)}
-			onClick={() => navigate(`/dashboard/pin-detail/${pData.id}`)}
+			onClick={() => navigate(`/dashboard/pin-detail/${pData.id}`, { state: hidePop })}
 		>
 			<div className="flex items-center justify-between">
 				<Text className="text-[26px] text-gray-500" fw={700}>

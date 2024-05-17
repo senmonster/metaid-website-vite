@@ -1,3 +1,4 @@
+/* eslint-disable no-mixed-spaces-and-tabs */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useForm, SubmitHandler } from "react-hook-form";
 import { isEmpty, isNil } from "ramda";
@@ -125,9 +126,11 @@ const MetaidUserform = ({ onSubmit, address, balance, hasMetaid, userInfo }: IPr
 					<div className="flex gap-2 items-center">
 						<div className="">MetaID: </div>
 						<div>
-							{(userInfo?.metaid ?? "").slice(0, 4) +
-								"..." +
-								(userInfo?.metaid ?? "").slice(-4)}
+							{hasMetaid
+								? (userInfo?.metaid ?? "").slice(0, 4) +
+								  "..." +
+								  (userInfo?.metaid ?? "").slice(-4)
+								: "-"}
 						</div>
 						{!clipboardForMetaid.copied ? (
 							<IconCopy

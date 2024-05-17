@@ -7,6 +7,7 @@ import { networkAtom } from "../../store/user";
 import { useRecoilValue } from "recoil";
 import dayjs from "dayjs";
 import PopCard from "../PopCard";
+import { useLocation } from "react-router-dom";
 
 type Iprops = {
 	id: string;
@@ -19,6 +20,7 @@ const PinDetail = ({ id }: Iprops) => {
 		queryFn: () => metaidService.getPinDetail({ id }, network),
 	});
 	const [viewMoreOpened, viewMoreHandler] = useDisclosure(false);
+	const location = useLocation();
 
 	return (
 		<>
@@ -86,7 +88,7 @@ const PinDetail = ({ id }: Iprops) => {
 					</div>
 					<div className="flex gap-2 items-center">
 						<Text className="text-slate-400 italic">PoP:</Text>
-						<PopCard rawPop={data?.pop ?? ""} />
+						{!location.state ? <PopCard rawPop={data?.pop ?? ""} /> : "-"}
 						{/* <Text>{data?.pop.slice(0, 8) + "..." + data?.pop.slice(-8, -1)}</Text>
 						<Tooltip label={data?.pop}>
 							<Button variant="subtle" size="xs">
