@@ -65,9 +65,9 @@ export function Header({ links }: HeaderActionProps) {
 					<Burger opened={opened} onClick={toggle} className={classes.burger} size="sm" />
 					<Logo />
 				</Group>
-				<Group gap="sm" className={classes.links}>
+				{/* <Group gap="sm" className={classes.links}>
 					{items}
-				</Group>
+				</Group> */}
 				<ThemeModeControl />
 				<Drawer opened={opened} onClose={toggle} size="md" padding="xl">
 					<Stack gap="md" pt="lg">

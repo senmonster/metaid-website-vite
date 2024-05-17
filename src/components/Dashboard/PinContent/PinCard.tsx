@@ -9,7 +9,7 @@ import { useRecoilValue } from "recoil";
 import { networkAtom } from "../../../store/user";
 import { MAN_BASE_URL_MAPPING } from "../../../utils/request";
 import PopCard from "../../PopCard";
-
+// test pincard
 type Iprops = {
 	p?: Pin;
 	hidePop?: boolean;

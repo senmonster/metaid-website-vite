@@ -28,7 +28,7 @@ export const featuresData = [
 	},
 	{
 		icon: IconBrandOauth,
-		title: "Fully User Controlled",
+		title: "Fully User-Controlled",
 		description: `Basic user information and application data are all recorded on the blockchain, stored at addresses controlled by the user's private key. This ensures that the user's application data is independent of the application providers, giving users full control over their own data.
 	`,
 	},

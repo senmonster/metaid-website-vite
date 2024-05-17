@@ -22,10 +22,10 @@ export function HeroSection() {
 				</Title>
 
 				<div className={cls(classes.description, "mt-7")}>
-					<Text>MetaID Brings Us Into The Web3 New Era</Text>
+					<Text>MetaID brings us into the web3 new era</Text>
 					<Text>
-						Where 7 Billion Users Can Truly Own Their Data And Data Between Apps Can Be
-						Interoperable.
+						where 7 billion users can truly own their data and data between apps can be
+						interoperable.
 					</Text>
 				</div>
 
