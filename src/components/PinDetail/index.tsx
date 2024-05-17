@@ -93,6 +93,20 @@ const PinDetail = ({ id }: Iprops) => {
 						</Tooltip>
 					</div>
 					<div className="flex gap-2 items-center">
+						<Text className="text-slate-400 italic">root txid:</Text>
+						<Text
+							className="underline cursor-pointer"
+							onClick={() => {
+								window.open(
+									`https://mempool.space/zh/testnet/tx/${data?.rootTxId}`,
+									"_blank"
+								);
+							}}
+						>
+							{data?.rootTxId}
+						</Text>
+					</div>
+					<div className="flex gap-2 items-center">
 						<Text className="text-slate-400 italic">MetaID:</Text>
 						<Text>{data?.metaid}</Text>
 					</div>
@@ -168,7 +182,17 @@ const PinDetail = ({ id }: Iprops) => {
 					</div>
 					<div className="flex gap-2 items-center">
 						<Text className="text-slate-400 italic">geneis transaction:</Text>
-						<Text>{data?.genesisTransaction}</Text>
+						<Text
+							className="cursor-pointer underline"
+							onClick={() => {
+								window.open(
+									`https://mempool.space/zh/testnet/tx/${data?.genesisTransaction}`,
+									"_blank"
+								);
+							}}
+						>
+							{data?.genesisTransaction}
+						</Text>
 					</div>
 				</div>
 			)}
