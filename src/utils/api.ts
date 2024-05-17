@@ -29,6 +29,7 @@ export type Pin = {
 	path: string;
 	pop: string;
 	rootId: string;
+	metaid: string;
 };
 
 export type PinDetail = {

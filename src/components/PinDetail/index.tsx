@@ -80,7 +80,7 @@ const PinDetail = ({ id }: Iprops) => {
 						</Container>
 					)}
 					<div className="flex gap-2 items-center">
-						<Text className="text-slate-400 italic">id:</Text>
+						<Text className="text-slate-400 italic">ID:</Text>
 						<Text>{data?.id}</Text>
 					</div>
 					<div className="flex gap-2 items-center">
@@ -93,7 +93,7 @@ const PinDetail = ({ id }: Iprops) => {
 						</Tooltip>
 					</div>
 					<div className="flex gap-2 items-center">
-						<Text className="text-slate-400 italic">root txid:</Text>
+						<Text className="text-slate-400 italic">Root-TxID:</Text>
 						<Text
 							className="underline cursor-pointer"
 							onClick={() => {
@@ -111,35 +111,35 @@ const PinDetail = ({ id }: Iprops) => {
 						<Text>{data?.metaid}</Text>
 					</div>
 					<div className="flex gap-2 items-center">
-						<Text className="text-slate-400 italic">address:</Text>
+						<Text className="text-slate-400 italic">Address:</Text>
 						<Text>{data?.address}</Text>
 					</div>
 					<div className="flex gap-2 items-center">
-						<Text className="text-slate-400 italic">operation:</Text>
+						<Text className="text-slate-400 italic">Operation:</Text>
 						<Text>{data?.operation}</Text>
 					</div>
 					<div className="flex gap-2 items-center">
-						<Text className="text-slate-400 italic">path:</Text>
+						<Text className="text-slate-400 italic">Path:</Text>
 						<Text>{data?.path}</Text>
 					</div>
 					<div className="flex gap-2 items-center">
-						<Text className="text-slate-400 italic">originalPath:</Text>
+						<Text className="text-slate-400 italic">Original-Path:</Text>
 						<Text>{data?.originalPath}</Text>
 					</div>
 					<div className="flex gap-2 items-center">
-						<Text className="text-slate-400 italic">version:</Text>
+						<Text className="text-slate-400 italic">Version:</Text>
 						<Text>{data?.version}</Text>
 					</div>
 					<div className="flex gap-2 items-center">
-						<Text className="text-slate-400 italic">encryption:</Text>
+						<Text className="text-slate-400 italic">Encryption:</Text>
 						<Text>{data?.encryption}</Text>
 					</div>
 					<div className="flex gap-2 items-center">
-						<Text className="text-slate-400 italic">output value:</Text>
+						<Text className="text-slate-400 italic">Output-Value:</Text>
 						<Text>{data?.outputValue}</Text>
 					</div>
 					<div className="flex gap-2 items-center">
-						<Text className="text-slate-400 italic">preview:</Text>
+						<Text className="text-slate-400 italic">Preview:</Text>
 						<Text
 							className="underline cursor-pointer"
 							onClick={() => {
@@ -150,7 +150,7 @@ const PinDetail = ({ id }: Iprops) => {
 						</Text>
 					</div>
 					<div className="flex gap-2 items-center">
-						<Text className="text-slate-400 italic">content:</Text>
+						<Text className="text-slate-400 italic">Content:</Text>
 						<Text
 							className="underline cursor-pointer"
 							onClick={() => {
@@ -161,15 +161,15 @@ const PinDetail = ({ id }: Iprops) => {
 						</Text>
 					</div>
 					<div className="flex gap-2 items-center">
-						<Text className="text-slate-400 italic">content length:</Text>
+						<Text className="text-slate-400 italic">Content-Length:</Text>
 						<Text>{data?.contentLength}</Text>
 					</div>
 					<div className="flex gap-2 items-center">
-						<Text className="text-slate-400 italic">content type:</Text>
+						<Text className="text-slate-400 italic">Content-Type:</Text>
 						<Text>{data?.contentType}</Text>
 					</div>
 					<div className="flex gap-2 items-center">
-						<Text className="text-slate-400 italic">UTC time:</Text>
+						<Text className="text-slate-400 italic">Time(UTC):</Text>
 						<Text>
 							{dayjs
 								.unix(data?.timestamp ?? dayjs().valueOf())
@@ -177,11 +177,11 @@ const PinDetail = ({ id }: Iprops) => {
 						</Text>
 					</div>
 					<div className="flex gap-2 items-center">
-						<Text className="text-slate-400 italic">geneis height:</Text>
+						<Text className="text-slate-400 italic">Genesis-Height:</Text>
 						<Text>{data?.genesisHeight}</Text>
 					</div>
 					<div className="flex gap-2 items-center">
-						<Text className="text-slate-400 italic">geneis transaction:</Text>
+						<Text className="text-slate-400 italic">Genesis-Transaction:</Text>
 						<Text
 							className="cursor-pointer underline"
 							onClick={() => {
