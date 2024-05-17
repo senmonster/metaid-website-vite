@@ -1,10 +1,11 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
 import { metaidService } from "../../utils/api";
-import { Center, Container, Loader, Text, Image, Button, Modal } from "@mantine/core";
+import { Center, Container, Loader, Text, Image, Button, Modal, Tooltip } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useQuery } from "@tanstack/react-query";
 import { networkAtom } from "../../store/user";
 import { useRecoilValue } from "recoil";
+import dayjs from "dayjs";
 
 type Iprops = {
 	id: string;
@@ -43,7 +44,7 @@ const PinDetail = ({ id }: Iprops) => {
 							>
 								<p className="text-wrap break-all">
 									{`${data?.contentSummary ?? ""}${
-										(data?.contentSummary ?? "").length > 1900 && "..."
+										(data?.contentSummary ?? "").length > 1900 ? "..." : ""
 									}`}
 								</p>
 							</Container>
@@ -84,11 +85,16 @@ const PinDetail = ({ id }: Iprops) => {
 					</div>
 					<div className="flex gap-2 items-center">
 						<Text className="text-slate-400 italic">PoP:</Text>
-						<Text>{data?.pop}</Text>
+						<Text>{data?.pop.slice(0, 8) + "..." + data?.pop.slice(-8, -1)}</Text>
+						<Tooltip label={data?.pop}>
+							<Button variant="subtle" size="xs">
+								Show Full
+							</Button>
+						</Tooltip>
 					</div>
 					<div className="flex gap-2 items-center">
-						<Text className="text-slate-400 italic">root txid:</Text>
-						<Text>{data?.rootTxId}</Text>
+						<Text className="text-slate-400 italic">MetaID:</Text>
+						<Text>{data?.metaid}</Text>
 					</div>
 					<div className="flex gap-2 items-center">
 						<Text className="text-slate-400 italic">address:</Text>
@@ -120,11 +126,25 @@ const PinDetail = ({ id }: Iprops) => {
 					</div>
 					<div className="flex gap-2 items-center">
 						<Text className="text-slate-400 italic">preview:</Text>
-						<Text>{data?.preview}</Text>
+						<Text
+							className="underline cursor-pointer"
+							onClick={() => {
+								window.open(data?.preview, "_blank");
+							}}
+						>
+							{data?.preview}
+						</Text>
 					</div>
 					<div className="flex gap-2 items-center">
 						<Text className="text-slate-400 italic">content:</Text>
-						<Text>{data?.content}</Text>
+						<Text
+							className="underline cursor-pointer"
+							onClick={() => {
+								window.open(data?.content, "_blank");
+							}}
+						>
+							{data?.content}
+						</Text>
 					</div>
 					<div className="flex gap-2 items-center">
 						<Text className="text-slate-400 italic">content length:</Text>
@@ -135,8 +155,12 @@ const PinDetail = ({ id }: Iprops) => {
 						<Text>{data?.contentType}</Text>
 					</div>
 					<div className="flex gap-2 items-center">
-						<Text className="text-slate-400 italic">timestamp:</Text>
-						<Text>{data?.timestamp}</Text>
+						<Text className="text-slate-400 italic">UTC time:</Text>
+						<Text>
+							{dayjs
+								.unix(data?.timestamp ?? dayjs().valueOf())
+								.format("YYYY-MM-DD HH:mm:ss")}
+						</Text>
 					</div>
 					<div className="flex gap-2 items-center">
 						<Text className="text-slate-400 italic">geneis height:</Text>

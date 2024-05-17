@@ -94,6 +94,7 @@ const MetaidUserform = ({ onSubmit, address, balance, hasMetaid, userInfo }: IPr
 	};
 	// console.log("avatar", avatar, !isEmpty(avatar));
 	const clipboard = useClipboard({ timeout: 3000 });
+	const clipboardForMetaid = useClipboard({ timeout: 3000 });
 	return (
 		<form
 			autoComplete="off"
@@ -120,7 +121,26 @@ const MetaidUserform = ({ onSubmit, address, balance, hasMetaid, userInfo }: IPr
 						<div> {balance}</div>
 						<div>sats</div>
 					</div>
+
+					<div className="flex gap-2 items-center">
+						<div className="">MetaID: </div>
+						<div>
+							{(userInfo?.metaid ?? "").slice(0, 4) +
+								"..." +
+								(userInfo?.metaid ?? "").slice(-4)}
+						</div>
+						{!clipboardForMetaid.copied ? (
+							<IconCopy
+								className="cursor-pointer text-gray/30 hover:text-gray"
+								onClick={() => clipboardForMetaid.copy(userInfo?.metaid ?? "")}
+								size={16}
+							/>
+						) : (
+							<IconCopyCheck className="cursor-pointer text-main" size={16} />
+						)}
+					</div>
 				</div>
+
 				{!hasMetaid && (
 					<div className="">
 						This address has not created MetaID.Please create one first.

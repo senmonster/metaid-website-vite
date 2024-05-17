@@ -85,6 +85,7 @@ export default function AdminHeader({ burger }: Props) {
 		console.log("refresh ....");
 		if (hasMetaid) {
 			const _wallet = MetaletWalletForBtc.restore(walletParams!);
+			setWallet(_wallet);
 			const _btcConnector = await btcConnect({ wallet: _wallet, network: network });
 			setUserInfo(_btcConnector.user);
 			console.log("refetch user", _btcConnector.user);
@@ -310,7 +311,7 @@ export default function AdminHeader({ burger }: Props) {
 						<Button variant="light" size="xs" radius="lg" className="hidden lg:block">
 							{`total MetaID: ${data?.Count.metaId}` +
 								"    |    " +
-								`total Pin: ${data?.Count.Pin}` +
+								`total PIN: ${data?.Count.Pin}` +
 								"    |    " +
 								`total Block: ${data?.Count.block}` +
 								"    |    " +
@@ -454,7 +455,7 @@ export default function AdminHeader({ burger }: Props) {
 					{/* ...other content */}
 					<MetaidUserform
 						onSubmit={handleSubmitMetaId}
-						address={wallet?.address ?? ""}
+						address={(wallet?.address || walletParams?.address) ?? ""}
 						balance={balance}
 						hasMetaid={hasMetaid}
 						userInfo={hasMetaid && !isNil(userInfo) ? userInfo : undefined}
