@@ -143,6 +143,7 @@ export default function AdminHeader({ burger }: Props) {
 		setConnected(false);
 		setBtcConnector(null);
 		setUserInfo(null);
+		setWalletParams(null);
 		window.metaidwallet.removeListener("accountsChanged", handleAcccountsChanged);
 		window.metaidwallet.removeListener("networkChanged", handleNetworkChanged);
 	};
