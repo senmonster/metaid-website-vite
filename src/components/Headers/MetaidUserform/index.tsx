@@ -201,11 +201,11 @@ const MetaidUserform = ({
 
 				{!isNil(avatar) && avatar.length !== 0 ? (
 					<>
-						<div className="bg-inheirt border border-dashed  border-[var(--mantine-primary-color-filled)] rounded-full w-[100px] h-[100px] grid place-items-center mx-auto">
+						<div className="bg-inheirt border border-dashed  border-[var(--mantine-primary-color-filled)] rounded-full w-[105px] h-[105px] grid place-items-center mx-auto">
 							<img
-								className="self-center rounded-full"
 								height={100}
 								width={100}
+								className="w-[100px] h-[100px] object-cover self-center rounded-full"
 								src={filesPreview[0]}
 								alt=""
 							/>

@@ -104,6 +104,8 @@ export default function AdminHeader({ burger }: Props) {
 	}, [wrapHandleBeforeUnload]);
 
 	const MetaidInfo = ({ hasName, userInfo }: { hasName: boolean; userInfo: UserInfo | null }) => {
+		console.log("hasName", hasName);
+		console.log("userInfo", userInfo);
 		if (hasName && !isNil(userInfo)) {
 			return (
 				<Menu shadow="md" width={120} position="bottom-end" withArrow classNames={{}}>
@@ -133,7 +135,7 @@ export default function AdminHeader({ burger }: Props) {
 		}
 		return (
 			<Button variant="light" onClick={metaidFormHandler.open}>
-				Create MetaID
+				Create MetaID User
 			</Button>
 		);
 	};
@@ -147,9 +149,7 @@ export default function AdminHeader({ burger }: Props) {
 
 	const handleAcccountsChanged = () => {
 		onLogout();
-		toast.error(
-			"Wallet Account Changed ---- You have been automatically logged out of your current MetaID account. Please login again..."
-		);
+		toast.error("Wallet Account Changed ----lease login again...");
 	};
 
 	const handleNetworkChanged = async (network: BtcNetwork) => {
@@ -194,7 +194,7 @@ export default function AdminHeader({ burger }: Props) {
 
 		const resUser = await _btcConnector.getUser({ network });
 		setUserInfo(_btcConnector.user);
-		setHasName(isNil(resUser?.name) ? false : true);
+		setHasName(!isNil(resUser?.name) && !isEmpty(resUser?.name));
 
 		console.log("user now", resUser);
 		console.log("your btc address: ", _btcConnector.address);
