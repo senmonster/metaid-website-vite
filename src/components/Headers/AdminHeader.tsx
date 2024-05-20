@@ -172,14 +172,10 @@ export default function AdminHeader({ burger }: Props) {
 				window.metaidwallet.on("accountsChanged", handleAcccountsChanged);
 			}
 		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [connected, window?.metaidwallet]);
+		window.metaidwallet.on("networkChanged", handleNetworkChanged);
 
-	useEffect(() => {
-		if (!isNil(window?.metaidwallet)) {
-			window.metaidwallet.on("networkChanged", handleNetworkChanged);
-		}
-	}, [window?.metaidwallet]);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [connected]);
 
 	const onWalletConnectStart = async () => {
 		await checkMetaletInstalled();

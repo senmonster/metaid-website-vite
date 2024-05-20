@@ -15,7 +15,7 @@ import { useQuery } from "@tanstack/react-query";
 import { metaidService } from "../../../utils/api";
 import { useDebouncedValue, usePagination } from "@mantine/hooks";
 import cls from "classnames";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { MAN_BASE_URL_MAPPING } from "../../../utils/request";
 import { useRecoilValue } from "recoil";
 import { networkAtom } from "../../../store/user";
@@ -35,7 +35,7 @@ const MetaidContent = () => {
 
 	const pagination = usePagination({ total, initialPage: 1 });
 	const { colorScheme } = useMantineColorScheme();
-	const navigate = useNavigate();
+	// const navigate = useNavigate();
 
 	const { data, isError, isLoading } = useQuery({
 		queryKey: ["metaidItem", "list", pagination.active, Number(debouncedSize)],
