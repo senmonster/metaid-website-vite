@@ -104,7 +104,7 @@ const PopCard = ({ rawPop, textSize, textColor }: Iprops) => {
 				rarer.
 			</div>
 			{[...Array(14).keys()].map((i) => {
-				return <div key={i}>getPopComp(i)</div>;
+				return <div key={i}>{getPopComp(i)}</div>;
 			})}
 		</div>
 	);

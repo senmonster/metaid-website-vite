@@ -37,7 +37,7 @@ import {
 	btcConnectorAtom,
 	connectedAtom,
 	globalFeeRateAtom,
-	hasMetaidAtom,
+	hasNameAtom,
 	networkAtom,
 	userInfoAtom,
 	walletAtom,
@@ -72,7 +72,7 @@ export default function AdminHeader({ burger }: Props) {
 	const [metaidFormOpened, metaidFormHandler] = useDisclosure(false);
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [balance, setBalance] = useRecoilState(balanceAtom);
-	const [hasMetaid, sethasMetaid] = useRecoilState(hasMetaidAtom);
+	const [hasName, setHasName] = useRecoilState(hasNameAtom);
 	const navigate = useNavigate();
 
 	const clipboard = useClipboard({ timeout: 3000 });
@@ -82,9 +82,11 @@ export default function AdminHeader({ burger }: Props) {
 	});
 
 	const handleBeforeUnload = async () => {
-		console.log("refresh ....");
-		if (hasMetaid) {
+		console.log("refresh ..........................", window, window.metaidwallet);
+		if (!isNil(walletParams)) {
 			const _wallet = MetaletWalletForBtc.restore(walletParams!);
+			console.log("refeshing wallet", _wallet);
+
 			setWallet(_wallet);
 			const _btcConnector = await btcConnect({ wallet: _wallet, network: network });
 			setUserInfo(_btcConnector.user);
@@ -92,11 +94,7 @@ export default function AdminHeader({ burger }: Props) {
 		}
 	};
 
-	const wrapHandleBeforeUnload = useCallback(handleBeforeUnload, [
-		walletParams,
-		hasMetaid,
-		setUserInfo,
-	]);
+	const wrapHandleBeforeUnload = useCallback(handleBeforeUnload, [walletParams, setUserInfo]);
 
 	useEffect(() => {
 		wrapHandleBeforeUnload();
@@ -198,25 +196,15 @@ export default function AdminHeader({ burger }: Props) {
 		}
 		setConnected(true);
 
-		// window.addEventListener("beforeunload", (e) => {
-		// 	const confirmMessage = "oos";
-		// 	e.returnValue = confirmMessage;
-		// 	return confirmMessage;
-		// });
-		// window.addEventListener("beforeunload", handleBeforeUnload);
-
-		//////////////////////////
 		const _btcConnector = await btcConnect({ wallet: _wallet, network: _network });
 		setBtcConnector(_btcConnector);
 
-		const _hasMetaid = _btcConnector?.hasMetaid() ?? false;
-		sethasMetaid(_hasMetaid);
+		const resUser = await _btcConnector.getUser({ network });
+		setUserInfo(_btcConnector.user);
+		setHasName(isNil(resUser?.name) ? false : true);
 
-		if (_hasMetaid) {
-			setUserInfo(_btcConnector.user);
-			console.log("user now", _btcConnector.user);
-			console.log("your btc address: ", _btcConnector.address);
-		}
+		console.log("user now", resUser);
+		console.log("your btc address: ", _btcConnector.address);
 	};
 
 	const handleSubmitMetaId = async (userInfo: MetaidUserInfo) => {
@@ -228,7 +216,7 @@ export default function AdminHeader({ burger }: Props) {
 		const _wallet = await MetaletWalletForBtc.restore(walletParams!);
 
 		const _btcConnector = await btcConnect({ wallet: _wallet, network });
-		if (hasMetaid) {
+		if (hasName) {
 			const res = await _btcConnector!
 				.updateUserInfo({ ...userInfo, network })
 				.catch((error) => {
@@ -252,7 +240,7 @@ export default function AdminHeader({ burger }: Props) {
 			}
 		} else {
 			const res = await _btcConnector!
-				.createMetaid({ ...userInfo, network })
+				.createUserInfo({ ...userInfo, network })
 				.catch((error: any) => {
 					setIsSubmitting(false);
 
@@ -266,11 +254,11 @@ export default function AdminHeader({ burger }: Props) {
 					toast.error(toastMessage);
 				});
 
-			if (isNil(res?.metaid)) {
+			if (!res) {
 				toast.error("Create Failed");
 			} else {
 				toast.success("Successfully created!Now you can connect your wallet again!");
-				sethasMetaid(true);
+				setHasName(true);
 			}
 		}
 
@@ -308,7 +296,7 @@ export default function AdminHeader({ burger }: Props) {
 					{burger && burger}
 					<div className="flex items-center gap-6">
 						<Logo />
-						<Button variant="light" size="xs" radius="lg" className="hidden lg:block">
+						<Button variant="light" size="xs" radius="lg" className="hidden xl:block">
 							{`total MetaID: ${data?.Count.metaId}` +
 								"    |    " +
 								`total PIN: ${data?.Count.Pin}` +
@@ -321,21 +309,27 @@ export default function AdminHeader({ burger }: Props) {
 
 					{/* <Box style={{ flex: 1 }} /> */}
 					<div className="flex gap-2 items-center">
-						<div className="flex gap-2 items-center">
+						<div className="hidden xl:flex gap-2 items-center">
 							<Text size="sm" c="dimmed">
 								Global FeeRate:
 							</Text>
 							<NumberInput
+								size="xs"
 								placeholder="Enter Here"
 								variant="filled"
-								className="w-[135px]"
+								className="w-[60px]"
 								value={globalFeeRate}
 								onChange={setGlobalFeeRate}
 							/>
 						</div>
 						<Menu shadow="md" width={200}>
 							<Menu.Target>
-								<Button leftSection={<IconSwitch2 size={16} />} variant="light">
+								<Button
+									size="xs"
+									leftSection={<IconSwitch2 size={16} />}
+									variant="light"
+									className="hidden xl:block"
+								>
 									{network ?? "testnet"}
 								</Button>
 							</Menu.Target>
@@ -371,7 +365,7 @@ export default function AdminHeader({ burger }: Props) {
 						) : (
 							<div
 								className={cls("flex items-center gap-4 relative", {
-									"pr-2": hasMetaid,
+									"pr-2": hasName,
 								})}
 							>
 								<div className="flex gap-1 text-gray-400 items-center">
@@ -434,7 +428,7 @@ export default function AdminHeader({ burger }: Props) {
 										/>
 									</ActionIcon>
 								</div>
-								<MetaidInfo hasMetaid={hasMetaid} userInfo={userInfo} />
+								<MetaidInfo hasMetaid={hasName} userInfo={userInfo} />
 							</div>
 						)}
 					</div>
@@ -443,7 +437,7 @@ export default function AdminHeader({ burger }: Props) {
 			<Modal
 				opened={metaidFormOpened}
 				onClose={metaidFormHandler.close}
-				title={hasMetaid ? "Edit MetaID Detail" : "Create MetaID Detail"}
+				title={hasName ? "Edit MetaID Detail" : "Create MetaID Detail"}
 				size={"lg"}
 			>
 				<Box pos="relative">
@@ -457,8 +451,8 @@ export default function AdminHeader({ burger }: Props) {
 						onSubmit={handleSubmitMetaId}
 						address={(wallet?.address || walletParams?.address) ?? ""}
 						balance={balance}
-						hasMetaid={hasMetaid}
-						userInfo={hasMetaid && !isNil(userInfo) ? userInfo : undefined}
+						hasMetaid={hasName}
+						userInfo={hasName && !isNil(userInfo) ? userInfo : undefined}
 					/>
 				</Box>
 			</Modal>

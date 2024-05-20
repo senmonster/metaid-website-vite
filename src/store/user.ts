@@ -1,6 +1,5 @@
 import { IBtcConnector, IMetaletWalletForBtc } from "@metaid/metaid";
-import { isNil } from "ramda";
-import { atom, selector } from "recoil";
+import { atom } from "recoil";
 import { recoilPersist } from "recoil-persist";
 import { BtcNetwork } from "../utils/request";
 
@@ -38,14 +37,6 @@ export const userInfoAtom = atom<UserInfo | null>({
 	effects_UNSTABLE: [persistAtom],
 });
 
-export const initStillPoolAtom = selector<boolean>({
-	key: "initStillPoolAtom",
-	get: ({ get }) => {
-		const userInfo = get(userInfoAtom);
-		return isNil(userInfo) ? false : userInfo.unconfirmed.split(",").includes("number");
-	},
-});
-
 export const walletAtom = atom<IMetaletWalletForBtc | null>({
 	key: "walletAtom",
 	default: null,
@@ -67,8 +58,8 @@ export const balanceAtom = atom<string>({
 	effects_UNSTABLE: [persistAtom],
 });
 
-export const hasMetaidAtom = atom<boolean>({
-	key: "hasMetaidAtom",
+export const hasNameAtom = atom<boolean>({
+	key: "hasNameAtom",
 	default: false,
 	effects_UNSTABLE: [persistAtom],
 });
@@ -79,5 +70,5 @@ export const networkAtom = atom<BtcNetwork>({
 });
 export const globalFeeRateAtom = atom<string | number>({
 	key: "globalFeeRateAtom",
-	default: 50,
+	default: 60,
 });
