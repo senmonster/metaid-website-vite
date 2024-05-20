@@ -96,20 +96,7 @@ const PinDetail = ({ id }: Iprops) => {
 							</Button>
 						</Tooltip> */}
 					</div>
-					<div className="flex gap-2 items-center">
-						<Text className="text-slate-400 italic">Root-TxID:</Text>
-						<Text
-							className="underline cursor-pointer"
-							onClick={() => {
-								window.open(
-									`https://mempool.space/zh/testnet/tx/${data?.rootTxId}`,
-									"_blank"
-								);
-							}}
-						>
-							{data?.rootTxId}
-						</Text>
-					</div>
+
 					<div className="flex gap-2 items-center">
 						<Text className="text-slate-400 italic">MetaID:</Text>
 						<Text>{data?.metaid}</Text>

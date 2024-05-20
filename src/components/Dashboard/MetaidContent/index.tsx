@@ -79,16 +79,13 @@ const MetaidContent = () => {
 								return (
 									<div
 										key={index}
-										className={cls(
-											"flex gap-2 border rounded-md p-4 cursor-pointer",
-											{
-												"border-[var(--mantine-color-dark-4)]":
-													colorScheme === "dark",
-											}
-										)}
-										onClick={() =>
-											navigate(`/dashboard/pin-detail/${m.rootTxId + "i0"}`)
-										}
+										className={cls("flex gap-2 border rounded-md p-4", {
+											"border-[var(--mantine-color-dark-4)]":
+												colorScheme === "dark",
+										})}
+										// onClick={() =>
+										// 	navigate(`/dashboard/pin-detail/${m.rootTxId + "i0"}`)
+										// }
 									>
 										<Avatar
 											radius="xl"
@@ -104,14 +101,12 @@ const MetaidContent = () => {
 										<div className="flex flex-col truncate">
 											<div className="font-bold text-[18px] truncate">
 												{isEmpty(m?.name) || isNil(m?.name)
-													? `metaid-${m.rootTxId.slice(0, 4)}`
+													? `metaid-${m.metaid.slice(0, 4)}`
 													: m?.name}
 											</div>
 											<Tooltip label={m?.metaid}>
 												<div className="text-[12px] italic text-slate-400">
-													{m?.metaid.slice(0, 4) +
-														"..." +
-														m?.metaid.slice(-4)}
+													{m?.metaid.slice(0, 6)}
 												</div>
 											</Tooltip>
 										</div>
