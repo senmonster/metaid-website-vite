@@ -2,7 +2,7 @@ import { ScrollArea } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
 
 // import { useDebouncedValue, usePagination } from "@mantine/hooks";
-import { repeat } from "ramda";
+import { isEmpty, isNil, repeat } from "ramda";
 import PinCard from "../PinContent/PinCard";
 import { useRecoilValue } from "recoil";
 import { networkAtom, walletRestoreParamsAtom } from "../../../store/user";
@@ -52,22 +52,26 @@ const MyPinContent = () => {
 				<>
 					<ScrollArea className="h-[calc(100vh_-_210px)]" offsetScrollbars>
 						<div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 2xl:grid-cols-6 gap-4 p-2">
-							{(data ?? []).map((p, index) => {
-								return (
-									<PinCard
-										key={index}
-										p={{
-											...p,
-											type: p.contentType,
-											height: 0,
-											rootId: p.rootTxId,
-											content: p.contentType.includes("image")
-												? "/content/" + p.id
-												: p.contentSummary,
-										}}
-									/>
-								);
-							})}
+							{isNil(data) || isEmpty(data) ? (
+								<div>No personal PIN data founded.</div>
+							) : (
+								(data ?? []).map((p, index) => {
+									return (
+										<PinCard
+											key={index}
+											p={{
+												...p,
+												type: p.contentType,
+												height: 0,
+												rootId: p.rootTxId,
+												content: p.contentType.includes("image")
+													? "/content/" + p.id
+													: p.contentSummary,
+											}}
+										/>
+									);
+								})
+							)}
 						</div>
 					</ScrollArea>
 
