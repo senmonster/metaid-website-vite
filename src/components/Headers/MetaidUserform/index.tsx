@@ -1,6 +1,6 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { isEmpty, isNil } from "ramda";
 import { image2Attach } from "../../../utils/file";
 import { useClipboard } from "@mantine/hooks";
@@ -17,6 +17,8 @@ import { UserInfo, globalFeeRateAtom, networkAtom } from "../../../store/user";
 // import { useEffect, useState } from 'react';
 import { useRecoilValue } from "recoil";
 import { MAN_BASE_URL_MAPPING } from "../../../utils/request";
+import { IBtcConnector } from "@metaid/metaid";
+import { toast } from "react-toastify";
 
 export type FormUserInfo = {
 	name: string;
@@ -33,18 +35,26 @@ export type MetaidUserInfo = {
 
 type IProps = {
 	onSubmit: (userInfo: MetaidUserInfo) => void;
-
+	btcConnector: IBtcConnector;
 	address: string;
 	balance: string;
-	hasMetaid: boolean;
+	hasName: boolean;
 	userInfo?: UserInfo;
 };
 
-const MetaidUserform = ({ onSubmit, address, balance, hasMetaid, userInfo }: IProps) => {
+const MetaidUserform = ({
+	onSubmit,
+	address,
+	balance,
+	hasName,
+	userInfo,
+	btcConnector,
+}: IProps) => {
 	const network = useRecoilValue(networkAtom);
 	const {
 		register,
 		handleSubmit,
+		control,
 		formState: { errors },
 		setValue,
 		watch,
@@ -88,7 +98,7 @@ const MetaidUserform = ({ onSubmit, address, balance, hasMetaid, userInfo }: IPr
 				? Buffer.from(submitAvatar[0].data, "hex").toString("base64")
 				: undefined,
 			bio: isEmpty(data?.bio ?? "") ? undefined : data?.bio,
-			feeRate: selectFeeRate?.number ?? 1,
+			feeRate: selectFeeRate?.number ?? globalFeeRate,
 		};
 		console.log("submit profile data", submitData);
 		onSubmit(submitData);
@@ -125,13 +135,7 @@ const MetaidUserform = ({ onSubmit, address, balance, hasMetaid, userInfo }: IPr
 
 					<div className="flex gap-2 items-center">
 						<div className="">MetaID: </div>
-						<div>
-							{hasMetaid
-								? (userInfo?.metaid ?? "").slice(0, 4) +
-								  "..." +
-								  (userInfo?.metaid ?? "").slice(-4)
-								: "-"}
-						</div>
+						<div>{"#" + btcConnector?.metaid?.slice(0, 6)}</div>
 						{!clipboardForMetaid.copied ? (
 							<IconCopy
 								className="cursor-pointer text-gray/30 hover:text-gray"
@@ -143,12 +147,6 @@ const MetaidUserform = ({ onSubmit, address, balance, hasMetaid, userInfo }: IPr
 						)}
 					</div>
 				</div>
-
-				{!hasMetaid && (
-					<div className="">
-						This address has not created MetaID.Please create one first.
-					</div>
-				)}
 			</div>
 			<div className="flex flex-col gap-8 mt-4">
 				<TextInput
@@ -158,8 +156,33 @@ const MetaidUserform = ({ onSubmit, address, balance, hasMetaid, userInfo }: IPr
 					error={errors.name && "Username can not be empty."}
 				/>
 
-				<input type="file" id="addPFP" className="hidden" {...register("avatar")} />
-				{hasMetaid && (isNil(avatar) || avatar.length === 0) && (
+				<Controller
+					control={control}
+					name="avatar"
+					render={({ field: { onChange } }) => (
+						<input
+							type="file"
+							id="addPFP"
+							className="hidden"
+							{...register("avatar")}
+							onChange={(e) => {
+								const maxFileSize = 200 * 1024; // max file size 200 kb
+								const files = e.target.files;
+								if (!isNil(files) && files[0].size > maxFileSize) {
+									toast.error("File size cannot be greater than 200kb");
+
+									setValue("avatar", [] as any); // clear file input value
+									e.target.value = ""; // clear file input value
+									return;
+								}
+								onChange(files);
+							}}
+						/>
+					)}
+				/>
+
+				{/* <input type="file" id="addPFP" className="hidden" {...register("avatar")} /> */}
+				{hasName && (isNil(avatar) || avatar.length === 0) && (
 					<Center>
 						<Avatar
 							radius="xl"
@@ -204,7 +227,7 @@ const MetaidUserform = ({ onSubmit, address, balance, hasMetaid, userInfo }: IPr
 						}}
 						variant="light"
 					>
-						{hasMetaid ? "Change Your Avatar" : "Upload Your Avatar"}
+						{hasName ? "Change Your Avatar" : "Upload Your Avatar"}
 					</Button>
 				)}
 

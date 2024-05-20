@@ -106,7 +106,7 @@ const MetaidContent = () => {
 											</div>
 											<Tooltip label={m?.metaid}>
 												<div className="text-[12px] italic text-slate-400">
-													{m?.metaid.slice(0, 6)}
+													{"#" + m?.metaid.slice(0, 6)}
 												</div>
 											</Tooltip>
 										</div>
