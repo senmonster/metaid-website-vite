@@ -68,7 +68,7 @@ export const networkAtom = atom<BtcNetwork>({
 	key: "networkAtom",
 	default: "testnet",
 });
-export const globalFeeRateAtom = atom<string | number>({
+export const globalFeeRateAtom = atom<number>({
 	key: "globalFeeRateAtom",
 	default: 60,
 });

@@ -310,12 +310,14 @@ export default function AdminHeader({ burger }: Props) {
 								Global FeeRate:
 							</Text>
 							<NumberInput
+								min={0}
+								max={1500}
 								size="xs"
 								placeholder="Enter Here"
 								variant="filled"
 								className="w-[60px]"
 								value={globalFeeRate}
-								onChange={setGlobalFeeRate}
+								onChange={(value) => setGlobalFeeRate(value as number)}
 							/>
 						</div>
 						<Menu shadow="md" width={200}>

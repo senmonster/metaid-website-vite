@@ -6,7 +6,7 @@ import { image2Attach } from "../../../utils/file";
 import { useClipboard } from "@mantine/hooks";
 import { useQuery } from "@tanstack/react-query";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import CustomFeerate from "./CustomFeerate";
 import useImagesPreview from "../../../hooks/useImagesPreview";
 import { fetchFeeRate } from "../../../utils/api";
@@ -68,17 +68,20 @@ const MetaidUserform = ({
 		queryKey: ["feeRate"],
 		queryFn: () => fetchFeeRate({ netWork: "testnet" }),
 	});
-	const globalFeeRate = useRecoilValue(globalFeeRateAtom);
-	const [customFee, setCustomFee] = useState<string>(globalFeeRate.toString());
+	const globalFeerate = useRecoilValue(globalFeeRateAtom);
+	const [customFee, setCustomFee] = useState<string>(globalFeerate.toString());
+	useEffect(() => {
+		setCustomFee(globalFeerate.toString());
+	}, [globalFeerate]);
 
 	const feeRateOptions = useMemo(() => {
 		return [
-			{ name: "Slow", number: feeRateData?.hourFee ?? Number(globalFeeRate) },
-			{ name: "Avg", number: feeRateData?.halfHourFee ?? Number(globalFeeRate) },
-			{ name: "Fast", number: feeRateData?.fastestFee ?? Number(globalFeeRate) },
+			{ name: "Slow", number: feeRateData?.hourFee ?? Number(globalFeerate) },
+			{ name: "Avg", number: feeRateData?.halfHourFee ?? Number(globalFeerate) },
+			{ name: "Fast", number: feeRateData?.fastestFee ?? Number(globalFeerate) },
 			{ name: "Custom", number: Number(customFee) },
 		];
-	}, [feeRateData, customFee, globalFeeRate]);
+	}, [feeRateData, customFee, globalFeerate]);
 	const [selectFeeRate, setSelectFeeRate] = useState<{
 		name: string;
 		number: number;
@@ -98,7 +101,7 @@ const MetaidUserform = ({
 				? Buffer.from(submitAvatar[0].data, "hex").toString("base64")
 				: undefined,
 			bio: isEmpty(data?.bio ?? "") ? undefined : data?.bio,
-			feeRate: selectFeeRate?.number ?? globalFeeRate,
+			feeRate: selectFeeRate?.number ?? globalFeerate,
 		};
 		console.log("submit profile data", submitData);
 		onSubmit(submitData);
