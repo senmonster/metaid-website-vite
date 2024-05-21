@@ -31,7 +31,7 @@ export const routes: RouteObject[] = [
 		path: "/",
 		element: <DashboardLayout />,
 		children: [
-			{ index: true, element: <Navigate to="metaid" /> },
+			{ index: true, element: <Navigate to="pin" /> },
 			{
 				path: "metaid",
 				element: <DashboardMetaID />,
