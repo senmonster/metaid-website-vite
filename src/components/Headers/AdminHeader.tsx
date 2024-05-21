@@ -76,6 +76,8 @@ export default function AdminHeader({ burger }: Props) {
 	const [hasName, setHasName] = useRecoilState(hasNameAtom);
 	const navigate = useNavigate();
 
+	console.log("metiad", window?.metaidwallet);
+
 	const clipboard = useClipboard({ timeout: 3000 });
 	const { data, isLoading } = useQuery({
 		queryKey: ["pin", "list", 1],
@@ -127,7 +129,7 @@ export default function AdminHeader({ burger }: Props) {
 					</Menu.Target>
 
 					<Menu.Dropdown>
-						<Menu.Item onClick={() => navigate("/dashboard/my-pin")}>My Pin</Menu.Item>
+						<Menu.Item onClick={() => navigate("/my-pin")}>My Pin</Menu.Item>
 						<Menu.Item onClick={metaidFormHandler.open}>Edit Profile</Menu.Item>
 					</Menu.Dropdown>
 				</Menu>
@@ -293,13 +295,13 @@ export default function AdminHeader({ burger }: Props) {
 					<div className="flex items-center gap-6">
 						<Logo />
 						<Button variant="light" size="xs" radius="lg" className="hidden xl:block">
-							{`total MetaID: ${data?.Count.metaId}` +
+							{`MetaIDs: ${data?.Count.metaId}` +
 								"    |    " +
-								`total PIN: ${data?.Count.Pin}` +
+								`PINs: ${data?.Count.Pin}` +
 								"    |    " +
-								`total Block: ${data?.Count.block}` +
+								`Blocks: ${data?.Count.block}` +
 								"    |    " +
-								`total APP: ${data?.Count.app}`}
+								`APPs: ${data?.Count.app}`}
 						</Button>
 					</div>
 
@@ -328,7 +330,8 @@ export default function AdminHeader({ burger }: Props) {
 									variant="light"
 									className="hidden xl:block"
 								>
-									{network ?? "testnet"}
+									{network.charAt(0).toUpperCase() + network.slice(1) ??
+										"Testnet"}
 								</Button>
 							</Menu.Target>
 
@@ -435,7 +438,7 @@ export default function AdminHeader({ burger }: Props) {
 			<Modal
 				opened={metaidFormOpened}
 				onClose={metaidFormHandler.close}
-				title={"My Detail"}
+				title={"My profile"}
 				size={"lg"}
 			>
 				<Box pos="relative">

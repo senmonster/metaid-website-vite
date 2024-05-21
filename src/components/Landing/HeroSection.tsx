@@ -34,7 +34,7 @@ export function HeroSection() {
 						size="lg"
 						className={classes.control}
 						onClick={() => {
-							navigate("/dashboard");
+							navigate("/");
 						}}
 						rightSection={<IconArrowRight />}
 					>

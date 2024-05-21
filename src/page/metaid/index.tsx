@@ -3,7 +3,7 @@ import { PageContainer } from "../../components/PageContainer/PageContainer";
 
 export default function DashboardMetaID() {
 	return (
-		<PageContainer title="All MetaID">
+		<PageContainer title="MetaID">
 			<MetaidContent />
 		</PageContainer>
 	);

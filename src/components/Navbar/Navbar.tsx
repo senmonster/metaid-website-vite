@@ -26,9 +26,22 @@ export function Navbar({ data }: Props) {
 				href={item.link}
 				active={item.link === pathname}
 				label={item.label}
-				onClick={() => {
+				onClick={(e) => {
 					if (item.label === "MetaProtocol") {
+						e.preventDefault();
 						window.open(`https://metaprotocols.vercel.app/`, "_blank");
+					}
+					if (item.label === "Handbook") {
+						e.preventDefault();
+						window.open(`https://doc.metaid.io/`, "_blank");
+					}
+					if (item.label === "Github") {
+						e.preventDefault();
+						window.open(`https://github.com/metaid-developers`, "_blank");
+					}
+					if (item.label === "X") {
+						e.preventDefault();
+						window.open(`https://twitter.com/metaidio`, "_blank");
 					}
 				}}
 				disabled={item.label === "MetaProtocol"}

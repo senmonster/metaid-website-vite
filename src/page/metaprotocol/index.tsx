@@ -3,7 +3,7 @@ import { PageContainer } from "../../components/PageContainer/PageContainer";
 
 export default function DashboardMetaprotocol() {
 	return (
-		<PageContainer title="All MetaProtocols">
+		<PageContainer title="MetaProtocols">
 			<MetaProtocolContent />
 		</PageContainer>
 	);

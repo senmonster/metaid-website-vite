@@ -1,10 +1,14 @@
-import { NavItem } from '../types/nav-item';
+import { NavItem } from "../types/nav-item";
 
 export const navLinks: NavItem[] = [
-  { label: 'MetaID', link: '/dashboard/metaid' },
-  { label: 'PIN', link: '/dashboard/pin' },
-  { label: 'My PIN', link: '/dashboard/my-pin' },
-  { label: 'Block', link: '/dashboard/block' },
-  { label: 'Mempool', link: '/dashboard/mempool' },
-  { label: 'MetaProtocol', link: '' },
+	{ label: "PIN", link: "/pin" },
+	{ label: "My PIN", link: "/my-pin" },
+	{ label: "MetaID", link: "/metaid" },
+	{ label: "Block", link: "/block" },
+	{ label: "Mempool", link: "/mempool" },
+	{ label: "Handbook", link: "" },
+	{ label: "Github", link: "" },
+	{ label: "X", link: "" },
+
+	// { label: "MetaProtocol", link: "" },
 ];

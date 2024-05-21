@@ -1,8 +1,18 @@
 /* eslint-disable react-refresh/only-export-components */
-import { Navigate, RouteObject } from "react-router-dom";
-import { lazy } from "react";
+// import { Navigate, RouteObject } from "react-router-dom";
+// import DashboardLayout from "../page/dashboard";
+// import DashboardMetaID from "../page/metaid";
+// import DashboardPin from "../page/pin";
+// import DashboardMyPin from "../page/my-pin";
+// import DashboardBlock from "../page/block";
+// import DashboardMempool from "../page/mempool";
+// import DashboardMetaprotocol from "../page/metaprotocol";
+// import DashboardPinDetail from "../page/pin-detail";
 
-const Home = lazy(() => import("../page/home"));
+import { Navigate, RouteObject } from "react-router-dom";
+
+import { lazy } from "react";
+// const Home = lazy(() => import("../page/home"));
 const DashboardLayout = lazy(() => import("../page/dashboard"));
 const DashboardMetaID = lazy(() => import("../page/metaid"));
 const DashboardPin = lazy(() => import("../page/pin"));
@@ -13,12 +23,12 @@ const DashboardMetaprotocol = lazy(() => import("../page/metaprotocol"));
 const DashboardPinDetail = lazy(() => import("../page/pin-detail"));
 
 export const routes: RouteObject[] = [
+	// {
+	// 	path: "/",
+	// 	element: <Home />,
+	// },
 	{
 		path: "/",
-		element: <Home />,
-	},
-	{
-		path: "dashboard",
 		element: <DashboardLayout />,
 		children: [
 			{ index: true, element: <Navigate to="metaid" /> },
