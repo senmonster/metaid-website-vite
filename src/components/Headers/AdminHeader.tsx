@@ -135,7 +135,7 @@ export default function AdminHeader({ burger }: Props) {
 		}
 		return (
 			<Button variant="light" onClick={metaidFormHandler.open}>
-				Create MetaID User
+				My Detail
 			</Button>
 		);
 	};
@@ -435,7 +435,7 @@ export default function AdminHeader({ burger }: Props) {
 			<Modal
 				opened={metaidFormOpened}
 				onClose={metaidFormHandler.close}
-				title={hasName ? "Edit MetaID Detail" : "Create MetaID Detail"}
+				title={"My Detail"}
 				size={"lg"}
 			>
 				<Box pos="relative">

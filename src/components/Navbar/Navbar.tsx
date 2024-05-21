@@ -31,7 +31,7 @@ export function Navbar({ data }: Props) {
 						window.open(`https://metaprotocols.vercel.app/`, "_blank");
 					}
 				}}
-				// disabled={item.label === "MetaProtocol"}
+				disabled={item.label === "MetaProtocol"}
 			/>
 		);
 	});

@@ -67,7 +67,7 @@ const PinCard = ({ p, hidePop }: Iprops) => {
 				) : (
 					<Tooltip label={pData.metaid}>
 						<Text c="dimmed" size="xs">
-							{pData.metaid.slice(0, 4) + "..." + pData.metaid.slice(-4)}
+							{pData.metaid.slice(0, 6)}
 						</Text>
 					</Tooltip>
 				)}
