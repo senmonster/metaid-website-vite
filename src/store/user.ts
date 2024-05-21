@@ -66,7 +66,7 @@ export const hasNameAtom = atom<boolean>({
 
 export const networkAtom = atom<BtcNetwork>({
 	key: "networkAtom",
-	default: "testnet",
+	default: "mainnet",
 });
 export const globalFeeRateAtom = atom<number>({
 	key: "globalFeeRateAtom",

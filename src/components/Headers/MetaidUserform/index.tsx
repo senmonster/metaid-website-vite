@@ -65,8 +65,8 @@ const MetaidUserform = ({
 	const avatar = watch("avatar");
 
 	const { data: feeRateData } = useQuery({
-		queryKey: ["feeRate"],
-		queryFn: () => fetchFeeRate({ netWork: "testnet" }),
+		queryKey: ["feeRate", network],
+		queryFn: () => fetchFeeRate({ netWork: network }),
 	});
 	const globalFeerate = useRecoilValue(globalFeeRateAtom);
 	const [customFee, setCustomFee] = useState<string>(globalFeerate.toString());

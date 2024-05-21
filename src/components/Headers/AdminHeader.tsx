@@ -267,6 +267,9 @@ export default function AdminHeader({ burger }: Props) {
 	// console.log("useinfo hasName", userInfo, hasName);
 
 	const handleSwitchNetwork = async (network: BtcNetwork) => {
+		setUserInfo(null);
+		setConnected(false);
+		setWalletParams(null);
 		const res = await window.metaidwallet.switchNetwork({ network: network });
 		if (res.status === "ok") {
 			toast.success("switch network successfully!");
