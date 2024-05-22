@@ -6,4 +6,5 @@ export const errors = {
   INIT_STILL_MEMPOOL:
     'The transaction of your MetaID init inscription is still in the mempool...Please wait for the btc network confirmation.',
   SWITCH_TESTNET_ALERT: 'Please switch to the Testnet to go on.',
+  SWITCH_MAINNET_ALERT: 'Please switch to the Mainnet to go on.',
 };
