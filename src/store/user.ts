@@ -78,6 +78,6 @@ export const cropSizeAtom = selector({
   key: 'cropSizeAtom',
   get: ({ get }) => {
     const network = get(networkAtom);
-    return network === 'mainnet' ? 21 : 18;
+    return network === 'mainnet' ? 21 : 17;
   },
 });

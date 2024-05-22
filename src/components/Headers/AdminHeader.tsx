@@ -54,12 +54,13 @@ import { IBtcConnector } from '@metaid/metaid';
 import { useNavigate } from 'react-router-dom';
 import { metaidService } from '../../utils/api';
 import {
-  checkMetaletInstalled,
+  // checkMetaletInstalled,
   conirmMetaletMainnet,
 } from '../../utils/wallet';
 // import { conirmMetaletTestnet } from "../../utils/wallet";
 import { errors } from '../../utils/errors';
 import { BtcNetwork, MAN_BASE_URL_MAPPING } from '../../utils/request';
+import AlertInstallMetaletModal from './AlertInstallMetaletModal';
 
 interface Props {
   burger?: React.ReactNode;
@@ -67,6 +68,8 @@ interface Props {
 
 export default function AdminHeader({ burger }: Props) {
   const [network, setNetwork] = useRecoilState(networkAtom);
+  const [alertInstallMetaletOpened, alertInstallMetaletHandler] =
+    useDisclosure(false);
   const [globalFeeRate, setGlobalFeeRate] = useRecoilState(globalFeeRateAtom);
   const [connected, setConnected] = useRecoilState(connectedAtom);
   const [wallet, setWallet] = useRecoilState(walletAtom);
@@ -197,20 +200,24 @@ export default function AdminHeader({ burger }: Props) {
   };
 
   useEffect(() => {
-    if (connected) {
-      console.log('here');
-
-      if (!isNil(window?.metaidwallet)) {
+    if (!isNil(window?.metaidwallet)) {
+      if (connected) {
         window.metaidwallet.on('accountsChanged', handleAcccountsChanged);
       }
+      window.metaidwallet.on('networkChanged', handleNetworkChanged);
     }
-    window.metaidwallet.on('networkChanged', handleNetworkChanged);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [connected]);
+  }, [connected, window?.metaidwallet]);
 
   const onWalletConnectStart = async () => {
-    await checkMetaletInstalled();
+    // await checkMetaletInstalled();
+
+    if (typeof window?.metaidwallet === 'undefined') {
+      alertInstallMetaletHandler.open();
+      throw new Error(errors.NO_METALET_DETECTED);
+    }
+
     const _wallet = await MetaletWalletForBtc.create();
     await conirmMetaletMainnet();
     const _network = (await window.metaidwallet.getNetwork()).network;
@@ -358,7 +365,7 @@ export default function AdminHeader({ burger }: Props) {
           <div className='flex gap-2 items-center'>
             <div className='hidden xl:flex gap-2 items-center'>
               <Text size='sm' c='dimmed'>
-                Global FeeRate:
+                Fee Rate:
               </Text>
               <NumberInput
                 min={0}
@@ -513,6 +520,10 @@ export default function AdminHeader({ burger }: Props) {
           />
         </Box>
       </Modal>
+      <AlertInstallMetaletModal
+        opened={alertInstallMetaletOpened}
+        handler={alertInstallMetaletHandler}
+      />
     </>
   );
 }

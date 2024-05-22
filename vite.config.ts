@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react-swc';
 
-// import { VitePWA } from "vite-plugin-pwa";
+// import { VitePWA } from 'vite-plugin-pwa';
 import { nodePolyfills } from 'vite-plugin-node-polyfills';
 import wasm from 'vite-plugin-wasm';
 // import { resolve } from 'path';
@@ -11,10 +11,10 @@ export default defineConfig({
   plugins: [
     react(),
     // VitePWA({
-    // 	registerType: "autoUpdate",
-    // 	devOptions: {
-    // 		enabled: true,
-    // 	},
+    //   registerType: 'autoUpdate',
+    //   devOptions: {
+    //     enabled: true,
+    //   },
     // }),
     nodePolyfills(),
     wasm(),
