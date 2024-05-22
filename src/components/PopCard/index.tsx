@@ -109,7 +109,7 @@ const PopCard = ({ rawPop, textSize, textColor }: Iprops) => {
 		</div>
 	);
 
-	const cropSize = 18;
+	const cropSize = 22;
 
 	const pop = rawPop.slice(cropSize).slice(0, 14);
 	const popArr = pop.split("");

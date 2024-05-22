@@ -177,9 +177,9 @@ const PinDetail = ({ id }: Iprops) => {
 							className="cursor-pointer underline"
 							onClick={() => {
 								window.open(
-									`https://mempool.space/zh/testnet/tx/${data?.genesisTransaction}`,
-									"_blank"
-								);
+                  `https://mempool.space/${network === 'mainnet' ? '' : 'testnet/'}tx/${data?.genesisTransaction}`,
+                  '_blank',
+                )
 							}}
 						>
 							{data?.genesisTransaction}
