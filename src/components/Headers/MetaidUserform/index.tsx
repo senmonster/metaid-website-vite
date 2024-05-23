@@ -140,6 +140,7 @@ const MetaidUserform = ({
           render={({ field: { onChange } }) => (
             <input
               type='file'
+              accept='.jpg,.jpeg,.png,.webp'
               id='addPFP'
               className='hidden'
               {...register('avatar')}
@@ -159,7 +160,6 @@ const MetaidUserform = ({
           )}
         />
 
-        {/* <input type="file" id="addPFP" className="hidden" {...register("avatar")} /> */}
         {hasName && (isNil(avatar) || avatar.length === 0) && (
           <Center>
             <Avatar
