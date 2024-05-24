@@ -1,7 +1,6 @@
 import { IBtcConnector, IMetaletWalletForBtc } from '@metaid/metaid';
-import { atom, selector } from 'recoil';
+import { atom } from 'recoil';
 import { recoilPersist } from 'recoil-persist';
-import { BtcNetwork } from '../utils/request';
 
 const { persistAtom } = recoilPersist();
 
@@ -64,20 +63,7 @@ export const hasNameAtom = atom<boolean>({
   effects_UNSTABLE: [persistAtom],
 });
 
-export const networkAtom = atom<BtcNetwork>({
-  key: 'networkAtom',
-  default: 'mainnet',
-});
 export const globalFeeRateAtom = atom<number>({
   key: 'globalFeeRateAtom',
   default: 30,
-});
-
-// set a selector to get the current network
-export const cropSizeAtom = selector({
-  key: 'cropSizeAtom',
-  get: ({ get }) => {
-    const network = get(networkAtom);
-    return network === 'mainnet' ? 21 : 17;
-  },
 });

@@ -10,13 +10,13 @@ import useImagesPreview from '../../../hooks/useImagesPreview';
 import { IconCopy, IconCopyCheck } from '@tabler/icons-react';
 
 import { Avatar, Button, Center, TextInput } from '@mantine/core';
-import { UserInfo, globalFeeRateAtom, networkAtom } from '../../../store/user';
+import { UserInfo, globalFeeRateAtom } from '../../../store/user';
 // import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import { MAN_BASE_URL_MAPPING } from '../../../utils/request';
 import { IBtcConnector } from '@metaid/metaid';
 import { toast } from 'react-toastify';
 import Decimal from 'decimal.js-light';
+import { environment } from '../../../utils/envrionments';
 export type FormUserInfo = {
   name: string;
   avatar: FileList;
@@ -47,7 +47,6 @@ const MetaidUserform = ({
   userInfo,
   btcConnector,
 }: IProps) => {
-  const network = useRecoilValue(networkAtom);
   const {
     register,
     handleSubmit,
@@ -168,7 +167,7 @@ const MetaidUserform = ({
               className='w-[100px] h-[100px] shadow-md rounded-full'
               src={
                 !isEmpty(userInfo?.avatar)
-                  ? MAN_BASE_URL_MAPPING[network] + userInfo?.avatar
+                  ? environment.base_man_url + userInfo?.avatar
                   : null
               }
             >

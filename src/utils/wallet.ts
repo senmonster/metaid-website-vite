@@ -1,5 +1,6 @@
 import { toast } from 'react-toastify';
 import { errors } from './errors';
+import { environment } from './envrionments';
 
 export const checkMetaletInstalled = async () => {
   const metalet = window?.metaidwallet;
@@ -15,25 +16,14 @@ export const checkMetaletInstalled = async () => {
   // }
 };
 
-export const conirmMetaletTestnet = async () => {
+export const conirmCurrentNetwork = async () => {
   const metalet = window?.metaidwallet;
   const network = await metalet?.getNetwork();
-  if (network?.network === 'mainnet') {
-    toast.error(errors.SWITCH_TESTNET_ALERT);
-    await window.metaidwallet.switchNetwork({ network: 'testnet' });
+  if (network?.network !== environment.network) {
+    toast.error(errors.SWITCH_NETWORK_ALERT);
+    await window.metaidwallet.switchNetwork({ network: environment.network });
 
-    throw new Error(errors.SWITCH_TESTNET_ALERT);
-  }
-};
-export const conirmMetaletMainnet = async () => {
-  const metalet = window?.metaidwallet;
-  const network = await metalet?.getNetwork();
-  console.log('network', network);
-  if (network?.network !== 'mainnet') {
-    toast.error(errors.SWITCH_MAINNET_ALERT);
-    await window.metaidwallet.switchNetwork({ network: 'mainnet' });
-
-    throw new Error(errors.SWITCH_MAINNET_ALERT);
+    throw new Error(errors.SWITCH_NETWORK_ALERT);
   }
 };
 

@@ -9,8 +9,8 @@ import {
   MantineSize,
 } from '@mantine/core';
 import { IconHelp } from '@tabler/icons-react';
-import { useRecoilValue } from 'recoil';
-import { cropSizeAtom } from '../../store/user';
+
+import { environment } from '../../utils/envrionments';
 
 type Iprops = {
   rawPop: string;
@@ -113,7 +113,7 @@ const PopCard = ({ rawPop, textSize, textColor }: Iprops) => {
     </div>
   );
 
-  const cropSize = useRecoilValue(cropSizeAtom);
+  const cropSize = environment.cropSize;
 
   const pop = rawPop.slice(cropSize).slice(0, 14);
   const popArr = pop.split('');

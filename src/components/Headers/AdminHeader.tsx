@@ -19,7 +19,6 @@ import {
   IconCopy,
   IconCopyCheck,
   IconLogout,
-  //   IconSwitch2,
   IconWallet,
   // IconSearch,
   // IconSettings,
@@ -39,7 +38,6 @@ import {
   connectedAtom,
   globalFeeRateAtom,
   hasNameAtom,
-  networkAtom,
   userInfoAtom,
   walletAtom,
   walletRestoreParamsAtom,
@@ -53,21 +51,19 @@ import { IBtcConnector } from '@metaid/metaid';
 
 import { useNavigate } from 'react-router-dom';
 import { metaidService } from '../../utils/api';
-import {
-  // checkMetaletInstalled,
-  conirmMetaletMainnet,
-} from '../../utils/wallet';
+
 // import { conirmMetaletTestnet } from "../../utils/wallet";
 import { errors } from '../../utils/errors';
-import { BtcNetwork, MAN_BASE_URL_MAPPING } from '../../utils/request';
+import { BtcNetwork } from '../../utils/request';
 import AlertInstallMetaletModal from './AlertInstallMetaletModal';
+import { environment } from '../../utils/envrionments';
+import { conirmCurrentNetwork } from '../../utils/wallet';
 
 interface Props {
   burger?: React.ReactNode;
 }
 
 export default function AdminHeader({ burger }: Props) {
-  const [network, setNetwork] = useRecoilState(networkAtom);
   const [alertInstallMetaletOpened, alertInstallMetaletHandler] =
     useDisclosure(false);
   const [globalFeeRate, setGlobalFeeRate] = useRecoilState(globalFeeRateAtom);
@@ -91,7 +87,7 @@ export default function AdminHeader({ burger }: Props) {
   const clipboard = useClipboard({ timeout: 3000 });
   const { data, isLoading } = useQuery({
     queryKey: ['pin', 'list', 1],
-    queryFn: () => metaidService.getPinList({ page: 1, size: 1 }, network),
+    queryFn: () => metaidService.getPinList({ page: 1, size: 1 }),
   });
 
   const handleBeforeUnload = async () => {
@@ -107,7 +103,7 @@ export default function AdminHeader({ burger }: Props) {
       setWallet(_wallet);
       const _btcConnector = await btcConnect({
         wallet: _wallet,
-        network: network,
+        network: environment.network,
       });
       setBtcConnector(_btcConnector);
       setUserInfo(_btcConnector.user);
@@ -150,7 +146,7 @@ export default function AdminHeader({ burger }: Props) {
                 size={'md'}
                 src={
                   !isEmpty(userInfo?.avatar)
-                    ? MAN_BASE_URL_MAPPING[network] + userInfo.avatar
+                    ? environment.base_man_url + userInfo.avatar
                     : null
                 }
                 className='shadow-md cursor-pointer'
@@ -196,7 +192,6 @@ export default function AdminHeader({ burger }: Props) {
       onLogout();
     }
     toast.error('Wallet Network Changed  ');
-    setNetwork(network ?? 'testnet');
   };
 
   useEffect(() => {
@@ -219,9 +214,8 @@ export default function AdminHeader({ burger }: Props) {
     }
 
     const _wallet = await MetaletWalletForBtc.create();
-    await conirmMetaletMainnet();
-    const _network = (await window.metaidwallet.getNetwork()).network;
-    setNetwork(_network);
+    await conirmCurrentNetwork();
+
     setWallet(_wallet);
     setWalletParams({ address: _wallet.address, pub: _wallet.pub });
     setBalance(((await _wallet?.getBalance())?.confirmed ?? 0).toString());
@@ -234,11 +228,13 @@ export default function AdminHeader({ burger }: Props) {
 
     const _btcConnector = await btcConnect({
       wallet: _wallet,
-      network: _network,
+      network: environment.network,
     });
     setBtcConnector(_btcConnector);
 
-    const resUser = await _btcConnector.getUser({ network });
+    const resUser = await _btcConnector.getUser({
+      network: environment.network,
+    });
     setUserInfo(_btcConnector.user);
     setHasName(!isNil(resUser?.name) && !isEmpty(resUser?.name));
 
@@ -256,10 +252,13 @@ export default function AdminHeader({ burger }: Props) {
 
     const _wallet = await MetaletWalletForBtc.restore(walletParams!);
 
-    const _btcConnector = await btcConnect({ wallet: _wallet, network });
+    const _btcConnector = await btcConnect({
+      wallet: _wallet,
+      network: environment.network,
+    });
     if (hasName) {
       const res = await _btcConnector!
-        .updateUserInfo({ ...userInfo, network })
+        .updateUserInfo({ ...userInfo, network: environment.network })
         .catch((error) => {
           console.log('error', error);
           const errorMessage = error as TypeError;
@@ -274,14 +273,19 @@ export default function AdminHeader({ burger }: Props) {
         });
       console.log('update res', res);
       if (res) {
-        console.log('after update', await _btcConnector!.getUser({ network }));
-        setUserInfo(await _btcConnector!.getUser({ network }));
+        console.log(
+          'after update',
+          await _btcConnector!.getUser({ network: environment.network })
+        );
+        setUserInfo(
+          await _btcConnector!.getUser({ network: environment.network })
+        );
         setIsSubmitting(false);
         toast.success('Updating Your Profile Successfully!');
       }
     } else {
       const res = await _btcConnector!
-        .createUserInfo({ ...userInfo, network })
+        .createUserInfo({ ...userInfo, network: environment.network })
         .catch((error: any) => {
           setIsSubmitting(false);
 
@@ -298,8 +302,13 @@ export default function AdminHeader({ burger }: Props) {
       if (!res) {
         toast.error('Create Failed');
       } else {
-        console.log('after create', await _btcConnector!.getUser({ network }));
-        setUserInfo(await _btcConnector!.getUser({ network }));
+        console.log(
+          'after create',
+          await _btcConnector!.getUser({ network: environment.network })
+        );
+        setUserInfo(
+          await _btcConnector!.getUser({ network: environment.network })
+        );
         toast.success('Successfully created!');
         setHasName(true);
       }

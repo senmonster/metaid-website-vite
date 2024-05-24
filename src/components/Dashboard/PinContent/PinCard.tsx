@@ -12,10 +12,9 @@ import { isEmpty, isNil } from 'ramda';
 import cls from 'classnames';
 import { useNavigate } from 'react-router-dom';
 import { Pin } from '../../../utils/api';
-import { useRecoilValue } from 'recoil';
-import { networkAtom } from '../../../store/user';
-import { MAN_BASE_URL_MAPPING } from '../../../utils/request';
+
 import PopCard from '../../PopCard';
+import { environment } from '../../../utils/envrionments';
 // test pincard
 type Iprops = {
   p?: Pin;
@@ -23,8 +22,6 @@ type Iprops = {
 };
 
 const PinCard = ({ p, hidePop }: Iprops) => {
-  const network = useRecoilValue(networkAtom);
-
   const { colorScheme } = useMantineColorScheme();
   const [pData, setPData] = useState<Pin | null>(null);
 
@@ -121,7 +118,7 @@ const PinCard = ({ p, hidePop }: Iprops) => {
       >
         {pData.type.includes('image') ? (
           <img
-            src={MAN_BASE_URL_MAPPING[network] + pData.content}
+            src={environment.base_man_url + pData.content}
             alt='content image'
             width={50}
             height={50}

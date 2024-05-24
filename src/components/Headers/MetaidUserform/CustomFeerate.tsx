@@ -1,17 +1,16 @@
 import { useEffect, useMemo } from 'react';
 import cls from 'classnames';
 import { useQuery } from '@tanstack/react-query';
-import { globalFeeRateAtom, networkAtom } from '../../../store/user';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { globalFeeRateAtom } from '../../../store/user';
+import { useRecoilState } from 'recoil';
 import { fetchFeeRate } from '../../../utils/api';
 import { NumberInput } from '@mantine/core';
+import { environment } from '../../../utils/envrionments';
 
 const CustomFeerate = () => {
-  const network = useRecoilValue(networkAtom);
-
   const { data: feeRateData } = useQuery({
-    queryKey: ['feeRate', network],
-    queryFn: () => fetchFeeRate({ netWork: network }),
+    queryKey: ['feeRate', environment.network],
+    queryFn: () => fetchFeeRate({ netWork: environment.network }),
   });
 
   const [globalFeerate, setGlobalFeerate] = useRecoilState(globalFeeRateAtom);
