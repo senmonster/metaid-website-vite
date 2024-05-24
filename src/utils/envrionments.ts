@@ -1,3 +1,4 @@
+// add global envrc variables
 export const environment = {
   network: import.meta.env.VITE_NETWORK,
   base_man_url: import.meta.env.VITE_BASE_MAN_URL,
