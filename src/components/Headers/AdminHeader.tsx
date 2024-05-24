@@ -191,6 +191,15 @@ export default function AdminHeader({ burger }: Props) {
     if (connected) {
       onLogout();
     }
+    if (network !== environment.network) {
+      toast.error(errors.SWITCH_NETWORK_ALERT, {
+        className:
+          '!text-[#DE613F] !bg-[black] border border-[#DE613f] !rounded-lg',
+      });
+      await window.metaidwallet.switchNetwork({ network: environment.network });
+
+      throw new Error(errors.SWITCH_NETWORK_ALERT);
+    }
     toast.error('Wallet Network Changed  ');
   };
 
