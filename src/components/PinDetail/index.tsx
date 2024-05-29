@@ -82,6 +82,7 @@ const PinDetail = ({ id }: Iprops) => {
               className={'rounded-md grid place-items-center'}
             >
               <Image
+                className='rounded-md'
                 src={data?.content}
                 alt='image'
                 h={100}

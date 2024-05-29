@@ -120,8 +120,9 @@ const PinCard = ({ p, hidePop }: Iprops) => {
           <img
             src={environment.base_man_url + pData.content}
             alt='content image'
-            width={50}
-            height={50}
+            className='rounded-md object-cover max-w-[90%] max-h-[80px]'
+            // width={50}
+            // height={50}
           />
         ) : (
           <Text className='break-words break-all text-wrap truncate'>
