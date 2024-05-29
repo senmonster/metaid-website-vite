@@ -15,7 +15,6 @@ import { Pin } from '../../../utils/api';
 
 import PopCard from '../../PopCard';
 import { environment } from '../../../utils/envrionments';
-// test pincard
 type Iprops = {
   p?: Pin;
   hidePop?: boolean;
