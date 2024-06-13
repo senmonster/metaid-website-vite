@@ -267,7 +267,10 @@ export default function AdminHeader({ burger }: Props) {
     });
     if (hasName) {
       const res = await _btcConnector!
-        .updateUserInfo({ ...userInfo, network: environment.network })
+        .updateUserInfo({
+          userData: { ...userInfo },
+          options: { network: environment.network },
+        })
         .catch((error) => {
           console.log('error', error);
           const errorMessage = error as TypeError;
@@ -294,7 +297,10 @@ export default function AdminHeader({ burger }: Props) {
       }
     } else {
       const res = await _btcConnector!
-        .createUserInfo({ ...userInfo, network: environment.network })
+        .createUserInfo({
+          userData: { ...userInfo },
+          options: { network: environment.network },
+        })
         .catch((error: any) => {
           setIsSubmitting(false);
 
