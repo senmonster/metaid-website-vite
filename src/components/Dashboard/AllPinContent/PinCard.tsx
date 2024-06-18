@@ -66,7 +66,7 @@ const PinCard = ({ p, hidePop }: Iprops) => {
           {'#' + pData.number}
         </Text>
 
-        {isEmpty(pData.rootId) ? (
+        {isEmpty(pData?.id ?? '') ? (
           <Text c='dimmed' size='xs'>
             Still In Mempool
           </Text>

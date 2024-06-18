@@ -12,7 +12,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import { useDebouncedValue, usePagination } from '@mantine/hooks';
 import { isNil, divide } from 'ramda';
-import PinCard from '../PinContent/PinCard';
+import PinCard from '../AllPinContent/PinCard';
 import { metaidService } from '../../../utils/api';
 
 const BlockContent = () => {

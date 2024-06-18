@@ -52,7 +52,7 @@ const MetaidContent = () => {
         'Server error'
       ) : isLoading ? (
         <ScrollArea className='h-[calc(100vh_-_210px)]' offsetScrollbars>
-          <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 2xl:grid-cols-6 gap-4 p-2'>
+          <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 2xl:grid-cols-5 gap-4 p-2'>
             {repeat(1, Number(debouncedSize)).map((_, idx) => {
               return (
                 <Skeleton visible={isLoading} key={idx}>
@@ -72,8 +72,8 @@ const MetaidContent = () => {
       ) : (
         <>
           <ScrollArea className='h-[calc(100vh_-_210px)]' offsetScrollbars>
-            <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 2xl:grid-cols-6 gap-4 p-2'>
-              {(isNil(data) ? [] : data).map((m, index) => {
+            <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 2xl:grid-cols-5 gap-4 p-2'>
+              {(data?.list ?? []).map((m, index) => {
                 return (
                   <div
                     key={index}

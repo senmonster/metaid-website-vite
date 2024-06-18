@@ -7,7 +7,6 @@ import { BtcNetwork, api } from './request';
 
 export type MetaidItem = {
   number: number;
-  rootTxId: string;
   name: string;
   nameId: string;
   address: string;
@@ -18,6 +17,10 @@ export type MetaidItem = {
   soulbondToken: string;
   isInit: boolean;
   metaid: string;
+  chainName: 'btc' | 'mvc';
+  followCount: number;
+  pdv: number;
+  fdv: number;
 };
 
 export type Pin = {
@@ -29,16 +32,16 @@ export type Pin = {
   type: string;
   path: string;
   pop: string;
-  rootId: string;
   metaid: string;
 };
 
 export type PinDetail = {
   id: string;
   number: number;
-  rootTxId: string;
+  metaid: string;
   address: string;
-  createAddress: string;
+  creator: string;
+  initialOwner: string;
   output: string;
   outputValue: number;
   timestamp: number;
@@ -46,7 +49,8 @@ export type PinDetail = {
   genesisHeight: number;
   genesisTransaction: string;
   txInIndex: number;
-  txInOffset: number;
+  offset: number;
+  location: string;
   operation: string;
   path: string;
   parentPath: string;
@@ -57,14 +61,16 @@ export type PinDetail = {
   contentTypeDetect: string; // text/plain; charset=utf-8
   contentBody: any;
   contentLength: number;
-  contentSummary: '';
+  contentSummary: string;
   status: number;
-  originalId: '';
+  originalId: string;
   isTransfered: boolean;
   preview: string; // "https://man-test.metaid.io/pin/4988b001789b5dd76db60017ce85ccbb04a3f2aa825457aa948dc3c1e3b6e552i0";
   content: string; // "https://man-test.metaid.io/content/4988b001789b5dd76db60017ce85ccbb04a3f2aa825457aa948dc3c1e3b6e552i0";
   pop: string;
-  metaid: string;
+  popLv: number;
+  chainName: string;
+  dataValue: number;
 };
 
 type Count = {
@@ -75,18 +81,27 @@ type Count = {
 };
 
 type MetaidService = {
-  getMetaidList: (params: {
-    page: number;
-    size: number;
-  }) => Promise<MetaidItem[]>;
+  getMetaidList: (params: { page: number; size: number }) => Promise<{
+    count: { block: number; Pin: number; metaId: number; app: number };
+    list: MetaidItem[];
+  }>;
   getPinList: (params: {
     page: number;
     size: number;
   }) => Promise<{ Pins: Pin[]; Count: Count; Active: string }>;
+  getPinListByPath: (params: {
+    page: number;
+    limit: number;
+    path: string;
+  }) => Promise<{ list: PinDetail[]; total: number }>;
   getPinListByAddress: (params: {
-    addressType: string;
     address: string;
-  }) => Promise<PinDetail[]>;
+    cursor: number;
+    size: number;
+    path?: string;
+    addressType?: string;
+    cnt?: boolean;
+  }) => Promise<{ list: PinDetail[] | null; total: number }>;
   getBlockList: (params: { page: number; size: number }) => Promise<{
     msgMap: Record<number, Pin[]>;
     msgList: number[];
@@ -105,16 +120,26 @@ export const metaidService: MetaidService = {
     api.get(`${environment.base_man_url}/api/metaid/list`, { params }),
   getPinList: (params) =>
     api.get(`${environment.base_man_url}/api/pin/list`, { params }),
+  getPinListByPath: (params) =>
+    api.get(`${environment.base_man_url}/api/getAllPinByPath`, { params }),
   getPinDetail: (params) =>
     api.get(`${environment.base_man_url}/api/pin/${params.id}`),
   getBlockList: (params) =>
     api.get(`${environment.base_man_url}/api/block/list`, { params }),
   getMempoolList: (params) =>
     api.get(`${environment.base_man_url}/api/mempool/list`, { params }),
-  getPinListByAddress: (params) =>
-    api.get(
-      `${environment.base_man_url}/api/address/pin/list/${params.addressType}/${params.address}`
-    ),
+  getPinListByAddress: ({
+    address,
+    cursor,
+    size,
+    path,
+    addressType = 'owner',
+    cnt = true,
+  }) => {
+    const url = `${environment.base_man_url}/api/address/pin/list/${addressType}/${address}`;
+
+    return api.get(url, { params: { cnt, cursor, size, path } });
+  },
   //   getNodeList : (params) => api.get('/api/node/list', { params })
 };
 

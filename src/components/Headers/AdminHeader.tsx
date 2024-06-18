@@ -82,8 +82,6 @@ export default function AdminHeader({ burger }: Props) {
   const [hasName, setHasName] = useRecoilState(hasNameAtom);
   const navigate = useNavigate();
 
-  console.log('metiad', window?.metaidwallet);
-
   const clipboard = useClipboard({ timeout: 3000 });
   const { data, isLoading } = useQuery({
     queryKey: ['pin', 'list', 1],
@@ -91,14 +89,8 @@ export default function AdminHeader({ burger }: Props) {
   });
 
   const handleBeforeUnload = async () => {
-    console.log(
-      'refresh ..........................',
-      window,
-      window.metaidwallet
-    );
     if (!isNil(walletParams)) {
       const _wallet = MetaletWalletForBtc.restore(walletParams!);
-      console.log('refeshing wallet', _wallet);
 
       setWallet(_wallet);
       const _btcConnector = await btcConnect({
@@ -107,7 +99,6 @@ export default function AdminHeader({ burger }: Props) {
       });
       setBtcConnector(_btcConnector);
       setUserInfo(_btcConnector.user);
-      console.log('refetch user', _btcConnector.user);
     }
   };
 
@@ -128,8 +119,6 @@ export default function AdminHeader({ burger }: Props) {
     hasName: boolean;
     userInfo: UserInfo | null;
   }) => {
-    console.log('hasName', hasName);
-    console.log('userInfo', userInfo);
     if (hasName && !isNil(userInfo)) {
       return (
         <Menu
@@ -187,7 +176,6 @@ export default function AdminHeader({ burger }: Props) {
   };
 
   const handleNetworkChanged = async (network: BtcNetwork) => {
-    console.log('network', network);
     if (connected) {
       onLogout();
     }
@@ -252,8 +240,6 @@ export default function AdminHeader({ burger }: Props) {
   };
 
   const handleSubmitMetaId = async (userInfo: MetaidUserInfo) => {
-    // console.log("userInfo", userInfo);
-
     setBalance(
       ((await window.metaidwallet?.btc.getBalance())?.confirmed ?? 0).toString()
     );
@@ -272,9 +258,7 @@ export default function AdminHeader({ burger }: Props) {
           options: { network: environment.network },
         })
         .catch((error) => {
-          console.log('error', error);
           const errorMessage = error as TypeError;
-          console.log(errorMessage.message);
           const toastMessage = errorMessage?.message?.includes(
             'Cannot read properties of undefined'
           )
@@ -283,12 +267,7 @@ export default function AdminHeader({ burger }: Props) {
           toast.error(toastMessage);
           setIsSubmitting(false);
         });
-      console.log('update res', res);
       if (res) {
-        console.log(
-          'after update',
-          await _btcConnector!.getUser({ network: environment.network })
-        );
         setUserInfo(
           await _btcConnector!.getUser({ network: environment.network })
         );
@@ -317,10 +296,6 @@ export default function AdminHeader({ burger }: Props) {
       if (!res) {
         toast.error('Create Failed');
       } else {
-        console.log(
-          'after create',
-          await _btcConnector!.getUser({ network: environment.network })
-        );
         setUserInfo(
           await _btcConnector!.getUser({ network: environment.network })
         );
@@ -333,7 +308,6 @@ export default function AdminHeader({ burger }: Props) {
     metaidFormHandler.close();
     // await onWalletConnectStart();
   };
-  // console.log("useinfo hasName", userInfo, hasName);
 
   //   const handleSwitchNetwork = async (network: BtcNetwork) => {
   //     setUserInfo(null);

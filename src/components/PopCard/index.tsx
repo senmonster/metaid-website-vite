@@ -103,13 +103,15 @@ const PopCard = ({ rawPop, textSize, textColor }: Iprops) => {
 
   const popToolTip: React.ReactNode = (
     <div className='flex flex-col gap-3 text-wrap break-all'>
-      <div>
+      <div className='mb-3 break-keep'>
         Lv(Level) represents the rarity level of the current pin, with higher
         levels being rarer.
       </div>
-      {[...Array(14).keys()].map((i) => {
-        return <div key={i}>{getPopComp(i)}</div>;
-      })}
+      <div className='grid grid-rows-5 gap-2 grid-flow-col'>
+        {[...Array(14).keys()].map((i) => {
+          return <div key={i}>{getPopComp(i)}</div>;
+        })}
+      </div>
     </div>
   );
 
@@ -147,7 +149,7 @@ const PopCard = ({ rawPop, textSize, textColor }: Iprops) => {
       <Tooltip
         label={popToolTip}
         position='right'
-        classNames={{ tooltip: 'bg-black text-white w-[300px] p-2' }}
+        classNames={{ tooltip: 'bg-black text-white w-[200px] p-6' }}
       >
         <ActionIcon
           variant={'light'}
