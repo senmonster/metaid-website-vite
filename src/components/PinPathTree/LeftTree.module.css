@@ -1,6 +1,7 @@
 .root {
   font-family: var(--mantine-font-family-monospace);
   font-size: 13px;
+  width: 100%;
 }
 
 .label {

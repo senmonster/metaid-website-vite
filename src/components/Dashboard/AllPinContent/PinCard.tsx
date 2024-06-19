@@ -79,20 +79,20 @@ const PinCard = ({ p, hidePop }: Iprops) => {
         )}
       </div>
       <Divider />
-      <div className='flex flex-col gap-2'>
+      <div className='flex flex-col gap-2 !text-[12px]'>
         <div className='flex gap-2 '>
-          <Text size='sm' c='dimmed'>
+          <Text size='xs' c='dimmed'>
             Operation:
           </Text>
-          <Text size='sm' c='dimmed'>
+          <Text size='xs' c='dimmed'>
             {pData.operation}
           </Text>
         </div>
         <div className='flex gap-2'>
-          <Text size='sm' c='dimmed'>
+          <Text size='xs' c='dimmed'>
             Path:
           </Text>
-          <Text size='sm' c='dimmed' className='truncate'>
+          <Text size='xs' c='dimmed' className='truncate'>
             {pData.path.length > 40
               ? `${pData.path.slice(0, 40)}...`
               : pData.path}
@@ -100,10 +100,10 @@ const PinCard = ({ p, hidePop }: Iprops) => {
         </div>
         {!hidePop && (
           <div className='flex gap-2 items-center'>
-            <Text size='sm' c='dimmed'>
+            <Text size='xs' c='dimmed'>
               PoP:
             </Text>
-            <PopCard rawPop={pData.pop} textColor='dimmed' textSize='sm' />
+            <PopCard rawPop={pData.pop} textColor='dimmed' textSize='xs' />
           </div>
         )}
       </div>

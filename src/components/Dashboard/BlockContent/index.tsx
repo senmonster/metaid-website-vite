@@ -23,14 +23,14 @@ const BlockContent = () => {
     queryKey: ['pin', 'list', 1],
     queryFn: () => metaidService.getPinList({ page: 1, size: 1 }),
   });
-  const total = Math.ceil(
+  const totalPage = Math.ceil(
     divide(
       CountData?.Count?.Pin ?? Number(debouncedSize),
       Number(debouncedSize)
     )
   );
 
-  const pagination = usePagination({ total, initialPage: 1 });
+  const pagination = usePagination({ total: totalPage, initialPage: 1 });
 
   const { data, isError, isLoading } = useQuery({
     queryKey: ['block', 'list', pagination.active, Number(debouncedSize)],
@@ -78,23 +78,35 @@ const BlockContent = () => {
             direction='row'
             gap='lg'
           >
-            <div className='flex gap-2 items-center'>
-              <Text size='sm' c='dimmed'>
-                Size Per Page
+            <div className='gap-2 items-center lg:flex hidden'>
+              <Text size='xs' c='dimmed'>
+                Size
               </Text>
               <NumberInput
                 className='w-[80px]'
+                size='xs'
                 min={1}
-                max={CountData?.Count?.Pin ?? Number(debouncedSize)}
+                max={CountData?.Count?.Pin ?? Number(size)}
                 value={size}
                 onChange={setSize}
               />
             </div>
-            <Pagination
-              total={total}
-              value={pagination.active}
-              onChange={pagination.setPage}
-            />
+            <div className='phone:hidden block'>
+              <Pagination
+                total={totalPage}
+                value={pagination.active}
+                onChange={pagination.setPage}
+                size={'xs'}
+              />
+            </div>
+            <div className='phone:block hidden'>
+              <Pagination
+                total={totalPage}
+                value={pagination.active}
+                onChange={pagination.setPage}
+                size={'sm'}
+              />
+            </div>
           </Flex>
         </>
       )}

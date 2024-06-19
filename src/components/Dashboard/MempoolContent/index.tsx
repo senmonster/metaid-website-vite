@@ -44,12 +44,22 @@ const MempoolContent = () => {
                 </div>
               </ScrollArea>
 
-              <Pagination
-                className='absolute right-8 bottom-6'
-                total={10}
-                value={pagination.active}
-                onChange={pagination.setPage}
-              />
+              <div className='phone:hidden block'>
+                <Pagination
+                  total={10}
+                  value={pagination.active}
+                  onChange={pagination.setPage}
+                  size={'xs'}
+                />
+              </div>
+              <div className='phone:block hidden'>
+                <Pagination
+                  total={10}
+                  value={pagination.active}
+                  onChange={pagination.setPage}
+                  size={'sm'}
+                />
+              </div>
             </>
           )}
         </>

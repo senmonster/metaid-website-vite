@@ -27,14 +27,14 @@ const MetaidContent = () => {
     queryKey: ['pin', 'list', 1],
     queryFn: () => metaidService.getPinList({ page: 1, size: 1 }),
   });
-  const total = Math.ceil(
+  const totalPage = Math.ceil(
     divide(
       CountData?.Count?.metaId ?? Number(debouncedSize),
       Number(debouncedSize)
     )
   );
 
-  const pagination = usePagination({ total, initialPage: 1 });
+  const pagination = usePagination({ total: totalPage, initialPage: 1 });
   const { colorScheme } = useMantineColorScheme();
   // const navigate = useNavigate();
 
@@ -120,23 +120,35 @@ const MetaidContent = () => {
             direction='row'
             gap='lg'
           >
-            <div className='flex gap-2 items-center'>
-              <Text size='sm' c='dimmed'>
-                Size Per Page
+            <div className='gap-2 items-center lg:flex hidden'>
+              <Text size='xs' c='dimmed'>
+                Size
               </Text>
               <NumberInput
                 className='w-[80px]'
                 min={1}
+                size='xs'
                 max={CountData?.Count?.metaId ?? Number(debouncedSize)}
                 value={size}
                 onChange={setSize}
               />
             </div>
-            <Pagination
-              total={total}
-              value={pagination.active}
-              onChange={pagination.setPage}
-            />
+            <div className='phone:hidden block'>
+              <Pagination
+                total={totalPage}
+                value={pagination.active}
+                onChange={pagination.setPage}
+                size={'xs'}
+              />
+            </div>
+            <div className='phone:block hidden'>
+              <Pagination
+                total={totalPage}
+                value={pagination.active}
+                onChange={pagination.setPage}
+                size={'sm'}
+              />
+            </div>
           </Flex>
         </>
       )}

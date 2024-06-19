@@ -8,11 +8,11 @@ const AllPinContent = () => {
   const path = tree.selectedState[0];
 
   return (
-    <div className='flex gap-2'>
-      <div className='w-1/5 p-4'>
+    <div className='relative gap-2 pl-[2px] phone:pl-[200px]'>
+      <div className='absolute left-0 phone:w-[200px] p-4 hidden phone:block'>
         <PinPathTree tree={tree} />
       </div>
-      <div className='flex-1'>
+      <div className=''>
         <RightAllPinContent path={path} />
       </div>
     </div>
