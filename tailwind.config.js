@@ -6,6 +6,9 @@ export default {
       screens: {
         phone: '516px',
       },
+      colors: {
+        main: '#E9983D',
+      },
     },
   },
   plugins: [],

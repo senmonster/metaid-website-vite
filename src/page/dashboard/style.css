@@ -1,0 +1,32 @@
+.bg-img {
+  background-image: url('/bg.png');
+  background-position: center;
+  background-size: cover;
+  background-repeat: repeat;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+}
+
+.bg-img::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  background-color: rgba(0, 0, 0, 0.05);
+  z-index: 2;
+}
+
+.bg-img:after {
+  content: '';
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  left: 0;
+  top: 0;
+  background: inherit;
+  filter: blur(4px);
+  z-index: 0;
+}

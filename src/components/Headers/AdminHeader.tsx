@@ -24,13 +24,12 @@ import {
   // IconSettings,
 } from '@tabler/icons-react';
 import classes from './AdminHeader.module.css';
-import { Logo } from '../Logo/Logo';
 import ThemModeControl from '../ThemeModeControl';
 import { useQuery } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
 import { useRecoilState } from 'recoil';
 import { isEmpty, isNil } from 'ramda';
-
+import IconGas from '@/assets/icon-gas.svg?react';
 import {
   UserInfo,
   balanceAtom,
@@ -339,32 +338,31 @@ export default function AdminHeader({ burger }: Props) {
           <Skeleton visible={isLoading} className='w-[30%] h-full'></Skeleton>
         </div>
       ) : (
-        <header className={cls(classes.header, 'pt-3 px-3')}>
+        <header className={cls(classes.header, 'pt-[18px] pr-[38px] px-3')}>
           {burger && burger}
           <div className='flex items-center gap-6'>
-            <Logo />
             <Button
-              variant='light'
+              variant='transparent'
               size='xs'
               radius='lg'
-              className='hidden xl:block'
+              classNames={{ root: 'hidden xl:block', label: 'flex gap-4' }}
             >
-              {`MetaIDs: ${data?.Count.metaId}` +
-                '    |    ' +
-                `PINs: ${data?.Count.Pin}` +
-                '    |    ' +
-                `Blocks: ${data?.Count.block}` +
-                '    |    ' +
-                `APPs: ${data?.Count.app}`}
+              <span>{`MetaIDs: ${data?.Count.metaId}`}</span>
+              <span>|</span>
+              <span>{`PINs: ${data?.Count.Pin}`}</span>
+              <span>|</span>
+
+              <span>{`Blocks: ${data?.Count.block}`}</span>
+              <span>|</span>
+
+              <span>{`APPs: ${data?.Count.app}`}</span>
             </Button>
           </div>
 
           {/* <Box style={{ flex: 1 }} /> */}
           <div className='flex gap-2 items-center'>
             <div className='hidden xl:flex gap-2 items-center'>
-              <Text size='sm' c='dimmed'>
-                Fee Rate:
-              </Text>
+              <IconGas className='w-6 h-6' />
               <NumberInput
                 min={0}
                 max={1500}
@@ -375,6 +373,9 @@ export default function AdminHeader({ burger }: Props) {
                 value={globalFeeRate}
                 onChange={(value) => setGlobalFeeRate(value as number)}
               />
+              <Text size='sm' className='text-main'>
+                sats/vb
+              </Text>
             </div>
             {/* <Menu shadow='md' width={200}>
               <Menu.Target>
@@ -411,7 +412,7 @@ export default function AdminHeader({ burger }: Props) {
             />
             {!connected ? (
               <Button
-                variant='light'
+                variant='filled'
                 onClick={async () => {
                   await onWalletConnectStart();
                 }}
