@@ -147,16 +147,16 @@ const RightAllPinContent = ({ path }: Iprops) => {
               <div className='phone:hidden block'>
                 <Pagination
                   total={totalPagePath}
-                  value={pagination.active}
-                  onChange={pagination.setPage}
+                  value={paginationPath.active}
+                  onChange={paginationPath.setPage}
                   size={'xs'}
                 />
               </div>
               <div className='phone:block hidden'>
                 <Pagination
                   total={totalPagePath}
-                  value={pagination.active}
-                  onChange={pagination.setPage}
+                  value={paginationPath.active}
+                  onChange={paginationPath.setPage}
                   size={'sm'}
                 />
               </div>
