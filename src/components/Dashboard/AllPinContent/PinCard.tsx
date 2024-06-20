@@ -23,7 +23,6 @@ type Iprops = {
 const PinCard = ({ p, hidePop }: Iprops) => {
   const { colorScheme } = useMantineColorScheme();
   const [pData, setPData] = useState<Pin | null>(null);
-
   useEffect(() => {
     if (!isNil(p)) {
       setPData(p);
@@ -112,7 +111,7 @@ const PinCard = ({ p, hidePop }: Iprops) => {
         h={100}
         w={'100%'}
         className={cls('rounded-md grid place-items-center bg-gray-200', {
-          'bg-[#272523]': colorScheme === 'dark',
+          '!bg-[#272523]': colorScheme === 'dark',
         })}
       >
         {pData.type.includes('image') ? (
