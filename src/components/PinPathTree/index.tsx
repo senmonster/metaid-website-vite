@@ -39,12 +39,16 @@ interface RenderTreeNodePayload {
 
 function FileIcon({ isFolder, expanded }: FileIconProps) {
   if (!isFolder) {
-    return <IconPin />;
+    return (
+      <div className='ml-2'>
+        <IconPin />
+      </div>
+    );
   }
 
   if (isFolder) {
     return (
-      <>
+      <div className='ml-2'>
         {expanded ? (
           <IconFolderOpen
             color='var(--mantine-color-yellow-9)'
@@ -58,7 +62,7 @@ function FileIcon({ isFolder, expanded }: FileIconProps) {
             stroke={2.5}
           />
         )}
-      </>
+      </div>
     );
   }
 
