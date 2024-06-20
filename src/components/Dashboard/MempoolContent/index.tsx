@@ -1,4 +1,4 @@
-import { Pagination, ScrollArea, Center } from '@mantine/core';
+import { ScrollArea, Center } from '@mantine/core';
 import { useQuery } from '@tanstack/react-query';
 import { metaidService } from '../../../utils/api';
 import { usePagination } from '@mantine/hooks';
@@ -11,7 +11,7 @@ const MempoolContent = () => {
   const { data, isError, isLoading } = useQuery({
     queryKey: ['mempoolPin', 'list', pagination.active],
     queryFn: () =>
-      metaidService.getMempoolList({ page: pagination.active, size: 18 }),
+      metaidService.getMempoolList({ page: pagination.active, size: 100 }),
   });
 
   return (
@@ -44,7 +44,7 @@ const MempoolContent = () => {
                 </div>
               </ScrollArea>
 
-              <div className='phone:hidden block'>
+              {/* <div className='phone:hidden block'>
                 <Pagination
                   total={10}
                   value={pagination.active}
@@ -59,7 +59,7 @@ const MempoolContent = () => {
                   onChange={pagination.setPage}
                   size={'sm'}
                 />
-              </div>
+              </div> */}
             </>
           )}
         </>
