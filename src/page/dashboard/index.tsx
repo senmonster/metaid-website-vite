@@ -17,8 +17,7 @@ export default function DashboardLayout() {
   const { colorScheme } = useMantineColorScheme();
   const theme = useMantineTheme();
 
-  const bg =
-    colorScheme === 'dark' ? theme.colors.dark[7] : theme.colors.gray[0];
+  const bg = colorScheme === 'dark' ? '#181615' : theme.colors.gray[0];
 
   return (
     <>
@@ -38,7 +37,7 @@ export default function DashboardLayout() {
         theme={colorScheme === 'dark' ? 'dark' : 'light'}
         closeButton={false}
       />
-      <div className=''>
+      <div className='!bg-black'>
         <AppShell
           header={{ height: 70 }}
           layout='alt'
@@ -52,10 +51,10 @@ export default function DashboardLayout() {
           transitionTimingFunction='ease'
           // className='absolute left-0 z-10'
         >
-          <AppShell.Navbar>
+          <AppShell.Navbar bg={bg}>
             <Navbar data={navLinks} hidden={!opened} />
           </AppShell.Navbar>
-          <AppShell.Header>
+          <AppShell.Header bg={bg}>
             <AdminHeader
               burger={
                 <Burger

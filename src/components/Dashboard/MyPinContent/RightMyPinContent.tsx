@@ -90,43 +90,46 @@ const RightMyPinContent = ({ path }: Iprops) => {
               )}
             </div>
           </ScrollArea>
-          <Flex
-            className='absolute right-8 bottom-[-46px]'
-            justify='center'
-            align='center'
-            direction='row'
-            gap='lg'
-          >
-            <div className='gap-2 items-center lg:flex hidden'>
-              <Text size='xs' c='dimmed'>
-                Size
-              </Text>
-              <NumberInput
-                className='w-[80px]'
-                min={1}
-                size='xs'
-                max={totalData?.total ?? Number(size)}
-                value={size}
-                onChange={setSize}
-              />
-            </div>
-            <div className='phone:hidden block'>
-              <Pagination
-                total={totalPage}
-                value={pagination.active}
-                onChange={pagination.setPage}
-                size={'xs'}
-              />
-            </div>
-            <div className='phone:block hidden'>
-              <Pagination
-                total={totalPage}
-                value={pagination.active}
-                onChange={pagination.setPage}
-                size={'sm'}
-              />
-            </div>
-          </Flex>
+
+          {!isEmpty(filterData) && (
+            <Flex
+              className='absolute right-8 bottom-[-46px]'
+              justify='center'
+              align='center'
+              direction='row'
+              gap='lg'
+            >
+              <div className='gap-2 items-center lg:flex hidden'>
+                <Text size='xs' c='dimmed'>
+                  Size
+                </Text>
+                <NumberInput
+                  className='w-[80px]'
+                  min={1}
+                  size='xs'
+                  max={totalData?.total ?? Number(size)}
+                  value={size}
+                  onChange={setSize}
+                />
+              </div>
+              <div className='phone:hidden block'>
+                <Pagination
+                  total={totalPage}
+                  value={pagination.active}
+                  onChange={pagination.setPage}
+                  size={'xs'}
+                />
+              </div>
+              <div className='phone:block hidden'>
+                <Pagination
+                  total={totalPage}
+                  value={pagination.active}
+                  onChange={pagination.setPage}
+                  size={'sm'}
+                />
+              </div>
+            </Flex>
+          )}
         </>
       )}
     </>

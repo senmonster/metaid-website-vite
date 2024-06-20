@@ -12,7 +12,7 @@ export const PageContainer: FC<PageContainerProps> = ({
   fluid = true,
 }) => {
   return (
-    <Container px={0} fluid={fluid}>
+    <Container px={8} fluid={fluid}>
       <Title order={4}>{title}</Title>
 
       <Space h='lg' />

@@ -17,9 +17,9 @@ const queryClient = new QueryClient({
 });
 
 const theme = createTheme({
-  primaryColor: 'deep-orange',
+  primaryColor: 'deeporange',
   colors: {
-    'deep-orange': colorsTuple('#E9983D'),
+    deeporange: colorsTuple('#E9983D'),
   },
 });
 

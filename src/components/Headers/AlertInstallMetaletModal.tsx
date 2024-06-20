@@ -12,7 +12,7 @@ type Iprops = {
 const AlertInstallMetaletModal = ({ opened, handler }: Iprops) => {
   return (
     <Modal opened={opened} onClose={handler.close} size='lg'>
-      <div className='flex flex-col relative items-center'>
+      <div className='flex flex-col relative items-center pb-12'>
         <img src='/metalet-icon.png' className='w-[120px] h-[120px]' />
         <div className='text-white text-[24px] mt-6'>
           Download Metalet Wallet
@@ -30,7 +30,8 @@ const AlertInstallMetaletModal = ({ opened, handler }: Iprops) => {
           </div>
 
           <Button
-            variant='light'
+            variant='filled'
+            className='w-[80%]'
             onClick={() => {
               window.open(
                 `https://chromewebstore.google.com/search/metalet?hl=zh-CN&utm_source=ext_sidebar`,

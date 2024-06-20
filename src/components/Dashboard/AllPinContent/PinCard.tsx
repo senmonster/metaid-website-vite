@@ -112,7 +112,7 @@ const PinCard = ({ p, hidePop }: Iprops) => {
         h={100}
         w={'100%'}
         className={cls('rounded-md grid place-items-center bg-gray-200', {
-          'bg-gray-500': colorScheme === 'dark',
+          'bg-[#272523]': colorScheme === 'dark',
         })}
       >
         {pData.type.includes('image') ? (

@@ -123,44 +123,46 @@ const RightAllPinContent = ({ path }: Iprops) => {
               </div>
             </ScrollArea>
 
-            <Flex
-              className='absolute right-8 bottom-[-46px]'
-              justify='center'
-              align='center'
-              direction='row'
-              gap='lg'
-            >
-              <div className='gap-2 items-center lg:flex hidden'>
-                <Text size='xs' c='dimmed'>
-                  Size
-                </Text>
-                <NumberInput
-                  size='xs'
-                  className='w-[80px]'
-                  min={1}
-                  max={totalData?.total ?? Number(sizePath)}
-                  value={sizePath}
-                  onChange={setSizePath}
-                />
-              </div>
+            {!isEmpty(pathData?.list ?? []) && (
+              <Flex
+                className='absolute right-8 bottom-[-46px]'
+                justify='center'
+                align='center'
+                direction='row'
+                gap='lg'
+              >
+                <div className='gap-2 items-center lg:flex hidden'>
+                  <Text size='xs' c='dimmed'>
+                    Size
+                  </Text>
+                  <NumberInput
+                    size='xs'
+                    className='w-[80px]'
+                    min={1}
+                    max={totalData?.total ?? Number(sizePath)}
+                    value={sizePath}
+                    onChange={setSizePath}
+                  />
+                </div>
 
-              <div className='phone:hidden block'>
-                <Pagination
-                  total={totalPagePath}
-                  value={paginationPath.active}
-                  onChange={paginationPath.setPage}
-                  size={'xs'}
-                />
-              </div>
-              <div className='phone:block hidden'>
-                <Pagination
-                  total={totalPagePath}
-                  value={paginationPath.active}
-                  onChange={paginationPath.setPage}
-                  size={'sm'}
-                />
-              </div>
-            </Flex>
+                <div className='phone:hidden block'>
+                  <Pagination
+                    total={totalPagePath}
+                    value={paginationPath.active}
+                    onChange={paginationPath.setPage}
+                    size={'xs'}
+                  />
+                </div>
+                <div className='phone:block hidden'>
+                  <Pagination
+                    total={totalPagePath}
+                    value={paginationPath.active}
+                    onChange={paginationPath.setPage}
+                    size={'sm'}
+                  />
+                </div>
+              </Flex>
+            )}
           </>
         )}
       </>
@@ -183,50 +185,56 @@ const RightAllPinContent = ({ path }: Iprops) => {
         <>
           <ScrollArea className='h-[calc(100vh_-_210px)]' offsetScrollbars>
             <div className='grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4 p-2'>
-              {(AllData?.Pins ?? []).map((p, index) => {
-                return <PinCard key={index} p={p} />;
-              })}
+              {!isEmpty(AllData?.Pins ?? []) ? (
+                (AllData?.Pins ?? []).map((p, index) => {
+                  return <PinCard key={index} p={p} />;
+                })
+              ) : (
+                <div>No data founded</div>
+              )}
             </div>
           </ScrollArea>
 
-          <Flex
-            className='absolute right-8 bottom-[-46px]'
-            justify='center'
-            align='center'
-            direction='row'
-            gap='lg'
-          >
-            <div className='gap-2 items-center lg:flex hidden'>
-              <Text size='xs' c='dimmed'>
-                Size
-              </Text>
-              <NumberInput
-                className='w-[80px]'
-                min={1}
-                size='xs'
-                max={CountData?.Count?.Pin ?? Number(size)}
-                value={size}
-                onChange={setSize}
-              />
-            </div>
+          {!isEmpty(AllData?.Pins ?? []) && (
+            <Flex
+              className='absolute right-8 bottom-[-46px]'
+              justify='center'
+              align='center'
+              direction='row'
+              gap='lg'
+            >
+              <div className='gap-2 items-center lg:flex hidden'>
+                <Text size='xs' c='dimmed'>
+                  Size
+                </Text>
+                <NumberInput
+                  className='w-[80px]'
+                  min={1}
+                  size='xs'
+                  max={CountData?.Count?.Pin ?? Number(size)}
+                  value={size}
+                  onChange={setSize}
+                />
+              </div>
 
-            <div className='phone:hidden block'>
-              <Pagination
-                total={totalPage}
-                value={pagination.active}
-                onChange={pagination.setPage}
-                size={'xs'}
-              />
-            </div>
-            <div className='phone:block hidden'>
-              <Pagination
-                total={totalPage}
-                value={pagination.active}
-                onChange={pagination.setPage}
-                size={'sm'}
-              />
-            </div>
-          </Flex>
+              <div className='phone:hidden block'>
+                <Pagination
+                  total={totalPage}
+                  value={pagination.active}
+                  onChange={pagination.setPage}
+                  size={'xs'}
+                />
+              </div>
+              <div className='phone:block hidden'>
+                <Pagination
+                  total={totalPage}
+                  value={pagination.active}
+                  onChange={pagination.setPage}
+                  size={'sm'}
+                />
+              </div>
+            </Flex>
+          )}
         </>
       )}
     </>

@@ -112,50 +112,67 @@ export default function AdminHeader({ burger }: Props) {
   }, [wrapHandleBeforeUnload]);
 
   const MetaidInfo = ({
-    hasName,
+    // hasName,
     userInfo,
   }: {
-    hasName: boolean;
+    hasName?: boolean;
     userInfo: UserInfo | null;
   }) => {
-    if (hasName && !isNil(userInfo)) {
-      return (
-        <Menu
-          shadow='md'
-          width={120}
-          position='bottom-end'
-          withArrow
-          classNames={{}}
-        >
-          <Menu.Target>
-            <div>
-              <Avatar
-                radius='xl'
-                size={'md'}
-                src={
-                  !isEmpty(userInfo?.avatar)
-                    ? environment.base_man_url + userInfo.avatar
-                    : null
-                }
-                className='shadow-md cursor-pointer'
-              >
-                {(userInfo?.name ?? '').slice(0, 1)}
-              </Avatar>
-            </div>
-          </Menu.Target>
-
-          <Menu.Dropdown>
-            <Menu.Item onClick={() => navigate('/my-pin')}>My Pin</Menu.Item>
-            <Menu.Item onClick={metaidFormHandler.open}>Edit Profile</Menu.Item>
-          </Menu.Dropdown>
-        </Menu>
-      );
-    }
+    // if (hasName && !isNil(userInfo)) {
     return (
-      <Button variant='light' onClick={metaidFormHandler.open}>
-        My Detail
-      </Button>
+      <Menu
+        shadow='md'
+        width={160}
+        position='bottom-end'
+        withArrow
+        classNames={{}}
+      >
+        <Menu.Target>
+          <div className='absolute right-0'>
+            <Avatar
+              radius='xl'
+              size={36}
+              src={
+                !isEmpty(userInfo?.avatar ?? '')
+                  ? environment.base_man_url + userInfo?.avatar
+                  : null
+              }
+              className='shadow-md cursor-pointer'
+            >
+              {(userInfo?.name ?? '').slice(0, 1)}
+            </Avatar>
+          </div>
+        </Menu.Target>
+
+        <Menu.Dropdown className='p-3'>
+          <Menu.Item onClick={() => navigate('/my-pin')}>My Pin</Menu.Item>
+          <Menu.Item onClick={metaidFormHandler.open}>Edit Profile</Menu.Item>
+          <Menu.Divider />
+
+          <Menu.Item
+            leftSection={
+              // <ActionIcon
+              //   variant={'subtle'}
+              //   color='gray'
+              //   size='md'
+              //   aria-label='Settings'
+              // >
+              <IconLogout className='cursor-pointer' size={18} stroke={1.5} />
+              // </ActionIcon>
+            }
+            onClick={onLogout}
+          >
+            DisConnect
+          </Menu.Item>
+        </Menu.Dropdown>
+      </Menu>
     );
+    // }
+    // return (
+    //   <Button variant='light' onClick={metaidFormHandler.open}>
+    //     My Detail
+    //   </Button>
+    // );
   };
   const onLogout = () => {
     setConnected(false);
@@ -377,34 +394,7 @@ export default function AdminHeader({ burger }: Props) {
                 sats/vb
               </Text>
             </div>
-            {/* <Menu shadow='md' width={200}>
-              <Menu.Target>
-                <Button
-                  size='xs'
-                  leftSection={<IconSwitch2 size={16} />}
-                  variant='light'
-                  className='hidden xl:block'
-                >
-                  {network.charAt(0).toUpperCase() + network.slice(1) ??
-                    'Testnet'}
-                </Button>
-              </Menu.Target>
 
-              <Menu.Dropdown>
-                {['Mainnet', 'Testnet', 'Regtest'].map((network) => {
-                  return (
-                    <Menu.Item
-                      key={network}
-                      onClick={() =>
-                        handleSwitchNetwork(network.toLowerCase() as BtcNetwork)
-                      }
-                    >
-                      {network}
-                    </Menu.Item>
-                  );
-                })}
-              </Menu.Dropdown>
-            </Menu> */}
             <ThemModeControl />
             <Divider
               orientation='vertical'
@@ -421,16 +411,16 @@ export default function AdminHeader({ burger }: Props) {
               </Button>
             ) : (
               <div
-                className={cls('flex items-center gap-4 relative', {
-                  'pr-2': hasName,
-                })}
+                className={cls(
+                  'flex items-center gap-4 relative bg-[#1A1815] rounded-3xl border border-[#3E3831]',
+                  {
+                    'pr-2': hasName,
+                  }
+                )}
               >
-                <div className='flex gap-1 text-gray-400 items-center'>
-                  <IconWallet
-                    style={{ width: '70%', height: '70%' }}
-                    stroke={1.5}
-                  />
-                  <div>
+                <div className='flex gap-1 text-gray-400 items-center pl-4 pr-8 p relative'>
+                  <IconWallet size={18} stroke={1.5} />
+                  <div className='text-sm'>
                     {!isNil(wallet?.address) &&
                       wallet?.address.slice(0, 4) +
                         '...' +
@@ -446,7 +436,7 @@ export default function AdminHeader({ burger }: Props) {
                     >
                       <IconCopy
                         className='cursor-pointer'
-                        style={{ width: '70%', height: '70%' }}
+                        size={18}
                         stroke={1.5}
                         onClick={() => clipboard.copy(wallet?.address ?? '')}
                       />
@@ -465,23 +455,6 @@ export default function AdminHeader({ burger }: Props) {
                       />
                     </ActionIcon>
                   )}
-                  <Divider
-                    orientation='vertical'
-                    className='h-[20px] my-auto mx-2'
-                  />
-                  <ActionIcon
-                    variant={'subtle'}
-                    color='gray'
-                    size='lg'
-                    aria-label='Settings'
-                  >
-                    <IconLogout
-                      onClick={onLogout}
-                      className='cursor-pointer'
-                      style={{ width: '70%', height: '70%' }}
-                      stroke={1.5}
-                    />
-                  </ActionIcon>
                 </div>
                 <MetaidInfo hasName={hasName} userInfo={userInfo} />
               </div>
