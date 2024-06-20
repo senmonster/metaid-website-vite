@@ -75,44 +75,48 @@ const MetaidContent = () => {
         <>
           <ScrollArea className='h-[calc(100vh_-_210px)]' offsetScrollbars>
             <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 2xl:grid-cols-5 gap-4 p-2'>
-              {metaidData.map((m: MetaidItem, index: number) => {
-                return (
-                  <div
-                    key={index}
-                    className={cls('flex gap-2 border rounded-md p-4', {
-                      'border-[var(--mantine-color-dark-4)]':
-                        colorScheme === 'dark',
-                    })}
-                    // onClick={() =>
-                    // 	navigate(`/dashboard/pin-detail/${m.rootTxId + "i0"}`)
-                    // }
-                  >
-                    <Avatar
-                      radius='xl'
-                      size={'lg'}
-                      src={
-                        !isEmpty(m?.avatar)
-                          ? environment.base_man_url + m.avatar
-                          : null
-                      }
+              {!isEmpty(metaidData) ? (
+                metaidData.map((m: MetaidItem, index: number) => {
+                  return (
+                    <div
+                      key={index}
+                      className={cls('flex gap-2 border rounded-md p-4', {
+                        'border-[var(--mantine-color-dark-4)]':
+                          colorScheme === 'dark',
+                      })}
+                      // onClick={() =>
+                      // 	navigate(`/dashboard/pin-detail/${m.rootTxId + "i0"}`)
+                      // }
                     >
-                      {m.name.slice(0, 1)}
-                    </Avatar>
-                    <div className='flex flex-col truncate'>
-                      <div className='font-bold text-[18px] truncate'>
-                        {isEmpty(m?.name) || isNil(m?.name)
-                          ? `metaid-${m.metaid.slice(0, 4)}`
-                          : m?.name}
-                      </div>
-                      <Tooltip label={m?.metaid}>
-                        <div className='text-[12px] italic text-slate-400'>
-                          {'#' + m?.metaid.slice(0, 6)}
+                      <Avatar
+                        radius='xl'
+                        size={'lg'}
+                        src={
+                          !isEmpty(m?.avatar)
+                            ? environment.base_man_url + m.avatar
+                            : null
+                        }
+                      >
+                        {m.name.slice(0, 1)}
+                      </Avatar>
+                      <div className='flex flex-col truncate'>
+                        <div className='font-bold text-[18px] truncate'>
+                          {isEmpty(m?.name) || isNil(m?.name)
+                            ? `metaid-${m.metaid.slice(0, 4)}`
+                            : m?.name}
                         </div>
-                      </Tooltip>
+                        <Tooltip label={m?.metaid}>
+                          <div className='text-[12px] italic text-slate-400'>
+                            {'#' + m?.metaid.slice(0, 6)}
+                          </div>
+                        </Tooltip>
+                      </div>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })
+              ) : (
+                <div>No metaid founded</div>
+              )}
             </div>
           </ScrollArea>
           {!isEmpty(metaidData) && (
