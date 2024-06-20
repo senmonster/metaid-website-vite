@@ -81,10 +81,12 @@ type Count = {
 };
 
 type MetaidService = {
-  getMetaidList: (params: { page: number; size: number }) => Promise<{
-    count: { block: number; Pin: number; metaId: number; app: number };
-    list: MetaidItem[];
-  }>;
+  getMetaidList: (params: { page: number; size: number }) => Promise<any>;
+  // | {
+  //     count: { block: number; Pin: number; metaId: number; app: number };
+  //     list: MetaidItem[];
+  //   }
+  // | MetaidItem[]
   getPinList: (params: {
     page: number;
     size: number;

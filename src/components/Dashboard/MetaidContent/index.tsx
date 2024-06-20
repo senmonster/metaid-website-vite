@@ -12,7 +12,7 @@ import {
   Tooltip,
 } from '@mantine/core';
 import { useQuery } from '@tanstack/react-query';
-import { metaidService } from '../../../utils/api';
+import { MetaidItem, metaidService } from '../../../utils/api';
 import { useDebouncedValue, usePagination } from '@mantine/hooks';
 import cls from 'classnames';
 // import { useNavigate } from "react-router-dom";
@@ -46,6 +46,8 @@ const MetaidContent = () => {
         size: Number(debouncedSize),
       }),
   });
+  const metaidData =
+    environment.network === 'testnet' ? data?.list ?? [] : data ?? [];
   return (
     <>
       {isError ? (
@@ -73,7 +75,7 @@ const MetaidContent = () => {
         <>
           <ScrollArea className='h-[calc(100vh_-_210px)]' offsetScrollbars>
             <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 2xl:grid-cols-5 gap-4 p-2'>
-              {(data?.list ?? []).map((m, index) => {
+              {metaidData.map((m: MetaidItem, index: number) => {
                 return (
                   <div
                     key={index}
@@ -113,43 +115,45 @@ const MetaidContent = () => {
               })}
             </div>
           </ScrollArea>
-          <Flex
-            className='absolute right-8 bottom-10'
-            justify='center'
-            align='center'
-            direction='row'
-            gap='lg'
-          >
-            <div className='gap-2 items-center lg:flex hidden'>
-              <Text size='xs' c='dimmed'>
-                Size
-              </Text>
-              <NumberInput
-                className='w-[80px]'
-                min={1}
-                size='xs'
-                max={CountData?.Count?.metaId ?? Number(debouncedSize)}
-                value={size}
-                onChange={setSize}
-              />
-            </div>
-            <div className='phone:hidden block'>
-              <Pagination
-                total={totalPage}
-                value={pagination.active}
-                onChange={pagination.setPage}
-                size={'xs'}
-              />
-            </div>
-            <div className='phone:block hidden'>
-              <Pagination
-                total={totalPage}
-                value={pagination.active}
-                onChange={pagination.setPage}
-                size={'sm'}
-              />
-            </div>
-          </Flex>
+          {!isEmpty(metaidData) && (
+            <Flex
+              className='absolute right-8 bottom-10'
+              justify='center'
+              align='center'
+              direction='row'
+              gap='lg'
+            >
+              <div className='gap-2 items-center lg:flex hidden'>
+                <Text size='xs' c='dimmed'>
+                  Size
+                </Text>
+                <NumberInput
+                  className='w-[80px]'
+                  min={1}
+                  size='xs'
+                  max={CountData?.Count?.metaId ?? Number(debouncedSize)}
+                  value={size}
+                  onChange={setSize}
+                />
+              </div>
+              <div className='phone:hidden block'>
+                <Pagination
+                  total={totalPage}
+                  value={pagination.active}
+                  onChange={pagination.setPage}
+                  size={'xs'}
+                />
+              </div>
+              <div className='phone:block hidden'>
+                <Pagination
+                  total={totalPage}
+                  value={pagination.active}
+                  onChange={pagination.setPage}
+                  size={'sm'}
+                />
+              </div>
+            </Flex>
+          )}
         </>
       )}
     </>

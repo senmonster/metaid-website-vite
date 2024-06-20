@@ -82,7 +82,7 @@ export function Navbar({ data }: Props) {
 
     return (
       // <NavLinksGroup key={item.label}   {...item} />
-      <div className='relative'>
+      <div className='relative' key={item.label}>
         <NavLink
           className={cls('rounded-md px-6')}
           key={item.label}
