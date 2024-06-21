@@ -115,6 +115,7 @@ type MetaidService = {
     Pins: PinDetail[];
   }>;
   getPinDetail: (params: { id: string }) => Promise<PinDetail>;
+  getMetaidInfo: (params: { metaId: string }) => Promise<MetaidItem>;
 };
 
 export const metaidService: MetaidService = {
@@ -126,6 +127,8 @@ export const metaidService: MetaidService = {
     api.get(`${environment.base_man_url}/api/getAllPinByPath`, { params }),
   getPinDetail: (params) =>
     api.get(`${environment.base_man_url}/api/pin/${params.id}`),
+  getMetaidInfo: (params) =>
+    api.get(`${environment.base_man_url}/api/info/metaid/${params.metaId}`),
   getBlockList: (params) =>
     api.get(`${environment.base_man_url}/api/block/list`, { params }),
   getMempoolList: (params) =>

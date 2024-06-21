@@ -12,12 +12,12 @@ import {
 import { isEmpty, isNil } from 'ramda';
 import cls from 'classnames';
 import { useNavigate } from 'react-router-dom';
-import { PinDetail } from '../../../utils/api';
+import { PinDetail, metaidService } from '../../../utils/api';
 
 import PopCard from '../../PopCard';
 import { environment } from '../../../utils/envrionments';
-import { useRecoilValue } from 'recoil';
-import { UserInfo, btcConnectorAtom } from '@/store/user';
+
+import { useQuery } from '@tanstack/react-query';
 type Iprops = {
   p?: PinDetail;
   hidePop?: boolean;
@@ -25,29 +25,18 @@ type Iprops = {
 
 const PinCard = ({ p, hidePop }: Iprops) => {
   const { colorScheme } = useMantineColorScheme();
-  const btcConnector = useRecoilValue(btcConnectorAtom);
-  const [currentUserInfo, setCurrentUserInfo] = useState<UserInfo | null>(null);
   const [pData, setPData] = useState<PinDetail | null>(null);
   useEffect(() => {
     if (!isNil(p)) {
       setPData(p);
     }
   }, [p]);
-  const getCurrentUserInfo = async () => {
-    if (!isNil(btcConnector) && !isEmpty(p?.address ?? '')) {
-      setCurrentUserInfo(
-        await btcConnector.getUser({
-          network: environment.network,
-          currentAddress: p?.address,
-        })
-      );
-    }
-  };
 
-  useEffect(() => {
-    getCurrentUserInfo();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const { data: currentUserInfo } = useQuery({
+    enabled: !isEmpty(p?.metaid ?? ''),
+    queryKey: ['metaidIfno', p?.metaid ?? ''],
+    queryFn: () => metaidService.getMetaidInfo({ metaId: p?.metaid ?? '' }),
+  });
 
   const navigate = useNavigate();
 
