@@ -105,7 +105,18 @@ const RightAllPinContent = ({ path }: Iprops) => {
                   <div>{`No PIN data founded for path: ${path}.`}</div>
                 ) : (
                   (pathData?.list ?? []).map((p, index) => {
-                    return <PinCard key={index} p={p} />;
+                    return (
+                      <PinCard
+                        key={index}
+                        p={{
+                          ...p,
+                          content:
+                            p.path === '/file'
+                              ? '/content/' + p.id
+                              : p.contentSummary,
+                        }}
+                      />
+                    );
                   })
                 )}
               </div>

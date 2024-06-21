@@ -48,7 +48,10 @@ const PinCard = ({ p, hidePop }: Iprops) => {
     pData.content.length <= 35
       ? pData.content
       : pData.content.slice(0, 35) + '...';
-
+  console.log(
+    'environment.base_man_url + pData.content',
+    environment.base_man_url + pData.content
+  );
   return (
     <div
       className={cls(
