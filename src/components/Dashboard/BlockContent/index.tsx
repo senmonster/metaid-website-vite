@@ -63,7 +63,13 @@ const BlockContent = () => {
                     <div className='grid grid-cols-1 lg:grid-cols-2  xl:grid-cols-3 2xl:grid-cols-5 flex-1 gap-2'>
                       {!isNil(data?.msgMap) &&
                         data?.msgMap[blockNumber].map((p, index) => {
-                          return <PinCard p={p} key={index} />;
+                          return (
+                            <PinCard
+                              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                              p={{ ...p, contentType: p.type } as any}
+                              key={index}
+                            />
+                          );
                         })}
                     </div>
                   </div>

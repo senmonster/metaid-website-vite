@@ -73,19 +73,7 @@ const RightMyPinContent = ({ path }: Iprops) => {
                 <div>{`No PIN data founded for path: ${path ?? '/'}.`}</div>
               ) : (
                 filterData.map((p, index) => {
-                  return (
-                    <PinCard
-                      key={index}
-                      p={{
-                        ...p,
-                        type: p.contentType,
-                        height: 0,
-                        content: p.contentType.includes('image')
-                          ? '/content/' + p.id
-                          : p.contentSummary,
-                      }}
-                    />
-                  );
+                  return <PinCard key={index} p={p} />;
                 })
               )}
             </div>

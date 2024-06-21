@@ -13,6 +13,7 @@ import {
   Skeleton,
   Text,
   NumberInput,
+  useMantineColorScheme,
 } from '@mantine/core';
 import { useClipboard, useDisclosure } from '@mantine/hooks';
 import {
@@ -63,6 +64,8 @@ interface Props {
 }
 
 export default function AdminHeader({ burger }: Props) {
+  const { colorScheme } = useMantineColorScheme();
+
   const [alertInstallMetaletOpened, alertInstallMetaletHandler] =
     useDisclosure(false);
   const [globalFeeRate, setGlobalFeeRate] = useRecoilState(globalFeeRateAtom);
@@ -325,28 +328,6 @@ export default function AdminHeader({ burger }: Props) {
     // await onWalletConnectStart();
   };
 
-  //   const handleSwitchNetwork = async (network: BtcNetwork) => {
-  //     setUserInfo(null);
-  //     setConnected(false);
-  //     setWalletParams(null);
-
-  //     const res = await window.metaidwallet.switchNetwork({ network: network });
-  //     if (res.status === 'ok') {
-  //       toast.success('switch network successfully!');
-  //       setNetwork(res.network);
-  //     } else if (res.status === 'canceled') {
-  //       toast.error('switch cancelled!', {
-  //         className:
-  //           '!text-[#DE613F] !bg-[black] border border-[#DE613f] !rounded-lg',
-  //       });
-  //       return;
-  //     } else {
-  //       toast.error('switch network failed!', {
-  //         className:
-  //           '!text-[#DE613F]!bg-[black] border border-[#DE613f]!rounded-lg',
-  //       });
-  //     }
-  //   };
   return (
     <>
       {isLoading ? (
@@ -412,9 +393,11 @@ export default function AdminHeader({ burger }: Props) {
             ) : (
               <div
                 className={cls(
-                  'flex items-center gap-4 relative bg-[#1A1815] rounded-3xl border border-[#3E3831]',
+                  'flex items-center gap-4 relative bg-[#1A1815] rounded-3xl border',
                   {
                     'pr-2': hasName,
+                    'bg-[#1A1815] border-[#3E3831]': colorScheme === 'dark',
+                    'bg-[#e8e7e4] border-[#fff7ee]': colorScheme === 'light',
                   }
                 )}
               >

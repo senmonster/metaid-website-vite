@@ -105,19 +105,7 @@ const RightAllPinContent = ({ path }: Iprops) => {
                   <div>{`No PIN data founded for path: ${path}.`}</div>
                 ) : (
                   (pathData?.list ?? []).map((p, index) => {
-                    return (
-                      <PinCard
-                        key={index}
-                        p={{
-                          ...p,
-                          type: p.contentType,
-                          height: 0,
-                          content: p.contentType.includes('image')
-                            ? '/content/' + p.id
-                            : p.contentSummary,
-                        }}
-                      />
-                    );
+                    return <PinCard key={index} p={p} />;
                   })
                 )}
               </div>
@@ -187,7 +175,13 @@ const RightAllPinContent = ({ path }: Iprops) => {
             <div className='grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4 p-2'>
               {!isEmpty(AllData?.Pins ?? []) ? (
                 (AllData?.Pins ?? []).map((p, index) => {
-                  return <PinCard key={index} p={p} />;
+                  return (
+                    <PinCard
+                      key={index}
+                      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                      p={{ ...p, contentType: p.type } as any}
+                    />
+                  );
                 })
               ) : (
                 <div>No data founded</div>

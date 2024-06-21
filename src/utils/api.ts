@@ -112,7 +112,7 @@ type MetaidService = {
   getMempoolList: (params: { page: number; size: number }) => Promise<{
     Count: Count;
     Active: string;
-    Pins: Pin[];
+    Pins: PinDetail[];
   }>;
   getPinDetail: (params: { id: string }) => Promise<PinDetail>;
 };

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import {
+  Avatar,
   Container,
   Divider,
   Skeleton,
@@ -11,33 +12,42 @@ import {
 import { isEmpty, isNil } from 'ramda';
 import cls from 'classnames';
 import { useNavigate } from 'react-router-dom';
-import { Pin } from '../../../utils/api';
+import { PinDetail } from '../../../utils/api';
 
 import PopCard from '../../PopCard';
 import { environment } from '../../../utils/envrionments';
+import { useRecoilValue } from 'recoil';
+import { UserInfo, btcConnectorAtom } from '@/store/user';
 type Iprops = {
-  p?: Pin;
+  p?: PinDetail;
   hidePop?: boolean;
 };
 
 const PinCard = ({ p, hidePop }: Iprops) => {
   const { colorScheme } = useMantineColorScheme();
-  const [pData, setPData] = useState<Pin | null>(null);
+  const btcConnector = useRecoilValue(btcConnectorAtom);
+  const [currentUserInfo, setCurrentUserInfo] = useState<UserInfo | null>(null);
+  const [pData, setPData] = useState<PinDetail | null>(null);
   useEffect(() => {
     if (!isNil(p)) {
       setPData(p);
     }
   }, [p]);
-  // const [netWork] = useState("testnet");
-  //   const getNetWork = async () => {
-  //     if (!isNil(window?.metaidwallet)) {
-  //       setNetWork((await window.metaidwallet.getNetwork()).network);
-  //     }
-  //   };
+  const getCurrentUserInfo = async () => {
+    if (!isNil(btcConnector) && !isEmpty(p?.address ?? '')) {
+      setCurrentUserInfo(
+        await btcConnector.getUser({
+          network: environment.network,
+          currentAddress: p?.address,
+        })
+      );
+    }
+  };
 
-  //   useEffect(() => {
-  //     getNetWork();
-  //   }, [netWork]);
+  useEffect(() => {
+    getCurrentUserInfo();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const navigate = useNavigate();
 
@@ -65,17 +75,25 @@ const PinCard = ({ p, hidePop }: Iprops) => {
           {'#' + pData.number}
         </Text>
 
-        {isEmpty(pData?.id ?? '') ? (
-          <Text c='dimmed' size='xs'>
-            Still In Mempool
-          </Text>
-        ) : (
+        <div className='flex gap-2 items-center'>
+          <Avatar
+            radius='xl'
+            size={32}
+            src={
+              !isEmpty(currentUserInfo?.avatar ?? '')
+                ? environment.base_man_url + currentUserInfo?.avatar
+                : null
+            }
+            className='shadow-md cursor-pointer'
+          >
+            {(currentUserInfo?.name ?? '').slice(0, 2)}
+          </Avatar>
           <Tooltip label={pData.metaid}>
             <Text c='dimmed' size='xs'>
               {pData.metaid.slice(0, 6)}
             </Text>
           </Tooltip>
-        )}
+        </div>
       </div>
       <Divider />
       <div className='flex flex-col gap-2 !text-[12px]'>
@@ -114,7 +132,7 @@ const PinCard = ({ p, hidePop }: Iprops) => {
           '!bg-[#272523]': colorScheme === 'dark',
         })}
       >
-        {pData.type.includes('image') ? (
+        {pData.contentType.includes('image') ? (
           <img
             src={environment.base_man_url + pData.content}
             alt='content image'
