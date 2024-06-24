@@ -20,30 +20,29 @@ import cls from 'classnames';
 import { environment } from '../../../utils/envrionments';
 
 const MetaidContent = () => {
-  const [size, setSize] = useState<string | number>(30);
-  const [debouncedSize] = useDebouncedValue(size, 800);
+  const [size] = useState<string | number>(30);
 
   const { data: CountData } = useQuery({
-    queryKey: ['pin', 'list', 1],
+    queryKey: ['pin', 'list'],
     queryFn: () => metaidService.getPinList({ page: 1, size: 1 }),
   });
   const totalPage = Math.ceil(
-    divide(
-      CountData?.Count?.metaId ?? Number(debouncedSize),
-      Number(debouncedSize)
-    )
+    divide(CountData?.Count?.metaId ?? Number(size), Number(size))
   );
 
   const pagination = usePagination({ total: totalPage, initialPage: 1 });
+
+  const [debouncedPageActive] = useDebouncedValue(pagination.active, 800);
+
   const { colorScheme } = useMantineColorScheme();
   // const navigate = useNavigate();
 
   const { data, isError, isLoading } = useQuery({
-    queryKey: ['metaidItem', 'list', pagination.active, Number(debouncedSize)],
+    queryKey: ['metaidItem', 'list', debouncedPageActive],
     queryFn: () =>
       metaidService.getMetaidList({
-        page: pagination.active,
-        size: Number(debouncedSize),
+        page: debouncedPageActive,
+        size: Number(size),
       }),
   });
   const metaidData =
@@ -55,7 +54,7 @@ const MetaidContent = () => {
       ) : isLoading ? (
         <ScrollArea className='h-[calc(100vh_-_210px)]' offsetScrollbars>
           <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 2xl:grid-cols-5 gap-4 p-2'>
-            {repeat(1, Number(debouncedSize)).map((_, idx) => {
+            {repeat(1, Number(size)).map((_, idx) => {
               return (
                 <Skeleton visible={isLoading} key={idx}>
                   <div className='flex gap-2 border rounded-md p-4'>
@@ -129,15 +128,15 @@ const MetaidContent = () => {
             >
               <div className='gap-2 items-center lg:flex hidden'>
                 <Text size='xs' c='dimmed'>
-                  Size
+                  Page
                 </Text>
                 <NumberInput
                   className='w-[80px]'
                   min={1}
                   size='xs'
-                  max={CountData?.Count?.metaId ?? Number(debouncedSize)}
-                  value={size}
-                  onChange={setSize}
+                  max={totalPage}
+                  value={pagination.active}
+                  onChange={(v) => pagination.setPage(Number(v))}
                 />
               </div>
               <div className='phone:hidden block'>

@@ -7,7 +7,7 @@ import PinCard from '../AllPinContent/PinCard';
 import { useRecoilValue } from 'recoil';
 import { walletRestoreParamsAtom } from '../../../store/user';
 import { metaidService } from '../../../utils/api';
-import { useState, useMemo } from 'react';
+import { useState } from 'react';
 
 type Iprops = {
   path: string;
@@ -16,37 +16,34 @@ type Iprops = {
 const RightMyPinContent = ({ path }: Iprops) => {
   const walletParams = useRecoilValue(walletRestoreParamsAtom);
 
-  const [size, setSize] = useState<string | number>(18);
-
-  const [debouncedSize] = useDebouncedValue(size, 800);
+  const [size] = useState<string | number>(18);
 
   const { data: totalData } = useQuery({
-    queryKey: ['mypin', 'list', '1', path],
+    queryKey: ['mypin', 'list', '18', path],
     queryFn: () =>
       metaidService.getPinListByAddress({
         addressType: 'owner',
         address: walletParams?.address ?? '',
         cursor: 0,
-        size: 1,
+        size: 18,
         path: path === '/' ? undefined : path,
       }),
   });
 
-  const totalPage = useMemo(
-    () => Math.ceil(divide(totalData?.total ?? 36, Number(debouncedSize))),
-    [totalData?.total, debouncedSize]
-  );
+  const totalPage = Math.ceil(divide(totalData?.total ?? 36, Number(size)));
 
   const pagination = usePagination({ total: totalPage, initialPage: 1 });
 
+  const [debounceActivePage] = useDebouncedValue(pagination.active, 800);
+
   const { data, isError, isLoading } = useQuery({
-    queryKey: ['mypin', 'list', pagination.active, Number(debouncedSize), path],
+    queryKey: ['mypin', 'list', path, Number(debounceActivePage)],
     queryFn: () =>
       metaidService.getPinListByAddress({
         addressType: 'owner',
         address: walletParams?.address ?? '',
-        cursor: pagination.active - 1,
-        size: Number(debouncedSize),
+        cursor: debounceActivePage - 1,
+        size: Number(size),
         path: path === '/' ? undefined : path,
       }),
   });
@@ -78,10 +75,9 @@ const RightMyPinContent = ({ path }: Iprops) => {
                       key={index}
                       p={{
                         ...p,
-                        content:
-                          p.path === '/file'
-                            ? '/content/' + p.id
-                            : p.contentSummary,
+                        content: ['file', '/info/avatar'].includes(p.path)
+                          ? '/content/' + p.id
+                          : p.contentSummary,
                       }}
                     />
                   );
@@ -100,15 +96,15 @@ const RightMyPinContent = ({ path }: Iprops) => {
             >
               <div className='gap-2 items-center lg:flex hidden'>
                 <Text size='xs' c='dimmed'>
-                  Size
+                  Page
                 </Text>
                 <NumberInput
                   className='w-[80px]'
                   min={1}
                   size='xs'
-                  max={totalData?.total ?? Number(size)}
-                  value={size}
-                  onChange={setSize}
+                  max={totalPage}
+                  value={pagination.active}
+                  onChange={(v) => pagination.setPage(Number(v))}
                 />
               </div>
               <div className='phone:hidden block'>

@@ -13,22 +13,19 @@ type Iprops = {
 
 const RightAllPinContent = ({ path }: Iprops) => {
   ///////////////////////All Pin Data/////////////////////////////
-  const [size, setSize] = useState<string | number>(18);
-  const [debouncedSize] = useDebouncedValue(size, 800);
+  const [size] = useState<string | number>(18);
 
   const { data: CountData } = useQuery({
     enabled: isNil(path) || path === '/',
-    queryKey: ['allpin', 'list', 1],
+    queryKey: ['allpin', 'list'],
     queryFn: () => metaidService.getPinList({ page: 1, size: 1 }),
   });
 
   const totalPage = Math.ceil(
-    divide(
-      CountData?.Count?.Pin ?? Number(debouncedSize),
-      Number(debouncedSize)
-    )
+    divide(CountData?.Count?.Pin ?? Number(size), Number(size))
   );
   const pagination = usePagination({ total: totalPage, initialPage: 1 });
+  const [deboucedActivePage] = useDebouncedValue(pagination.active, 800);
 
   const {
     data: AllData,
@@ -36,17 +33,16 @@ const RightAllPinContent = ({ path }: Iprops) => {
     isLoading,
   } = useQuery({
     enabled: isNil(path) || path === '/',
-    queryKey: ['allpin', 'list', pagination.active, Number(debouncedSize)],
+    queryKey: ['allpin', 'list', deboucedActivePage],
     queryFn: () =>
       metaidService.getPinList({
-        page: pagination.active,
-        size: Number(debouncedSize),
+        page: deboucedActivePage,
+        size: Number(size),
       }),
   });
 
   ///////////////////////Path Pin Data//////////////////////////
-  const [sizePath, setSizePath] = useState<string | number>(18);
-  const [debouncedSizePath] = useDebouncedValue(sizePath, 800);
+  const [sizePath] = useState<string | number>(18);
   const { data: totalData } = useQuery({
     enabled: path !== '/' && !isNil(path),
     queryKey: ['pin', 'list', path, 1],
@@ -54,15 +50,17 @@ const RightAllPinContent = ({ path }: Iprops) => {
   });
 
   const totalPagePath = Math.ceil(
-    divide(
-      totalData?.total ?? Number(debouncedSizePath),
-      Number(debouncedSizePath)
-    )
+    divide(totalData?.total ?? Number(sizePath), Number(sizePath))
   );
   const paginationPath = usePagination({
     total: totalPagePath,
     initialPage: 1,
   });
+
+  const [deboucedActivePagePath] = useDebouncedValue(
+    paginationPath.active,
+    800
+  );
 
   const {
     data: pathData,
@@ -70,17 +68,11 @@ const RightAllPinContent = ({ path }: Iprops) => {
     isLoading: isLoadingPath,
   } = useQuery({
     enabled: path !== '/' && !isNil(path),
-    queryKey: [
-      'pin',
-      'list',
-      path,
-      paginationPath.active,
-      Number(debouncedSizePath),
-    ],
+    queryKey: ['pin', 'list', path, deboucedActivePagePath],
     queryFn: () =>
       metaidService.getPinListByPath({
-        page: paginationPath.active,
-        limit: Number(debouncedSizePath),
+        page: deboucedActivePagePath,
+        limit: Number(sizePath),
         path,
       }),
   });
@@ -92,7 +84,7 @@ const RightAllPinContent = ({ path }: Iprops) => {
         ) : isLoadingPath ? (
           <ScrollArea className='h-[calc(100vh_-_210px)]' offsetScrollbars>
             <div className='grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4 p-2'>
-              {repeat(1, Number(debouncedSizePath)).map((_, index) => {
+              {repeat(1, Number(sizePath)).map((_, index) => {
                 return <PinCard key={index} />;
               })}
             </div>
@@ -110,10 +102,9 @@ const RightAllPinContent = ({ path }: Iprops) => {
                         key={index}
                         p={{
                           ...p,
-                          content:
-                            p.path === '/file'
-                              ? '/content/' + p.id
-                              : p.contentSummary,
+                          content: ['file', '/info/avatar'].includes(p.path)
+                            ? '/content/' + p.id
+                            : p.contentSummary,
                         }}
                       />
                     );
@@ -132,15 +123,15 @@ const RightAllPinContent = ({ path }: Iprops) => {
               >
                 <div className='gap-2 items-center lg:flex hidden'>
                   <Text size='xs' c='dimmed'>
-                    Size
+                    Page
                   </Text>
                   <NumberInput
                     size='xs'
                     className='w-[80px]'
                     min={1}
-                    max={totalData?.total ?? Number(sizePath)}
-                    value={sizePath}
-                    onChange={setSizePath}
+                    max={totalPagePath}
+                    value={paginationPath.active}
+                    onChange={(v) => paginationPath.setPage(Number(v))}
                   />
                 </div>
 
@@ -175,7 +166,7 @@ const RightAllPinContent = ({ path }: Iprops) => {
       ) : isLoading ? (
         <ScrollArea className='h-[calc(100vh_-_210px)]' offsetScrollbars>
           <div className='grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4 p-2'>
-            {repeat(1, Number(debouncedSize)).map((_, index) => {
+            {repeat(1, Number(size)).map((_, index) => {
               return <PinCard key={index} />;
             })}
           </div>
@@ -210,15 +201,15 @@ const RightAllPinContent = ({ path }: Iprops) => {
             >
               <div className='gap-2 items-center lg:flex hidden'>
                 <Text size='xs' c='dimmed'>
-                  Size
+                  Page
                 </Text>
                 <NumberInput
                   className='w-[80px]'
                   min={1}
                   size='xs'
-                  max={CountData?.Count?.Pin ?? Number(size)}
-                  value={size}
-                  onChange={setSize}
+                  max={totalPage}
+                  value={pagination.active}
+                  onChange={(v) => pagination.setPage(Number(v))}
                 />
               </div>
 

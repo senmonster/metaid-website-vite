@@ -16,28 +16,27 @@ import PinCard from '../AllPinContent/PinCard';
 import { metaidService } from '../../../utils/api';
 
 const BlockContent = () => {
-  const [size, setSize] = useState<string | number>(18);
-  const [debouncedSize] = useDebouncedValue(size, 800);
+  const [size] = useState<number>(18);
 
   const { data: CountData } = useQuery({
-    queryKey: ['pin', 'list', 1],
+    queryKey: ['pin', 'list'],
     queryFn: () => metaidService.getPinList({ page: 1, size: 1 }),
   });
+
   const totalPage = Math.ceil(
-    divide(
-      CountData?.Count?.Pin ?? Number(debouncedSize),
-      Number(debouncedSize)
-    )
+    divide(CountData?.Count?.Pin ?? Number(size), Number(size))
   );
 
   const pagination = usePagination({ total: totalPage, initialPage: 1 });
 
+  const [debouncedPageActive] = useDebouncedValue(pagination.active, 800);
+
   const { data, isError, isLoading } = useQuery({
-    queryKey: ['block', 'list', pagination.active, Number(debouncedSize)],
+    queryKey: ['block', 'list', debouncedPageActive],
     queryFn: () =>
       metaidService.getBlockList({
         page: pagination.active,
-        size: Number(debouncedSize),
+        size: Number(size),
       }),
   });
 
@@ -86,15 +85,15 @@ const BlockContent = () => {
           >
             <div className='gap-2 items-center lg:flex hidden'>
               <Text size='xs' c='dimmed'>
-                Size
+                Page
               </Text>
               <NumberInput
                 className='w-[80px]'
                 size='xs'
                 min={1}
-                max={CountData?.Count?.Pin ?? Number(size)}
-                value={size}
-                onChange={setSize}
+                max={totalPage}
+                value={pagination.active}
+                onChange={(v) => pagination.setPage(Number(v))}
               />
             </div>
             <div className='phone:hidden block'>

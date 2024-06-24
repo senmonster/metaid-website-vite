@@ -20,7 +20,6 @@ import {
   IconCopy,
   IconCopyCheck,
   IconLogout,
-  IconWallet,
   // IconSearch,
   // IconSettings,
 } from '@tabler/icons-react';
@@ -402,7 +401,7 @@ export default function AdminHeader({ burger }: Props) {
                 )}
               >
                 <div className='flex gap-1 text-gray-400 items-center pl-4 pr-8 p relative'>
-                  <IconWallet size={18} stroke={1.5} />
+                  {/* <IconWallet size={18} stroke={1.5} /> */}
                   <div className='text-sm'>
                     {!isNil(wallet?.address) &&
                       wallet?.address.slice(0, 4) +

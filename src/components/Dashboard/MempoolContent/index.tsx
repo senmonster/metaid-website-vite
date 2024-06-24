@@ -39,7 +39,14 @@ const MempoolContent = () => {
               <ScrollArea className='h-[calc(100vh_-_210px)]' offsetScrollbars>
                 <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 2xl:grid-cols-5 gap-4 p-2'>
                   {(data?.Pins ?? []).map((p, index) => {
-                    return <PinCard key={index} p={p} hidePop />;
+                    return (
+                      <PinCard
+                        key={index}
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                        p={{ ...p, contentType: p.type } as any}
+                        hidePop
+                      />
+                    );
                   })}
                 </div>
               </ScrollArea>

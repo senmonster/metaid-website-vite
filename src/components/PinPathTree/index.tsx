@@ -99,6 +99,7 @@ function Leaf({
 export default function PinPathTree({ tree }: Iprops) {
   useEffect(() => {
     tree.expandAllNodes();
+    tree.setSelectedState(['/']);
   }, []);
   return (
     <Tree
