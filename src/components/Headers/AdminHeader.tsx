@@ -49,7 +49,7 @@ import { MetaletWalletForBtc, btcConnect } from '@metaid/metaid';
 import { IBtcConnector } from '@metaid/metaid';
 
 import { useNavigate } from 'react-router-dom';
-import { metaidService } from '../../utils/api';
+import { fetchFeeRate, metaidService } from '../../utils/api';
 
 // import { conirmMetaletTestnet } from "../../utils/wallet";
 import { errors } from '../../utils/errors';
@@ -108,6 +108,18 @@ export default function AdminHeader({ burger }: Props) {
     walletParams,
     setUserInfo,
   ]);
+
+  const { data: feeRateData } = useQuery({
+    queryKey: ['feeRate', environment.network],
+    queryFn: () => fetchFeeRate({ netWork: environment.network }),
+  });
+
+  console.log('feerateData', feeRateData);
+
+  useEffect(() => {
+    setGlobalFeeRate(feeRateData?.fastestFee ?? Number(globalFeeRate));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [feeRateData]);
 
   useEffect(() => {
     wrapHandleBeforeUnload();

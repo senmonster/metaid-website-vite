@@ -15,6 +15,8 @@ const CustomFeerate = () => {
 
   const [globalFeerate, setGlobalFeerate] = useRecoilState(globalFeeRateAtom);
 
+  console.log('feerateData', feeRateData);
+
   useEffect(() => {
     setGlobalFeerate(feeRateData?.fastestFee ?? Number(globalFeerate));
     // eslint-disable-next-line react-hooks/exhaustive-deps
