@@ -16,10 +16,10 @@ type Iprops = {
 const RightMyPinContent = ({ path }: Iprops) => {
   const walletParams = useRecoilValue(walletRestoreParamsAtom);
 
-  const [size] = useState<string | number>(18);
+  const [size] = useState<string | number>(16);
 
   const { data: totalData } = useQuery({
-    queryKey: ['mypin', 'list', '18', path],
+    queryKey: ['mypin', 'list', path],
     queryFn: () =>
       metaidService.getPinListByAddress({
         addressType: 'owner',

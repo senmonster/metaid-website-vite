@@ -13,7 +13,7 @@ type Iprops = {
 
 const RightAllPinContent = ({ path }: Iprops) => {
   ///////////////////////All Pin Data/////////////////////////////
-  const [size] = useState<string | number>(18);
+  const [size] = useState<string | number>(16);
 
   const { data: CountData } = useQuery({
     enabled: isNil(path) || path === '/',
@@ -42,10 +42,10 @@ const RightAllPinContent = ({ path }: Iprops) => {
   });
 
   ///////////////////////Path Pin Data//////////////////////////
-  const [sizePath] = useState<string | number>(18);
+  const [sizePath] = useState<string | number>(16);
   const { data: totalData } = useQuery({
     enabled: path !== '/' && !isNil(path),
-    queryKey: ['pin', 'list', path, 1],
+    queryKey: ['pin', 'list', path],
     queryFn: () => metaidService.getPinListByPath({ page: 1, limit: 1, path }),
   });
 
