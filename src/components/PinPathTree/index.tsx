@@ -4,7 +4,7 @@ import IconPin from '@/assets/icon-tree-pin.svg?react';
 import { data } from './TreeData';
 import classes from './LeftTree.module.css';
 import { useEffect } from 'react';
-
+//
 type Iprops = {
   tree: UseTreeReturnType;
 };
