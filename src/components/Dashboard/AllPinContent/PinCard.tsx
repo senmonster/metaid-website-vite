@@ -49,6 +49,7 @@ const PinCard = ({ p, hidePop }: Iprops) => {
       ? pData.content
       : pData.content.slice(0, 35) + '...';
 
+  const imgSrc = environment.base_man_url + '/content/' + pData.id;
   return (
     <div
       className={cls(
@@ -123,7 +124,7 @@ const PinCard = ({ p, hidePop }: Iprops) => {
       >
         {pData.contentType.includes('image') ? (
           <img
-            src={environment.base_man_url + pData.content}
+            src={imgSrc}
             alt='content image'
             className='rounded-md object-cover max-w-[90%] max-h-[80px]'
             // width={50}
