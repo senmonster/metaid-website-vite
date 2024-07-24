@@ -46,7 +46,7 @@ const MetaidContent = () => {
       }),
   });
   const metaidData =
-    environment.network === 'testnet' ? data?.list ?? [] : data ?? [];
+    environment.network === 'testnet' ? data?.list ?? [] : data?.list ?? [];
   return (
     <>
       {isError ? (
