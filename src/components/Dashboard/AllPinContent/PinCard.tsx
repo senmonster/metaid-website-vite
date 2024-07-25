@@ -12,12 +12,13 @@ import {
 import { isEmpty, isNil } from 'ramda';
 import cls from 'classnames';
 import { useNavigate } from 'react-router-dom';
-import { PinDetail, metaidService } from '../../../utils/api';
+import { PinDetail } from '../../../utils/api';
 
 import PopCard from '../../PopCard';
 import { environment } from '../../../utils/envrionments';
 
 import { useQuery } from '@tanstack/react-query';
+import { metaidInfoQueryOptions } from '@/queries/accout';
 type Iprops = {
   p?: PinDetail;
   hidePop?: boolean;
@@ -34,8 +35,7 @@ const PinCard = ({ p, hidePop }: Iprops) => {
 
   const { data: currentUserInfo } = useQuery({
     enabled: !isEmpty(p?.metaid ?? ''),
-    queryKey: ['metaidIfno', p?.metaid ?? ''],
-    queryFn: () => metaidService.getMetaidInfo({ metaId: p?.metaid ?? '' }),
+    ...metaidInfoQueryOptions({ metaid: p?.metaid ?? '' }),
   });
 
   const navigate = useNavigate();
@@ -53,7 +53,7 @@ const PinCard = ({ p, hidePop }: Iprops) => {
   return (
     <div
       className={cls(
-        'flex flex-col gap-2 border rounded-md p-4 cursor-pointer justify-between',
+        'flex flex-col gap-2 border rounded-md p-4 cursor-pointer justify-between max-h-[266px]',
         {
           'border-[var(--mantine-color-dark-4)]': colorScheme === 'dark',
         }

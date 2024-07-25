@@ -25,9 +25,9 @@ import {
 } from '@tabler/icons-react';
 import classes from './AdminHeader.module.css';
 import ThemModeControl from '../ThemeModeControl';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { isEmpty, isNil } from 'ramda';
 import IconGas from '@/assets/icon-gas.svg?react';
 import {
@@ -37,6 +37,7 @@ import {
   connectedAtom,
   globalFeeRateAtom,
   hasNameAtom,
+  myFollowingListAtom,
   userInfoAtom,
   walletAtom,
   walletRestoreParamsAtom,
@@ -49,7 +50,11 @@ import { MetaletWalletForBtc, btcConnect } from '@metaid/metaid';
 import { IBtcConnector } from '@metaid/metaid';
 
 import { useNavigate } from 'react-router-dom';
-import { fetchFeeRate, metaidService } from '../../utils/api';
+import {
+  fetchFeeRate,
+  fetchFollowingList,
+  metaidService,
+} from '../../utils/api';
 
 // import { conirmMetaletTestnet } from "../../utils/wallet";
 import { errors } from '../../utils/errors';
@@ -65,6 +70,7 @@ interface Props {
 export default function AdminHeader({ burger }: Props) {
   const { colorScheme } = useMantineColorScheme();
 
+  const setMyFollowingList = useSetRecoilState(myFollowingListAtom);
   const [alertInstallMetaletOpened, alertInstallMetaletHandler] =
     useDisclosure(false);
   const [globalFeeRate, setGlobalFeeRate] = useRecoilState(globalFeeRateAtom);
@@ -115,6 +121,14 @@ export default function AdminHeader({ burger }: Props) {
   });
 
   console.log('feerateData', feeRateData);
+
+  const mutateMyFollowing = useMutation({
+    mutationFn: (metaid: string) =>
+      fetchFollowingList({
+        metaid: metaid,
+        params: { cursor: '0', size: '100', followDetail: false },
+      }),
+  });
 
   useEffect(() => {
     setGlobalFeeRate(feeRateData?.fastestFee ?? Number(globalFeeRate));
@@ -193,6 +207,7 @@ export default function AdminHeader({ burger }: Props) {
     setBtcConnector(null);
     setUserInfo(null);
     setWalletParams(null);
+    setMyFollowingList([]);
     window.metaidwallet.removeListener(
       'accountsChanged',
       handleAcccountsChanged
@@ -267,6 +282,11 @@ export default function AdminHeader({ burger }: Props) {
 
     console.log('user now', resUser);
     console.log('your btc address: ', _btcConnector.address);
+
+    const myFollowingListData = await mutateMyFollowing.mutateAsync(
+      _btcConnector?.metaid ?? ''
+    );
+    setMyFollowingList(myFollowingListData?.list ?? []);
   };
 
   const handleSubmitMetaId = async (userInfo: MetaidUserInfo) => {

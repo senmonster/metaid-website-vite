@@ -14,9 +14,8 @@ import { useQuery } from '@tanstack/react-query';
 
 import dayjs from 'dayjs';
 import PopCard from '../PopCard';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { environment } from '../../utils/envrionments';
-import { IconTruckReturn } from '@tabler/icons-react';
 type Iprops = {
   id: string;
 };
@@ -28,7 +27,6 @@ const PinDetail = ({ id }: Iprops) => {
   });
   const [viewMoreOpened, viewMoreHandler] = useDisclosure(false);
   const location = useLocation();
-  const navigate = useNavigate();
   const { colorScheme } = useMantineColorScheme();
   return (
     <>
@@ -40,25 +38,10 @@ const PinDetail = ({ id }: Iprops) => {
         </Center>
       ) : (
         <div className='flex flex-col gap-4'>
-          <div className='flex justify-between items-center mb-4'>
-            <Text className='text-main' size={'xl'}>
-              {data?.contentTypeDetect}
-            </Text>
-            <Button
-              leftSection={<IconTruckReturn size={22} />}
-              size='sm'
-              variant='outline'
-              style={{
-                border: 'none',
-                borderRadius: '8px',
-                boxShadow:
-                  '0px 1px 1px 0px rgba(103, 62, 19, 0.5),0px 0px 0px 1px #673E13',
-              }}
-              onClick={() => navigate(-1)}
-            >
-              Backup
-            </Button>
-          </div>
+          <Text className='text-main mb-4' size={'xl'}>
+            {data?.contentTypeDetect}
+          </Text>
+
           {data?.operation ===
           'init' ? null : !data?.contentTypeDetect.includes('image') ? (
             <div className='flex flex-col gap-2'>

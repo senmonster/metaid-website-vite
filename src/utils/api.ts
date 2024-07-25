@@ -145,8 +145,78 @@ export const metaidService: MetaidService = {
 
     return api.get(url, { params: { cnt, cursor, size, path } });
   },
-  //   getNodeList : (params) => api.get('/api/node/list', { params })
 };
+
+export async function fetchFollowerList({
+  metaid,
+  params,
+}: {
+  metaid: string;
+  params: {
+    cursor: string;
+    size: string;
+    followDetail: boolean;
+  };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+}): Promise<{ list: any; total: number }> {
+  try {
+    const data = await api
+      .get(`${environment.base_man_url}/api/metaid/followerList/${metaid}`, {
+        params,
+      })
+      .then((res) => res.data);
+    return data.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+export async function fetchFollowingList({
+  metaid,
+  params,
+}: {
+  metaid: string;
+  params: {
+    cursor: string;
+    size: string;
+    followDetail: boolean;
+  };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+}): Promise<{ list: any; total: number }> {
+  try {
+    const data = await api
+      .get(`${environment.base_man_url}/api/metaid/followingList/${metaid}`, {
+        params,
+      })
+      .then((res) => res.data);
+    return data.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
+export async function fetchFollowDetailPin(params: {
+  metaId: string;
+  followerMetaId: string;
+}): Promise<{
+  metaId: string;
+  followMetaId: string;
+  followTime: number;
+  followPinId: string;
+  unFollowPinId: string;
+  status: boolean;
+}> {
+  try {
+    const data = await api
+      .get(`${environment.base_man_url}/api/follow/record`, { params })
+      .then((res) => res.data);
+    return data.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
 
 export type FeeRateApi = {
   fastestFee: number;

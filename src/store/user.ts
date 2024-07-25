@@ -67,3 +67,9 @@ export const globalFeeRateAtom = atom<number>({
   key: 'globalFeeRateAtom',
   default: 30,
 });
+
+export const myFollowingListAtom = atom<string[]>({
+  key: 'myFollowingListAtom',
+  default: [],
+  effects_UNSTABLE: [persistAtom],
+});
