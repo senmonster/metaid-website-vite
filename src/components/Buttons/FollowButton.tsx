@@ -1,12 +1,20 @@
 import cls from 'classnames';
 import { IconChecks } from '@tabler/icons-react';
-import { Button, Loader } from '@mantine/core';
+import { Button, Loader, MantineSize } from '@mantine/core';
 type Iprops = {
   metaidOfTrigger: string;
   handleFollow: (metaidOfTrigger: string) => void;
   isFollowed: boolean;
   isFollowingPending: boolean;
   isUnfollowingPending: boolean;
+  buttonSize?:
+    | MantineSize
+    | 'compact-xs'
+    | 'compact-sm'
+    | 'compact-md'
+    | 'compact-lg'
+    | 'compact-xl'
+    | undefined;
 };
 const FollowButton = ({
   handleFollow,
@@ -14,6 +22,7 @@ const FollowButton = ({
   isFollowingPending,
   isUnfollowingPending,
   metaidOfTrigger,
+  buttonSize,
 }: Iprops) => {
   return (
     <div
@@ -30,6 +39,7 @@ const FollowButton = ({
         </div>
       ) : (
         <Button
+          size={buttonSize}
           disabled={isFollowingPending || isUnfollowingPending}
           className={cls('flex items-center rounded-md ', {
             'cursor-not-allowed !bg-main/20 !border-none ':

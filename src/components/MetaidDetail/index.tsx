@@ -12,14 +12,16 @@ import {
   fetchFollowingList,
 } from '@/utils/api';
 import { environment } from '@/utils/envrionments';
-import { Avatar, Divider } from '@mantine/core';
+import { Avatar, Divider, Tabs } from '@mantine/core';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { isEmpty, isNil } from 'ramda';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import FollowButton from '../Buttons/FollowButton';
 import { checkMetaletConnected, checkMetaletInstalled } from '@/utils/wallet';
 import { toast } from 'react-toastify';
-import FeeTab from './FeeTab';
+import FeedTab from './FeedTab';
+import DetailTabClasses from './detail.module.css';
+import BuzzTab from './BuzzTab';
 
 type Iprops = {
   id: string;
@@ -252,8 +254,28 @@ const MetaidDetail = ({ id }: Iprops) => {
         </div>
       </div>
       <Divider my='md' />
-      <div>Feed</div>
-      <FeeTab address={currentUserInfo?.address ?? ''} />
+
+      <Tabs
+        variant='unstyled'
+        classNames={DetailTabClasses}
+        defaultValue='feed'
+      >
+        <Tabs.List className='mb-4'>
+          <Tabs.Tab value='feed'>Feed</Tabs.Tab>
+          <Tabs.Tab value='buzz'>Buzz</Tabs.Tab>
+        </Tabs.List>
+
+        <Tabs.Panel value='feed'>
+          <FeedTab address={currentUserInfo?.address ?? ''} />
+        </Tabs.Panel>
+
+        <Tabs.Panel value='buzz'>
+          <BuzzTab
+            address={currentUserInfo?.address ?? ''}
+            currentUserInfo={currentUserInfo}
+          />
+        </Tabs.Panel>
+      </Tabs>
     </div>
   );
 };

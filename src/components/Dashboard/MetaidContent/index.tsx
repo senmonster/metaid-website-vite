@@ -254,6 +254,7 @@ const MetaidContent = () => {
                       </div>
                       {btcConnector?.metaid !== m?.metaid && (
                         <FollowButton
+                          buttonSize='xs'
                           metaidOfTrigger={m?.metaid ?? ''}
                           isFollowed={(
                             myFollowingListData?.list ?? []

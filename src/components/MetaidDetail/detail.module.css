@@ -1,0 +1,23 @@
+.tab {
+  position: relative;
+  border: none;
+  background-color: inherit;
+  font-size: 24px;
+
+  @mixin hover {
+    transform: scale(1.25);
+    font-weight: 500;
+  }
+
+  &[data-active] {
+    z-index: 1;
+    transform: scale(1.25);
+    font-weight: 500;
+
+    color: var(--mantine-color-white);
+
+    @mixin hover {
+      transform: scale(1.25);
+    }
+  }
+}
