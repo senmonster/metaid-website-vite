@@ -230,7 +230,7 @@ const MetaidContent = () => {
                       <div className='flex items-center gap-2'>
                         <Avatar
                           radius='xl'
-                          size={'lg'}
+                          size={'md'}
                           src={
                             !isEmpty(m?.avatar)
                               ? environment.base_man_url + m.avatar
@@ -240,13 +240,13 @@ const MetaidContent = () => {
                           {m.name.slice(0, 1)}
                         </Avatar>
                         <div className='flex flex-col truncate self-center'>
-                          <div className='font-bold text-[18px] truncate'>
+                          <div className='font-bold text-[14px] truncate'>
                             {isEmpty(m?.name) || isNil(m?.name)
                               ? `metaid-${m.metaid.slice(0, 4)}`
                               : m?.name}
                           </div>
                           <Tooltip label={'MetaID:' + m?.metaid}>
-                            <div className='text-[12px]  text-slate-400'>
+                            <div className='text-[10px]  text-slate-400'>
                               {'MetaID:' + m?.metaid.slice(0, 6)}
                             </div>
                           </Tooltip>

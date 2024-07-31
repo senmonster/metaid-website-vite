@@ -40,6 +40,7 @@ const FollowButton = ({
       ) : (
         <Button
           size={buttonSize}
+          variant='light'
           disabled={isFollowingPending || isUnfollowingPending}
           className={cls('flex items-center rounded-md ', {
             'cursor-not-allowed !bg-main/20 !border-none ':
