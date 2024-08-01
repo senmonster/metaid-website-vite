@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import axios from 'axios';
 import { environment } from './envrionments';
 import { BtcNetwork, api } from './request';
 
@@ -160,7 +161,7 @@ export async function fetchFollowerList({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 }): Promise<{ list: any; total: number }> {
   try {
-    const data = await api
+    const data = await axios
       .get(`${environment.base_man_url}/api/metaid/followerList/${metaid}`, {
         params,
       })
@@ -184,7 +185,7 @@ export async function fetchFollowingList({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 }): Promise<{ list: any; total: number }> {
   try {
-    const data = await api
+    const data = await axios
       .get(`${environment.base_man_url}/api/metaid/followingList/${metaid}`, {
         params,
       })
@@ -208,7 +209,7 @@ export async function fetchFollowDetailPin(params: {
   status: boolean;
 }> {
   try {
-    const data = await api
+    const data = await axios
       .get(`${environment.base_man_url}/api/follow/record`, { params })
       .then((res) => res.data);
     return data.data;
