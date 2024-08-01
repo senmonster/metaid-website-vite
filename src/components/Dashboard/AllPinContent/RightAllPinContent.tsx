@@ -94,7 +94,7 @@ const RightAllPinContent = ({ path }: Iprops) => {
             <ScrollArea className='h-[calc(100vh_-_210px)]' offsetScrollbars>
               <div className='grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4 p-2'>
                 {isEmpty(pathData?.list ?? []) ? (
-                  <div>{`No PIN data founded for path: ${path}.`}</div>
+                  <div>{`No PIN data found for path: ${path}.`}</div>
                 ) : (
                   (pathData?.list ?? []).map((p, index) => {
                     return (
@@ -186,7 +186,7 @@ const RightAllPinContent = ({ path }: Iprops) => {
                   );
                 })
               ) : (
-                <div>No data founded</div>
+                <div>No data found</div>
               )}
             </div>
           </ScrollArea>
