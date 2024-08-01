@@ -59,7 +59,7 @@ const BuzzTab = ({ address, currentUserInfo }: Iprops) => {
           <ScrollArea className='h-[calc(100vh_-_402px)]' offsetScrollbars>
             <div className='flex flex-col mx-24 gap-4 p-2'>
               {isEmpty(filterData) ? (
-                <div>{`No BUZZ data founded.`}</div>
+                <div>{`No BUZZ data found.`}</div>
               ) : (
                 filterData.map((p) => {
                   return (

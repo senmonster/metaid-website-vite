@@ -56,7 +56,7 @@ const FeedTab = ({ address }: Iprops) => {
           <ScrollArea className='h-[calc(100vh_-_402px)]' offsetScrollbars>
             <div className='grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4 p-2'>
               {isEmpty(filterData) ? (
-                <div>{`No PIN data founded.`}</div>
+                <div>{`No PIN data found.`}</div>
               ) : (
                 filterData.map((p, index) => {
                   return (
