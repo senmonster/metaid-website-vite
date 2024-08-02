@@ -120,8 +120,6 @@ export default function AdminHeader({ burger }: Props) {
     queryFn: () => fetchFeeRate({ netWork: environment.network }),
   });
 
-  console.log('feerateData', feeRateData);
-
   const mutateMyFollowing = useMutation({
     mutationFn: (metaid: string) =>
       fetchFollowingList({

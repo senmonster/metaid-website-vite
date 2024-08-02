@@ -1,11 +1,22 @@
 import { useTree } from '@mantine/core';
 import RightAllPinContent from './RightAllPinContent';
 import PinPathTree from '@/components/PinPathTree';
+import { useSearchParams } from 'react-router-dom';
+import { useEffect } from 'react';
+import { isNil } from 'ramda';
 
 const AllPinContent = () => {
   const tree = useTree();
+  const [searchParams] = useSearchParams();
 
-  const path = tree.selectedState[0];
+  const path = searchParams.get('path');
+
+  useEffect(() => {
+    if (!isNil(path)) {
+      tree.setSelectedState([path]);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [path]);
 
   return (
     <div className='relative gap-2 pl-[2px] phone:pl-[200px]'>
@@ -13,7 +24,7 @@ const AllPinContent = () => {
         <PinPathTree tree={tree} />
       </div>
       <div className=''>
-        <RightAllPinContent path={path} />
+        <RightAllPinContent path={tree.selectedState[0]} />
       </div>
     </div>
   );

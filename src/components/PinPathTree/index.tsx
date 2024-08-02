@@ -4,6 +4,7 @@ import IconPin from '@/assets/icon-tree-pin.svg?react';
 import { data } from './TreeData';
 import classes from './LeftTree.module.css';
 import { useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 //
 type Iprops = {
   tree: UseTreeReturnType;
@@ -76,6 +77,9 @@ function Leaf({
   elementProps,
   tree,
 }: RenderTreeNodePayload) {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const routeName = location.pathname;
   return (
     <Group
       gap={5}
@@ -83,6 +87,8 @@ function Leaf({
       onClick={() => {
         if (!hasChildren || node.value == '/') {
           tree.setSelectedState([node.value]);
+          const path = node.value as string;
+          navigate(`${routeName}?path=${path}`);
         }
         tree.setExpandedState({
           ...tree.expandedState,
@@ -106,9 +112,12 @@ export default function PinPathTree({ tree }: Iprops) {
       classNames={classes}
       selectOnClick={true}
       // clearSelectionOnOutsideClick
+
       data={data}
       tree={tree}
-      renderNode={(payload) => <Leaf {...payload} tree={tree} />}
+      renderNode={(payload) => {
+        return <Leaf {...payload} tree={tree} />;
+      }}
     />
   );
 }
