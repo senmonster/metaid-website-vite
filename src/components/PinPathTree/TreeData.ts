@@ -19,7 +19,8 @@ export const data: TreeNodeData[] = [
         value: '/protocols',
         children: [
           { label: 'Buzz', value: '/protocols/simplebuzz' },
-          { label: 'Paylike', value: '/protocols/paylike' },
+          { label: 'PayLike', value: '/protocols/paylike' },
+          { label: 'PayComment', value: '/protocols/paycomment' },
         ],
       },
       {
