@@ -105,7 +105,7 @@ const PinCard = ({ p, hidePop }: Iprops) => {
               : pData.path}
           </Text>
         </div>
-        {!hidePop && (
+        {!hidePop && pData.number !== -1 && (
           <div className='flex gap-2 items-center'>
             <Text size='xs' c='dimmed'>
               PoP:
