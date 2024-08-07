@@ -182,7 +182,6 @@ const MetaidDetail = ({ id }: Iprops) => {
       }
     }
   };
-
   return (
     <div className='rounded-md  border-[0.5px] border-main  p-6 pb-10 px-10'>
       <div className='flex justify-between'>
@@ -200,7 +199,9 @@ const MetaidDetail = ({ id }: Iprops) => {
           </Avatar>
           <div className='flex flex-col gap-3 self-center'>
             <div className='font-bold font-mono text-[12px] md:text-[24px] '>
-              {currentUserInfo?.name ?? `MetaID-User-${metaidPrefix}`}
+              {!isEmpty(currentUserInfo?.name ?? '')
+                ? currentUserInfo?.name
+                : `MetaID-User-${metaidPrefix}`}
             </div>
             <div className='flex gap-2 text-[12px] md:text-[14px] '>
               <div>{`MetaID:  ${metaidPrefix}`}</div>
