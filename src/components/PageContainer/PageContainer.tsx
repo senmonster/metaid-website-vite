@@ -34,7 +34,7 @@ export const PageContainer: FC<PageContainerProps> = ({
             }}
             onClick={() => navigate(-1)}
           >
-            Backup
+            Return
           </Button>
         )}
       </div>
