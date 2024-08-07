@@ -26,7 +26,8 @@ const FollowButton = ({
 }: Iprops) => {
   return (
     <div
-      onClick={() => {
+      onClick={(e) => {
+        e.stopPropagation();
         if (isFollowingPending || isUnfollowingPending) {
           return;
         }
@@ -34,9 +35,14 @@ const FollowButton = ({
       }}
     >
       {isFollowed && !isFollowingPending && !isUnfollowingPending ? (
-        <div className='btn btn-ghost btn-sm text-gray '>
-          <IconChecks /> Followed
-        </div>
+        <Button
+          size={buttonSize}
+          variant='light'
+          rightSection={<IconChecks />}
+          color='gray'
+        >
+          Followed
+        </Button>
       ) : (
         <Button
           size={buttonSize}

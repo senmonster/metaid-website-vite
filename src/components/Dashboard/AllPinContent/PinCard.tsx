@@ -65,7 +65,15 @@ const PinCard = ({ p, hidePop }: Iprops) => {
           {'#' + pData.number}
         </Text>
 
-        <div className='flex gap-2 items-center'>
+        <div
+          className='flex gap-2 items-center'
+          onClick={(e) => {
+            e.stopPropagation();
+            if (!isEmpty(p?.metaid ?? '')) {
+              navigate(`/metaid-detail/${p?.metaid}`);
+            }
+          }}
+        >
           <Avatar
             radius='xl'
             size={32}

@@ -171,6 +171,11 @@ export default function AdminHeader({ burger }: Props) {
         </Menu.Target>
 
         <Menu.Dropdown className='p-3'>
+          <Menu.Item
+            onClick={() => navigate(`/metaid-detail/${userInfo?.metaid ?? ''}`)}
+          >
+            My MetaID
+          </Menu.Item>
           <Menu.Item onClick={() => navigate('/my-pin')}>My Pin</Menu.Item>
           <Menu.Item onClick={metaidFormHandler.open}>Edit Profile</Menu.Item>
           <Menu.Divider />
