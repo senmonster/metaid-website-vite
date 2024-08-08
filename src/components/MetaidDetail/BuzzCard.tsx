@@ -2,7 +2,6 @@
 import { MetaidItem, PinDetail } from '@/utils/api';
 import { environment } from '@/utils/envrionments';
 import { Avatar } from '@mantine/core';
-import { IconLink } from '@tabler/icons-react';
 import dayjs from 'dayjs';
 import { isEmpty } from 'ramda';
 // import {  isNil } from 'ramda';
@@ -268,18 +267,27 @@ const BuzzCard = ({ pin, currentUserInfo }: Iprops) => {
 
       <div className='flex justify-between text-gray '>
         <div
-          className='flex gap-2 items-center hover:text-slate-300 md:text-md text-xs'
+          className='flex gap-2 items-center hover:text-slate-300 md:text-md text-xs cursor-pointer'
           onClick={() => {
-            window.open(
-              `https://mempool.space/${
-                environment.network === 'mainnet' ? '' : 'testnet/'
-              }tx/${pin.genesisTransaction}`,
-              '_blank'
-            );
+            const url =
+              pin.chainName === 'btc'
+                ? `https://mempool.space/${
+                    environment.network === 'mainnet' ? '' : 'testnet/'
+                  }tx/${pin.genesisTransaction}`
+                : `https://${
+                    environment.network === 'mainnet' ? '' : 'test.'
+                  }mvcscan.com/tx/${pin.genesisTransaction}`;
+            window.open(url, '_blank');
           }}
         >
-          <IconLink size={12} />
-          <div>{pin.genesisTransaction.slice(0, 8) + '...'}</div>
+          {pin.chainName === 'btc' ? (
+            <img src='/btc_logo_small.jpg' className='w-[16px] h-[16px]' />
+          ) : (
+            <img src='/mvc_logo_small.jpg' className='w-[16px] h-[16px]' />
+          )}
+          <div className='text-gray-400/80 hover:text-gray-400'>
+            {pin.genesisTransaction.slice(0, 8) + '...'}
+          </div>
         </div>
         <div className='flex gap-2 md:text-md text-xs items-center'>
           {pin?.number === -1 && (
