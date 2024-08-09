@@ -12,7 +12,7 @@ import {
   fetchFollowingList,
 } from '@/utils/api';
 import { environment } from '@/utils/envrionments';
-import { Avatar, Divider, Tabs } from '@mantine/core';
+import { Avatar, Divider, Skeleton, Tabs } from '@mantine/core';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { isEmpty, isNil } from 'ramda';
 import { useRecoilState, useRecoilValue } from 'recoil';
@@ -37,7 +37,7 @@ const MetaidDetail = ({ id }: Iprops) => {
 
   const btcConnector = useRecoilValue(btcConnectorAtom);
 
-  const { data: currentUserInfo } = useQuery({
+  const { data: currentUserInfo, isLoading: isUserDataLoading } = useQuery({
     enabled: !isEmpty(id ?? ''),
     ...metaidInfoQueryOptions({ metaid: id ?? '' }),
   });
@@ -186,23 +186,31 @@ const MetaidDetail = ({ id }: Iprops) => {
     <div className='rounded-md  border-[0.5px] border-main  p-6 pb-10 px-10'>
       <div className='flex justify-between'>
         <div className='flex  gap-4 items-start '>
-          <Avatar
-            radius='100%'
-            size={'xl'}
-            src={
-              !isEmpty(currentUserInfo?.avatar ?? '')
-                ? environment.base_man_url + currentUserInfo?.avatar
-                : null
-            }
-          >
-            {(currentUserInfo?.name ?? '').slice(0, 1)}
-          </Avatar>
+          {isUserDataLoading ? (
+            <Skeleton height={80} circle />
+          ) : (
+            <Avatar
+              radius='100%'
+              size={'xl'}
+              src={
+                !isEmpty(currentUserInfo?.avatar ?? '')
+                  ? environment.base_man_url + currentUserInfo?.avatar
+                  : null
+              }
+            >
+              {(currentUserInfo?.name ?? '').slice(0, 1)}
+            </Avatar>
+          )}
           <div className='flex flex-col gap-3 self-center'>
-            <div className='font-bold font-mono text-[12px] md:text-[24px] '>
-              {!isEmpty(currentUserInfo?.name ?? '')
-                ? currentUserInfo?.name
-                : `MetaID-User-${metaidPrefix}`}
-            </div>
+            {isUserDataLoading ? (
+              <Skeleton height={36} width={150} />
+            ) : (
+              <div className='font-bold font-mono text-[12px] md:text-[24px] '>
+                {!isEmpty(currentUserInfo?.name ?? '')
+                  ? currentUserInfo?.name
+                  : `MetaID-User-${metaidPrefix}`}
+              </div>
+            )}
             <div className='flex gap-2 text-[12px] md:text-[14px] '>
               <div>{`MetaID:  ${metaidPrefix}`}</div>
             </div>

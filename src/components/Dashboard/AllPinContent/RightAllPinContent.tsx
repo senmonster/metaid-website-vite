@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Flex, NumberInput, Pagination, ScrollArea, Text } from '@mantine/core';
 import { useQuery } from '@tanstack/react-query';
 
@@ -6,12 +6,15 @@ import { useDebouncedValue, usePagination } from '@mantine/hooks';
 import PinCard from './PinCard';
 import { divide, isEmpty, isNil, repeat } from 'ramda';
 import { metaidService } from '../../../utils/api';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 type Iprops = {
   path: string;
 };
 
 const RightAllPinContent = ({ path }: Iprops) => {
+  const navigate = useNavigate();
+
   ///////////////////////All Pin Data/////////////////////////////
   const [size] = useState<string | number>(16);
 
@@ -76,6 +79,31 @@ const RightAllPinContent = ({ path }: Iprops) => {
         path,
       }),
   });
+  const encodedPath = encodeURIComponent(path);
+
+  const onPageChangeForALLPin = (v: string | number) => {
+    pagination.setPage(Number(v));
+    navigate(`/pin?path=${encodedPath}&page=${Number(v)}`);
+  };
+  const onPageChangeForPathPin = (v: string | number) => {
+    paginationPath.setPage(Number(v));
+    navigate(`/pin?path=${encodedPath}&page=${Number(v)}`);
+  };
+
+  const [searchParams] = useSearchParams();
+  const pageFromRoute = searchParams.get('page');
+
+  useEffect(() => {
+    if (!isNil(pageFromRoute)) {
+      if (path === '/') {
+        pagination.setPage(Number(pageFromRoute));
+      } else {
+        paginationPath.setPage(Number(pageFromRoute));
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pageFromRoute, path]);
+
   if (path !== '/' && !isNil(path)) {
     return (
       <>
@@ -131,7 +159,7 @@ const RightAllPinContent = ({ path }: Iprops) => {
                     min={1}
                     max={totalPagePath}
                     value={paginationPath.active}
-                    onChange={(v) => paginationPath.setPage(Number(v))}
+                    onChange={onPageChangeForPathPin}
                   />
                 </div>
 
@@ -139,7 +167,7 @@ const RightAllPinContent = ({ path }: Iprops) => {
                   <Pagination
                     total={totalPagePath}
                     value={paginationPath.active}
-                    onChange={paginationPath.setPage}
+                    onChange={onPageChangeForPathPin}
                     size={'xs'}
                   />
                 </div>
@@ -147,7 +175,7 @@ const RightAllPinContent = ({ path }: Iprops) => {
                   <Pagination
                     total={totalPagePath}
                     value={paginationPath.active}
-                    onChange={paginationPath.setPage}
+                    onChange={onPageChangeForPathPin}
                     size={'sm'}
                   />
                 </div>
@@ -209,7 +237,7 @@ const RightAllPinContent = ({ path }: Iprops) => {
                   size='xs'
                   max={totalPage}
                   value={pagination.active}
-                  onChange={(v) => pagination.setPage(Number(v))}
+                  onChange={onPageChangeForALLPin}
                 />
               </div>
 
@@ -217,7 +245,7 @@ const RightAllPinContent = ({ path }: Iprops) => {
                 <Pagination
                   total={totalPage}
                   value={pagination.active}
-                  onChange={pagination.setPage}
+                  onChange={onPageChangeForALLPin}
                   size={'xs'}
                 />
               </div>
@@ -225,7 +253,7 @@ const RightAllPinContent = ({ path }: Iprops) => {
                 <Pagination
                   total={totalPage}
                   value={pagination.active}
-                  onChange={pagination.setPage}
+                  onChange={onPageChangeForALLPin}
                   size={'sm'}
                 />
               </div>

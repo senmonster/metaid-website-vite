@@ -88,7 +88,9 @@ function Leaf({
         if (!hasChildren || node.value == '/') {
           tree.setSelectedState([node.value]);
           const path = node.value as string;
-          navigate(`${routeName}?path=${path}`);
+          const encodedPath = encodeURIComponent(path);
+
+          navigate(`${routeName}?path=${encodedPath}`);
         }
         tree.setExpandedState({
           ...tree.expandedState,

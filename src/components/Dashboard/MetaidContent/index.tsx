@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { divide, isEmpty, isNil, repeat } from 'ramda';
 import {
   Avatar,
@@ -16,7 +16,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { MetaidItem, metaidService } from '../../../utils/api';
 import { useDebouncedValue, usePagination } from '@mantine/hooks';
 import cls from 'classnames';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import { environment } from '../../../utils/envrionments';
 import FollowButton from '@/components/Buttons/FollowButton';
@@ -186,6 +186,21 @@ const MetaidContent = () => {
     }
   };
 
+  const [searchParams] = useSearchParams();
+  const pageFromRoute = searchParams.get('page');
+
+  useEffect(() => {
+    if (!isNil(pageFromRoute)) {
+      pagination.setPage(Number(pageFromRoute));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pageFromRoute]);
+
+  const onPageChange = (page: number) => {
+    pagination.setPage(page);
+    navigate(`/metaid?page=${page}`);
+  };
+
   return (
     <>
       {isError ? (
@@ -309,7 +324,7 @@ const MetaidContent = () => {
                 <Pagination
                   total={totalPage}
                   value={pagination.active}
-                  onChange={pagination.setPage}
+                  onChange={onPageChange}
                   size={'xs'}
                 />
               </div>
@@ -317,7 +332,7 @@ const MetaidContent = () => {
                 <Pagination
                   total={totalPage}
                   value={pagination.active}
-                  onChange={pagination.setPage}
+                  onChange={onPageChange}
                   size={'sm'}
                 />
               </div>

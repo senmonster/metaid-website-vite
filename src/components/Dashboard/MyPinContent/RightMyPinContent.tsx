@@ -2,18 +2,20 @@ import { Flex, NumberInput, Pagination, ScrollArea, Text } from '@mantine/core';
 import { useQuery } from '@tanstack/react-query';
 
 import { useDebouncedValue, usePagination } from '@mantine/hooks';
-import { divide, isEmpty, repeat } from 'ramda';
+import { divide, isEmpty, isNil, repeat } from 'ramda';
 import PinCard from '../AllPinContent/PinCard';
 import { useRecoilValue } from 'recoil';
 import { walletRestoreParamsAtom } from '../../../store/user';
 import { metaidService } from '../../../utils/api';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 type Iprops = {
   path: string;
 };
 
 const RightMyPinContent = ({ path }: Iprops) => {
+  const navigate = useNavigate();
   const walletParams = useRecoilValue(walletRestoreParamsAtom);
 
   const [size] = useState<string | number>(16);
@@ -49,6 +51,23 @@ const RightMyPinContent = ({ path }: Iprops) => {
   });
 
   const filterData = data?.list ?? [];
+  const encodedPath = encodeURIComponent(path);
+
+  const onPageChange = (v: string | number) => {
+    pagination.setPage(Number(v));
+    navigate(`/pin?path=${encodedPath}&page=${Number(v)}`);
+  };
+
+  const [searchParams] = useSearchParams();
+  const pageFromRoute = searchParams.get('page');
+
+  useEffect(() => {
+    if (!isNil(pageFromRoute)) {
+      pagination.setPage(Number(pageFromRoute));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pageFromRoute]);
+
   return (
     <>
       {' '}
@@ -104,14 +123,14 @@ const RightMyPinContent = ({ path }: Iprops) => {
                   size='xs'
                   max={totalPage}
                   value={pagination.active}
-                  onChange={(v) => pagination.setPage(Number(v))}
+                  onChange={onPageChange}
                 />
               </div>
               <div className='phone:hidden block'>
                 <Pagination
                   total={totalPage}
                   value={pagination.active}
-                  onChange={pagination.setPage}
+                  onChange={onPageChange}
                   size={'xs'}
                 />
               </div>
@@ -119,7 +138,7 @@ const RightMyPinContent = ({ path }: Iprops) => {
                 <Pagination
                   total={totalPage}
                   value={pagination.active}
-                  onChange={pagination.setPage}
+                  onChange={onPageChange}
                   size={'sm'}
                 />
               </div>

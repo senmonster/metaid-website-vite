@@ -34,6 +34,16 @@ export const data: TreeNodeData[] = [
       {
         label: 'Ft',
         value: '/ft',
+        children: [
+          {
+            label: 'MRC20',
+            value: '/ft/mrc20',
+            children: [
+              { label: 'Mint', value: '/ft/mrc20/mint' },
+              { label: 'Deploy', value: 'ft/mrc20/deploy' },
+            ],
+          },
+        ],
       },
       {
         label: 'Follow',
