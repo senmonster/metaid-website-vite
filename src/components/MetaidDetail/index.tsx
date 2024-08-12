@@ -272,10 +272,18 @@ const MetaidDetail = ({ id }: Iprops) => {
         <Tabs.List className='mb-4'>
           <Tabs.Tab value='feed'>Feed</Tabs.Tab>
           <Tabs.Tab value='buzz'>Buzz</Tabs.Tab>
+          <Tabs.Tab value='ft'>FT</Tabs.Tab>
         </Tabs.List>
 
         <Tabs.Panel value='feed'>
           <FeedTab address={currentUserInfo?.address ?? ''} />
+        </Tabs.Panel>
+
+        <Tabs.Panel value='ft'>
+          <FeedTab
+            address={currentUserInfo?.address ?? ''}
+            path='/ft/mrc20/mint,/ft/mrc20/deploy'
+          />
         </Tabs.Panel>
 
         <Tabs.Panel value='buzz'>

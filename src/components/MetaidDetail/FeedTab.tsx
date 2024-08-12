@@ -7,18 +7,20 @@ import PinCard from '../Dashboard/AllPinContent/PinCard';
 
 type Iprops = {
   address: string;
+  path?: string;
 };
 
-const FeedTab = ({ address }: Iprops) => {
+const FeedTab = ({ address, path }: Iprops) => {
   const { data: totalData } = useQuery({
     enabled: !isEmpty(address),
-    queryKey: ['userpin', 'list', address],
+    queryKey: ['userpin', 'list', path, address],
     queryFn: () =>
       metaidService.getPinListByAddress({
         addressType: 'owner',
         address: address,
         cursor: 0,
         size: 8,
+        path,
       }),
   });
 
@@ -28,13 +30,14 @@ const FeedTab = ({ address }: Iprops) => {
   const [debounceActivePage] = useDebouncedValue(pagination.active, 800);
 
   const { data, isError, isLoading } = useQuery({
-    queryKey: ['userpin', 'list', address, Number(debounceActivePage)],
+    queryKey: ['userpin', 'list', path, address, Number(debounceActivePage)],
     queryFn: () =>
       metaidService.getPinListByAddress({
         addressType: 'owner',
         address,
         cursor: debounceActivePage - 1,
         size: 8,
+        path,
       }),
   });
 
