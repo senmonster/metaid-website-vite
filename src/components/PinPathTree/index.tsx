@@ -90,7 +90,7 @@ function Leaf({
           const path = node.value as string;
           const encodedPath = encodeURIComponent(path);
 
-          navigate(`${routeName}?path=${encodedPath}`);
+          navigate(`${routeName}?path=${encodedPath}&page=1`);
         }
         tree.setExpandedState({
           ...tree.expandedState,

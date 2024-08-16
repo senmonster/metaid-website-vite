@@ -55,7 +55,7 @@ const RightMyPinContent = ({ path }: Iprops) => {
 
   const onPageChange = (v: string | number) => {
     pagination.setPage(Number(v));
-    navigate(`/pin?path=${encodedPath}&page=${Number(v)}`);
+    navigate(`/my-pin?path=${encodedPath}&page=${Number(v)}`);
   };
 
   const [searchParams] = useSearchParams();
